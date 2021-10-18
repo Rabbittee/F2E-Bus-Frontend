@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Route, Switch } from 'react-router-dom';
 
 function Header() {
   return (
@@ -39,7 +40,11 @@ function App() {
   return (
     <main className="h-screen w-screen flex flex-col gap-10 justify-center bg-blue-50">
       <Header />
-      <TrySearch />
+      <Switch>
+        <Route path='/' exact>
+          <TrySearch />
+        </Route>
+      </Switch>
     </main>
   )
 }
