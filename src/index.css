@@ -10,7 +10,10 @@ body,
   @apply h-full w-full font-ubuntu;
 }
 
-main {
+
+
+.map {
+  @apply h-full w-full absolute top-0 right-0 ;
   background-image: url('./images/background.png');
   background-position: center;
   background-repeat: no-repeat;

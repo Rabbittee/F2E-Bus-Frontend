@@ -5,7 +5,7 @@ import { Route, Switch, useHistory } from 'react-router-dom';
 function TextField() {
   return (
     <div className="relative flex items-center">
-      <span className="absolute w-6 ml-3">
+      <span className="absolute w-6 ml-3 text-gray-500">
         <Icon.Search />
       </span>
       <input className="border border-gray-200 text-lg rounded-md outline-none px-2 py-1.5 w-full" type="text" name="search" id="search" />
@@ -18,6 +18,7 @@ function Header() {
   const history = useHistory();
 
   const clickSearch = () => {
+
     history.push("/result")
   }
   return (
@@ -31,20 +32,32 @@ function Header() {
   );
 }
 
+type CardProps = {
+  children: ReactNode,
+}
+
+function Card({ children }: CardProps) {
+  return (
+    <div className="bg-white rounded-md w-full p-4">
+      { children }
+    </div>
+  )
+}
+
 function TrySearch() {
   return (
-    <section className="w-full h-screen  py-10 flex flex-col gap-3">
+    <section className="w-full h-screen  flex flex-col gap-3">
       <h2 className="text-xl">Try Searching</h2>
       <p>Bus station nearby me</p>
       <ul className="flex flex-col gap-2">
         <li className="border-b border-gray-800 p-2 flex gap-2">
-          <span><Icon.Clock /></span> Station A
+          <span className="text-gray-500"><Icon.Clock /></span> Station A
         </li>
         <li className="border-b border-gray-800 p-2 flex gap-2">
-          <span><Icon.Clock /></span> Station A
+          <span className="text-gray-500"><Icon.Clock /></span> Station A
         </li>
         <li className="border-b border-gray-800 p-2 flex gap-2">
-          <span><Icon.Clock /></span> Station A
+          <span className="text-gray-500"><Icon.Clock /></span> Station A
         </li>
       </ul>
     </section>
@@ -54,16 +67,29 @@ function TrySearch() {
 function Result() {
   return (
     <div>
-      <h2>Result</h2>
+      <Card> 
+      <h2 className="text-xl">Station</h2>
+        <ul>
+          <li>Xizhi Station</li>
+        </ul>
+      </Card>
     </div>
   )
 }
 
+function Background() {
+  return (
+    <div className="map">
+
+    </div>
+  )
+}
 
 function App() {
 
   return (
-    <main className="h-screen w-screen flex flex-col gap-10 justify-center bg-blue-50 px-7">
+    <main className="h-screen w-screen flex flex-col gap-10 justify-center bg-blue-50 px-7 ">
+      <Background />
       <Header />
       <Switch>
         <Route path='/' exact>
