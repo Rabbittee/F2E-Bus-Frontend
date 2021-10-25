@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -7,14 +7,17 @@
 html,
 body,
 #root {
-  @apply h-full w-full font-ubuntu;
+  @apply h-screen w-screen font-ubuntu;
 }
 
+main {
+  @apply relative;
+}
 
+.bg-map {
+  @apply h-screen w-screen;
+  @apply fixed top-0 right-0;
+  @apply bg-no-repeat bg-center;
 
-.map {
-  @apply h-full w-full absolute top-0 right-0 ;
-  background-image: url('./images/background.png');
-  background-position: center;
-  background-repeat: no-repeat;
+  background-image: url("./images/background.png");
 }
