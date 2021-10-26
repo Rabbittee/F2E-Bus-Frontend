@@ -1,4 +1,4 @@
-import { Header } from "@/components";
+import { Header, Search } from "@/components";
 import { Route, Switch, BrowserRouter } from "react-router-dom";
 import { Layout } from "@/layouts";
 import { Home, Result } from "@/pages";
@@ -11,10 +11,11 @@ function App() {
 
         <Switch>
           <Route path="/" exact>
+            <Search />
             <Home />
           </Route>
 
-          <Route path="/result" exact>
+          <Route path="/result">
             <Result />
           </Route>
         </Switch>
