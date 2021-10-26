@@ -11,7 +11,6 @@ type LayoutProps = {
 };
 export function Default({ children }: LayoutProps) {
   const location = useLocation<string>();
-  console.log(location.pathname);
   return (
     <>
       {location.pathname !== "/result" && <Background />}
