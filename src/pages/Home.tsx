@@ -33,7 +33,7 @@ export function Home() {
   ];
 
   return (
-    <section className="w-full h-screen  flex flex-col gap-3">
+    <section className="w-full h-screen  flex flex-col gap-3 mt-6 px-7">
       <h2 className="text-xl">Try Searching</h2>
 
       <p>Bus station nearby me</p>
