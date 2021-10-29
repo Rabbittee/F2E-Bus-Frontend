@@ -13,10 +13,10 @@ export function Input() {
       className={clsx(
         "flex items-center",
         "border border-gray-200",
-        "rounded-md overflow-hidden"
+        "rounded-full overflow-hidden"
       )}
     >
-      <span className="w-6 ml-3 text-gray-500">
+      <span className="w-6 ml-3 text-cyan">
         <Icon.Search />
       </span>
 

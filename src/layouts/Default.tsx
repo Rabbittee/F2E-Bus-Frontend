@@ -15,7 +15,7 @@ export function Default({ children }: LayoutProps) {
     <>
       {location.pathname !== "/result" && <Background />}
 
-      <main className={clsx("h-screen", "flex flex-col justify-center")}>
+      <main className={clsx("h-screen", "flex flex-col justify-between")}>
         {children}
       </main>
     </>

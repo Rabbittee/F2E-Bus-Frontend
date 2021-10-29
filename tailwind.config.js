@@ -5,6 +5,30 @@ module.exports = {
       fontFamily: {
         ubuntu: ["Ubuntu", "sans-serif"],
       },
+      colors: {
+        cyan: {
+          DEFAULT: "#83C3C0",
+          dark: "#4B707D",
+        },
+      },
+      keyframes: {
+        upper: {
+          "0%": {
+            opacity: 0,
+            transform: "translateY(150%)",
+          },
+          "100%": {
+            opacity: 1,
+            transform: "translateY(0%)",
+          },
+        },
+      },
+      animation: {
+        upper: "upper 1s ease-in",
+      },
+    },
+    boxShadow: {
+      bgShadow: "0px -5px 15px 5px #FFFFFF",
     },
   },
   plugins: [],

@@ -1,4 +1,5 @@
 import { Icon } from "@/components";
+import clsx from "clsx";
 
 type Props = {
   query: string;
@@ -7,8 +8,8 @@ type Props = {
 function RecommandSearch({ query, href }: Props) {
   return (
     <a href={href}>
-      <div className="border-b border-gray-800 p-2 flex gap-2">
-        <Icon.Clock className="text-gray-500" />
+      <div className="border-b border-cyan p-2 flex gap-2">
+        <Icon.Clock className="text-cyan-dark" />
 
         <span>{query}</span>
       </div>
@@ -33,8 +34,14 @@ export function Home() {
   ];
 
   return (
-    <section className="w-full h-screen  flex flex-col gap-3 mt-6 px-7">
-      <h2 className="text-xl">Try Searching</h2>
+    <section
+      className={clsx(
+        "w-full h-screen mt-6 px-7",
+        "flex flex-col gap-3",
+        "bg-white shadow-bgShadow text-cyan-dark"
+      )}
+    >
+      <h2 className="text-xl pt-4">Try Searching</h2>
 
       <p>Bus station nearby me</p>
 
