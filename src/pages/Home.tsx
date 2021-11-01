@@ -41,9 +41,10 @@ export function Home() {
         "bg-white shadow-bgShadow text-cyan-dark"
       )}
     >
-      <h2 className="text-xl pt-4">Try Searching</h2>
-
-      <p>Bus station nearby me</p>
+      <div>
+        <h2 className="text-xl pt-4">試試這些地方...</h2>
+        <small className="text-orange">我附近的巴士站</small>
+      </div>
 
       <ul className="flex flex-col gap-2">
         {recommands.map((recommand) => (

@@ -4,11 +4,15 @@ module.exports = {
     extend: {
       fontFamily: {
         ubuntu: ["Ubuntu", "sans-serif"],
+        notoSans: ["Noto Sans TC", "sans-serif"],
       },
       colors: {
         cyan: {
           DEFAULT: "#83C3C0",
           dark: "#4B707D",
+        },
+        orange: {
+          DEFAULT: "#EF8C69",
         },
       },
       keyframes: {

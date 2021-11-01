@@ -21,7 +21,8 @@ export function Input() {
       </span>
 
       <input
-        className="text-lg outline-none mx-3 py-1.5 w-full"
+        className="text-base outline-none mx-3 py-1.5 w-full placeholder-cyan"
+        placeholder="搜尋相關的 公車、站牌或是地標..."
         type="text"
         name="search"
         id="search"

@@ -6,14 +6,11 @@ export function Search() {
   return (
     <div className="px-7 flex flex-col">
       <button
-        className={clsx(
-          "bg-cyan text-white rounded-full focus:bg-cyan-dark",
-          "my-4 py-2.5"
-        )}
+        className={clsx("bg-cyan-dark text-white rounded-full ", "my-4 py-2.5")}
         type="button"
         onClick={() => history.push("/result")}
       >
-        Search
+        搜尋
       </button>
     </div>
   );

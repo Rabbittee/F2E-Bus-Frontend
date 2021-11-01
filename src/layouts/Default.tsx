@@ -13,7 +13,7 @@ export function Default({ children }: LayoutProps) {
   const location = useLocation<string>();
   return (
     <>
-      {location.pathname !== "/result" && <Background />}
+      <Background />
 
       <main className={clsx("h-screen", "flex flex-col justify-between")}>
         {children}

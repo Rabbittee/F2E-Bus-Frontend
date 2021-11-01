@@ -16,7 +16,7 @@ export function Header() {
         <div className="flex flex-col gap-2 ">
           <img src={logo} alt="" />
           <h2 className="text-3xl font-bold text-cyan-dark">
-            Where would you like to go today?
+            今天想去哪裡冒險呢？
           </h2>
         </div>
       )}
