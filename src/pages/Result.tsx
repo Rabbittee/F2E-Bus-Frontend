@@ -1,14 +1,11 @@
-import { Card, MapFigure } from "@/components";
+import { Card, MapFigure, NearBy } from "@/components";
 
 export function Result() {
   return (
-    <div>
+    <div className="relative pt-8 flex-1 flex">
       <Card>
         <MapFigure />
-        <h2 className="text-xl">Station</h2>
-        <ul>
-          <li>Xizhi Station</li>
-        </ul>
+        <NearBy />
       </Card>
     </div>
   );

@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&family=Ubuntu:wght@300;400;500&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -7,7 +7,7 @@
 html,
 body,
 #root {
-  @apply h-screen w-screen font-ubuntu;
+  @apply h-screen w-screen font-notoSans;
 }
 
 main {
@@ -20,4 +20,5 @@ main {
   @apply bg-no-repeat bg-center;
 
   background-image: url("./images/background.png");
+  background-size: 100% 100%;
 }
