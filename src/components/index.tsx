@@ -5,3 +5,4 @@ export * from "./Header";
 export * from "./Search";
 export * from "./MapFigure";
 export * from "./NearBy";
+export * from "./Stops";

@@ -22,3 +22,38 @@ main {
   background-image: url("./images/background.png");
   background-size: 100% 100%;
 }
+
+.bg-result {
+  @apply h-screen w-screen;
+  @apply fixed top-0 right-0;
+  @apply bg-no-repeat bg-center;
+
+  background-image: url("./images/bg-Result.png");
+  background-size: 100% 100%;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 16px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  /* border-radius: 100vh; */
+  /* background: #edf2f7; */
+}
+
+/* Handle */
+.cyan-scroll::-webkit-scrollbar-thumb {
+  @apply bg-cyan-dark rounded-full;
+}
+
+.orange-scroll::-webkit-scrollbar-thumb {
+  @apply bg-orange rounded-full;
+}
+
+/* Handle on hover */
+/* ::-webkit-scrollbar-thumb:hover {
+  background: #a0aec0;
+} */
