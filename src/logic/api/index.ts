@@ -1,8 +1,13 @@
-import { Query } from "@/models";
+import { Query, Geo } from "@/models";
 import { lowercaseKeys, isObject } from "@/utils";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { concat } from "ramda";
 import { BASE_URL } from "@/config";
+
+type GetRecommendQueryProps = {
+  query: string;
+  location?: Geo.Position;
+};
 
 const API = createApi({
   baseQuery: fetchBaseQuery({
@@ -10,8 +15,14 @@ const API = createApi({
   }),
   tagTypes: ["Query"],
   endpoints: (build) => ({
-    getRecommendQuery: build.query<Query[], void>({
-      query: () => ({ url: `/queries/recommend` }),
+    getRecommendQuery: build.query<Query[], GetRecommendQueryProps>({
+      query: ({ query, location }) => ({
+        url: `/queries/recommend`,
+        params: {
+          q: query,
+          location: location && Geo.toString(location),
+        },
+      }),
 
       providesTags: ["Query"],
 

@@ -17,7 +17,7 @@ function RecommandSearch({ name, url }: Props) {
 }
 
 export function Home() {
-  const { data } = API.useGetRecommendQueryQuery();
+  const { data } = API.useGetRecommendQueryQuery({ query: "307" });
 
   return (
     <section
