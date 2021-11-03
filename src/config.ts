@@ -1,5 +1,7 @@
-export const MODE_DEV_MOCK = Boolean(
-  import.meta.env.DEV && import.meta.env.VITE_MOCK
-);
+const { VITE_MOCK_API_URL, VITE_API_URL, DEV, VITE_MOCK } = import.meta.env;
 
-export const BASE_URL = String(import.meta.env.VITE_API_URL || "/api");
+export const MODE_DEV_MOCK = Boolean(DEV && VITE_MOCK);
+
+export const BASE_URL = String(
+  MODE_DEV_MOCK ? VITE_MOCK_API_URL : VITE_API_URL || "/api"
+);

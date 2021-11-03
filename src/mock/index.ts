@@ -1,6 +1,7 @@
 import { createServer, Factory, Model } from "miragejs";
-import { identity, range, forEach } from "ramda";
+import { range, forEach } from "ramda";
 import { internet, address, datatype } from "faker";
+import { BASE_URL } from "@/config";
 
 export default () =>
   createServer({
@@ -10,7 +11,7 @@ export default () =>
     },
 
     routes() {
-      this.namespace = "api";
+      this.namespace = BASE_URL;
 
       this.get("/queries/recommend", (schema) => ({
         routes: schema.all("route").models,
