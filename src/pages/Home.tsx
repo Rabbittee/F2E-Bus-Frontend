@@ -38,7 +38,7 @@ export function Home() {
       className={clsx(
         "w-full h-screen mt-6 px-7",
         "flex flex-col gap-3",
-        "bg-white shadow-bgShadow text-cyan-dark"
+        " text-cyan-dark"
       )}
     >
       <div>
