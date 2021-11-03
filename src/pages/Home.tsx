@@ -1,37 +1,23 @@
 import { Icon } from "@/components";
+import { API } from "@/logic";
+import { Query } from "@/models";
 import clsx from "clsx";
 
-type Props = {
-  query: string;
-  href: string;
-};
-function RecommandSearch({ query, href }: Props) {
+type Props = Query;
+function RecommandSearch({ name, url }: Props) {
   return (
-    <a href={href}>
+    <a href={url}>
       <div className="border-b border-cyan p-2 flex gap-2">
         <Icon.Clock className="text-cyan-dark" />
 
-        <span>{query}</span>
+        <span>{name}</span>
       </div>
     </a>
   );
 }
 
 export function Home() {
-  const recommands = [
-    {
-      query: "Station A",
-      href: "#",
-    },
-    {
-      query: "Station B",
-      href: "#",
-    },
-    {
-      query: "Station C",
-      href: "#",
-    },
-  ];
+  const { data } = API.useGetRecommendQueryQuery();
 
   return (
     <section
@@ -47,8 +33,8 @@ export function Home() {
       </div>
 
       <ul className="flex flex-col gap-2">
-        {recommands.map((recommand) => (
-          <li key={recommand.query}>
+        {data?.map((recommand) => (
+          <li key={recommand.id}>
             <RecommandSearch {...recommand} />
           </li>
         ))}
