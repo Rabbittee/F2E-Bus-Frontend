@@ -1,27 +1,22 @@
-import { ReactNode } from "react";
+import { Background, Header, MapFigure } from "@/components";
 import clsx from "clsx";
-import { useLocation } from "react-router-dom";
+import { Outlet, Routes, Route } from "react-router";
 
-function Background() {
-  return <div className="bg-map" />;
-}
-
-function ResultBackground() {
-  return <div className="bg-result" />;
-}
-
-type LayoutProps = {
-  children?: ReactNode;
-};
-export function Default({ children }: LayoutProps) {
-  const location = useLocation<string>();
+export function Default() {
   return (
-    <>
-      {location.pathname === "/" ? <Background /> : <ResultBackground />}
+    <main className={clsx("h-screen", "flex flex-col justify-between gap-2")}>
+      <Routes>
+        <Route index element={<Background.Map />} />
+      </Routes>
 
-      <main className={clsx("h-screen", "flex flex-col justify-between gap-2")}>
-        {children}
-      </main>
-    </>
+      <Header />
+
+      <Routes>
+        <Route path="/result" element={<MapFigure />} />
+        <Route path="/stations" element={<MapFigure />} />
+      </Routes>
+
+      <Outlet />
+    </main>
   );
 }
