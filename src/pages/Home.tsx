@@ -1,9 +1,9 @@
 import { Icon } from "@/components";
-import { API } from "@/logic";
-import { Query } from "@/models";
+import { API, Query, useSelector } from "@/logic";
+import * as Model from "@/models";
 import clsx from "clsx";
 
-type Props = Query;
+type Props = Model.Query;
 function RecommandSearch({ name, url }: Props) {
   return (
     <a href={url}>
@@ -17,7 +17,11 @@ function RecommandSearch({ name, url }: Props) {
 }
 
 export function Home() {
-  const { data } = API.useGetRecommendQueryQuery({ query: "307" });
+  const query = useSelector(Query.selectQuery);
+  const { data } = API.useGetRecommendQueryQuery(
+    { query },
+    { skip: query.length <= 0 }
+  );
 
   return (
     <section

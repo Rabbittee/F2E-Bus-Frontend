@@ -9,7 +9,7 @@ type GetRecommendQueryProps = {
   location?: Geo.Position;
 };
 
-const API = createApi({
+export const API = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: BASE_URL,
   }),
