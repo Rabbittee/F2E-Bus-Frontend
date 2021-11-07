@@ -30,6 +30,9 @@ module.exports = {
       animation: {
         upper: "upper 1s ease-in",
       },
+      zIndex: {
+        "-1": "-1",
+      },
     },
     boxShadow: {
       bgShadow: "0px -5px 15px 5px #FFFFFF",
