@@ -1,10 +1,20 @@
+import { FormEvent, ChangeEvent } from "react";
 import { Input } from "@/components";
 import logo from "@/images/logo.png";
+import { Query, useDispatch } from "@/logic";
 
 import { Button } from "./Button";
 
 export function Home() {
-  function onSubmit(event: React.FormEvent<HTMLFormElement>) {
+  const dispatch = useDispatch();
+
+  function onChange(event: ChangeEvent<HTMLFormElement>) {
+    const formdata = new FormData(event.currentTarget);
+
+    dispatch(Query.update(formdata.get("query")));
+  }
+
+  function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     console.log("submit");
   }
@@ -19,8 +29,12 @@ export function Home() {
         </h2>
       </div>
 
-      <form className="flex flex-col w-full gap-4 bg-white" onSubmit={onSubmit}>
-        <Input />
+      <form
+        className="flex flex-col w-full gap-4 bg-white"
+        onChangeCapture={onChange}
+        onSubmit={onSubmit}
+      >
+        <Input name="query" placeholder="搜尋相關的 公車、站牌或是地標..." />
 
         <Button className="py-2.5">搜尋</Button>
       </form>

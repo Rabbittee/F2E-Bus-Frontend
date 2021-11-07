@@ -1,13 +1,12 @@
 import { Icon } from "@/components";
-import { ReactNode } from "react";
 import clsx from "clsx";
 
 type InputProps = {
-  className: string;
-  icon: ReactNode;
+  placeholder?: string;
+  name: string;
 };
 
-export function Input() {
+export function Input({ placeholder, name }: InputProps) {
   return (
     <label
       className={clsx(
@@ -21,11 +20,10 @@ export function Input() {
       </span>
 
       <input
-        className="text-base outline-none mx-3 py-1.5 w-full placeholder-cyan text-cyan-dark"
-        placeholder="搜尋相關的 公車、站牌或是地標..."
-        type="text"
-        name="search"
-        id="search"
+        type="search"
+        className="outline-none mx-3 py-1.5 w-full placeholder-cyan text-cyan-dark"
+        placeholder={placeholder}
+        name={name}
       />
     </label>
   );
