@@ -12,8 +12,8 @@ export function Default() {
       <Header />
 
       <Routes>
-        <Route path="/result" element={<MapFigure />} />
-        <Route path="/stations" element={<MapFigure />} />
+        <Route path="result" element={<MapFigure />} />
+        <Route path="stations" element={<MapFigure />} />
       </Routes>
 
       <Outlet />
