@@ -1,6 +1,6 @@
 import { FormEvent, ChangeEvent } from "react";
 import { Input } from "@/components";
-import logo from "@/images/logo.png";
+import logo from "@/assets/images/logo.png";
 import { Query, useDispatch } from "@/logic";
 
 import { Button } from "./Button";
