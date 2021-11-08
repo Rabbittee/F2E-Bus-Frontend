@@ -36,6 +36,9 @@ module.exports = {
     },
     boxShadow: {
       bgShadow: "0px -5px 15px 5px #FFFFFF",
+      tab: "1px -4px 1px 0px #B0B0B0",
+      tabInset: "inset 2px -2px 2px 0px #B0B0B0",
+      DEFAULT: "2px 2px 2px 0px #B7B7B7",
     },
   },
   plugins: [],

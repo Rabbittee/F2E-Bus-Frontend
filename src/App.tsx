@@ -1,6 +1,6 @@
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import { Layout } from "@/layouts";
-import { Home, Result, Stations } from "@/pages";
+import { Home, Result, Stations, Station, Map, Info } from "@/pages";
 
 function App() {
   return (
