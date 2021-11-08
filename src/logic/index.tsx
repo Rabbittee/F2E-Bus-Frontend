@@ -8,10 +8,12 @@ import {
 } from "react-redux";
 
 import API from "./api";
-import { query } from "./slices";
+import { query, geo } from "./slices";
+import { GeoProvider } from "./providers";
 
 const store = configureStore({
   reducer: {
+    [geo.name]: geo.reducer,
     [query.name]: query.reducer,
     [API.reducerPath]: API.reducer,
   },
@@ -33,7 +35,11 @@ export function useSelector<T>(selector: (state: State) => T) {
 }
 
 export function StoreProvider({ children }: PropsWithChildren<{}>) {
-  return <Provider store={store}>{children}</Provider>;
+  return (
+    <Provider store={store}>
+      <GeoProvider>{children}</GeoProvider>
+    </Provider>
+  );
 }
 
 export * from "./slices";

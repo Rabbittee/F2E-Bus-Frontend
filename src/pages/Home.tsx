@@ -1,5 +1,5 @@
 import { Icon } from "@/components";
-import { API, Query, useSelector } from "@/logic";
+import { API, Geo, Query, useSelector } from "@/logic";
 import * as Model from "@/models";
 import clsx from "clsx";
 
@@ -18,10 +18,8 @@ function RecommandSearch({ name, url }: Props) {
 
 export function Home() {
   const query = useSelector(Query.selectQuery);
-  const { data } = API.useGetRecommendQueryQuery(
-    { query },
-    { skip: query.length <= 0 }
-  );
+  const location = useSelector(Geo.selectPosition);
+  const { data } = API.useGetRecommendQueryQuery({ query, location });
 
   return (
     <section
