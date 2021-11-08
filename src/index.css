@@ -20,7 +20,7 @@ main {
   @apply bg-no-repeat bg-center;
   @apply -z-1;
 
-  background-image: url("./images/background.png");
+  background-image: url("@/assets/images/background.png");
   background-size: 100% 100%;
 }
 
@@ -30,7 +30,7 @@ main {
   @apply bg-no-repeat bg-center;
   @apply -z-1;
 
-  background-image: url("./images/bg-Result.png");
+  background-image: url("@/assets/images/bg-Result.png");
   background-size: 100% 100%;
 }
 
