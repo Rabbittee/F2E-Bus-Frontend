@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 
 import { Home } from "./Home";
 import { Detail } from "./Detail";
+import { RouteName } from "./RouteName";
 
 export function Header() {
   return (
@@ -16,6 +17,9 @@ export function Header() {
         <Route path="/" element={<Home />} />
         <Route path="/result" element={<Detail />} />
         <Route path="/stations" element={<Detail />} />
+        <Route path="/station" element={<RouteName />} />
+        <Route path="/map" element={<RouteName />} />
+        <Route path="/info" element={<RouteName />} />
       </Routes>
     </header>
   );

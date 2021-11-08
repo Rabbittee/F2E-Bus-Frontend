@@ -1,10 +1,10 @@
 import { ReactNode } from "react";
 import clsx from "clsx";
 
-type CardProps = {
+type BoxProps = {
   children?: ReactNode;
 };
-export function Card({ children }: CardProps) {
+export function Box({ children }: BoxProps) {
   return (
     <div
       className={clsx(
