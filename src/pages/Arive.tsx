@@ -1,6 +1,6 @@
 import { Icon } from "@/components";
 
-export function Station() {
+export function Arive() {
   return (
     <div className="pt-8 flex flex-1 flex-col gap-4">
       <nav className="w-full">
