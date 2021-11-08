@@ -19,7 +19,7 @@ export const API = createApi({
       query: ({ query, location }) => ({
         url: `/queries/recommend`,
         params: {
-          q: query,
+          q: query ? query : undefined,
           location: location && Geo.toString(location),
         },
       }),
