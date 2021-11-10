@@ -1,58 +1,31 @@
-import { Icon } from "@/components";
+import { Icon, InfoNavBar, Box } from "@/components";
 
 export function Arive() {
   return (
-    <div className="pt-8 flex flex-1 flex-col gap-4">
-      <nav className="w-full">
-        <ul className="flex justify-between">
-          <li className="border border-b-0 border-r-0 border-gray-200 rounded-xl flex-1 text-center text-orange">
-            <a href="#">
-              <span className="flex flex-col justify-center items-center py-3">
-                <Icon.Route className="w-10" />
-                <p className="text-base">公車路線</p>
-              </span>
-            </a>
-          </li>
-          <li className="border-b rounded-l-xl flex-1 text-center text-cyan-dark">
-            <a href="#">
-              <span className="flex flex-col justify-center items-center py-3">
-                <Icon.Map className="w-10" />
-                <p className="text-base">公車地圖</p>
-              </span>
-            </a>
-          </li>
-          <li className="border-b flex-1 text-center text-cyan-dark">
-            <a href="#">
-              <span className="flex flex-col justify-center items-center py-3">
-                <Icon.Info className="w-10" />
-                <p className="text-base">公車資訊</p>
-              </span>
-            </a>
-          </li>
-        </ul>
-      </nav>
+    <div className="pt-8 flex flex-1 flex-col gap-4 relative">
+      <Box>
+        <InfoNavBar />
 
-      <nav className="pl-10">
-        <ul className="flex overflow-x-scroll gap-2 whitespace-nowrap">
-          <li className="text-white bg-cyan rounded-full text-lg px-1">
-            <a href="#">往台大醫院</a>
-          </li>
-          <li className="text-white bg-gray-400 rounded-full text-lg px-1">
-            <a href="#">往台大醫院</a>
-          </li>
-          <li className="text-white bg-gray-400 rounded-full text-lg px-1">
-            <a href="#">往台大醫院</a>
-          </li>
-          <li className="text-white bg-gray-400 rounded-full text-lg px-1">
-            <a href="#">往台大醫院</a>
-          </li>
-          <li className="text-white bg-gray-400 rounded-full text-lg px-1">
-            <a href="#">往台大醫院</a>
-          </li>
-        </ul>
-      </nav>
+        <nav className="pl-4">
+          <ul className="flex overflow-x-scroll gap-2 whitespace-nowrap">
+            <li className="text-white bg-cyan rounded-full text-lg px-1">
+              <a href="#">往台大醫院</a>
+            </li>
+            <li className="text-white bg-gray-400 rounded-full text-lg px-1">
+              <a href="#">往台大醫院</a>
+            </li>
+            <li className="text-white bg-gray-400 rounded-full text-lg px-1">
+              <a href="#">往台大醫院</a>
+            </li>
+            <li className="text-white bg-gray-400 rounded-full text-lg px-1">
+              <a href="#">往台大醫院</a>
+            </li>
+            <li className="text-white bg-gray-400 rounded-full text-lg px-1">
+              <a href="#">往台大醫院</a>
+            </li>
+          </ul>
+        </nav>
 
-      <section className="flex flex-col px-10 text-cyan-dark gap-4">
         <div className="flex justify-between">
           <h3 className="text-2xl">公車站牌</h3>
           <div
@@ -104,7 +77,7 @@ export function Arive() {
             </div>
           </li>
         </ul>
-      </section>
+      </Box>
     </div>
   );
 }
