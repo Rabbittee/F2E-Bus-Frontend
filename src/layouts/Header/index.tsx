@@ -5,7 +5,7 @@ import { Home } from "./Home";
 import { Detail } from "./Detail";
 import { RouteName } from "./RouteName";
 
-export function Header() {
+export default function Header() {
   return (
     <header
       className={clsx(
@@ -14,10 +14,12 @@ export function Header() {
       )}
     >
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/result" element={<Detail />} />
-        <Route path="/stations" element={<Detail />} />
-        <Route path="/route/*" element={<RouteName />} />
+        <Route path="/">
+          <Route path="locations/*" element={<Detail />} />
+          <Route path="stations/*" element={<Detail />} />
+          <Route path="routes/*" element={<RouteName />} />
+          <Route index element={<Home />} />
+        </Route>
       </Routes>
     </header>
   );

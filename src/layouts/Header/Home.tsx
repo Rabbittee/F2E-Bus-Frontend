@@ -23,10 +23,6 @@ export function Home() {
     <>
       <div className="flex flex-col gap-2 pt-4">
         <img src={logo} alt="LOGO" />
-
-        <h2 className="text-3xl font-bold text-cyan-dark">
-          今天想去哪裡冒險呢？
-        </h2>
       </div>
 
       <form
@@ -34,9 +30,13 @@ export function Home() {
         onChangeCapture={onChange}
         onSubmit={onSubmit}
       >
+        <h2 className="text-3xl text-center font-bold text-cyan-dark">
+          今天想去哪裡冒險呢？
+        </h2>
+
         <Input name="query" placeholder="搜尋相關的 公車、站牌或是地標..." />
 
-        <Button className="py-2.5">搜尋</Button>
+        <Button className="py-2 text-lg font-bold tracking-widest">搜尋</Button>
       </form>
     </>
   );
