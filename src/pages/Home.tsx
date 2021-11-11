@@ -2,6 +2,7 @@ import { Icon } from "@/components";
 import { useRecommendQuery } from "@/logic";
 import * as Model from "@/models";
 import { Link } from "react-router-dom";
+import clsx from "clsx"
 
 type Props = Model.Query;
 function RecommandSearch({ name, url }: Props) {
@@ -20,7 +21,13 @@ export function Home() {
   const data = useRecommendQuery();
 
   return (
-    <section className="px-7 flex flex-col gap-3 text-cyan-dark">
+    <section
+      className={clsx(
+        "h-screen mt-6 px-7 w-full lg:max-w-xl lg:px-0 lg:mx-auto",
+        "flex flex-col gap-3",
+        " text-cyan-dark"
+      )}
+    >
       <div>
         <h2 className="text-2xl font-bold pt-4">試試這些地方...</h2>
         <small className="text-sm text-orange">我附近的巴士站</small>

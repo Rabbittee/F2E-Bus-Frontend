@@ -1,12 +1,20 @@
 import { Icon } from "@/components";
-import { useLocation } from "react-router";
+
+import clsx from "clsx";
 
 export function InfoNavBar() {
-  const location = useLocation();
   return (
     <nav className="w-full relative">
       <ul className="flex justify-between">
-        <li className="border-b border-gray-200 flex-1 text-center text-cyan-dark">
+        <li
+          className={clsx(
+            "  flex-1 text-center ",
+            location.pathname === "/route/arive"
+              ? "text-orange border-t rounded-t-xl"
+              : " text-cyan-dark border-b",
+            location.pathname === "/route/map" && "rounded-br-xl"
+          )}
+        >
           <a href="/route/arive">
             <span className="flex flex-col justify-center items-center py-3">
               <Icon.Route className="w-10" />
@@ -14,7 +22,16 @@ export function InfoNavBar() {
             </span>
           </a>
         </li>
-        <li className="border-b rounded-r-xl flex-1 text-center text-cyan-dark">
+        <li
+          className={clsx(
+            "flex-1 text-center ",
+            location.pathname === "/route/map"
+              ? "text-orange border-t rounded-xl"
+              : "text-cyan-dark border-b",
+            location.pathname === "/route/arive" && "rounded-bl-xl",
+            location.pathname === "/route/info" && " rounded-br-xl"
+          )}
+        >
           <a href="/route/map">
             <span className="flex flex-col justify-center items-center py-3">
               <Icon.Map className="w-10" />
@@ -22,7 +39,15 @@ export function InfoNavBar() {
             </span>
           </a>
         </li>
-        <li className="border-t rounded-tl-xl flex-1 text-center text-orange">
+        <li
+          className={clsx(
+            " flex-1 text-center ",
+            location.pathname === "/route/info"
+              ? "border-t rounded-t-xl text-orange"
+              : "text-cyan-dark border-b",
+            location.pathname === "/route/map" && "rounded-bl-xl"
+          )}
+        >
           <a href="/route/info">
             <span className="flex flex-col justify-center items-center py-3">
               <Icon.Info className="w-10" />

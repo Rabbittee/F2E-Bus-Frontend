@@ -1,4 +1,4 @@
-import { InfoNavBar, Box } from "@/components";
+import { Box } from "@/components";
 
 export function InfoTab() {
   return (
@@ -25,8 +25,6 @@ export function Info() {
   return (
     <div className="pt-4 flex flex-1 flex-col gap-4 relative">
       <Box>
-        <InfoNavBar />
-
         <InfoTab />
 
         <ul className="flex flex-col gap-2 overflow-scroll px-2 cyan-scroll w-full ">

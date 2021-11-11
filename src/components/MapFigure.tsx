@@ -4,8 +4,8 @@ export function MapFigure() {
   return (
     <div
       className={clsx(
-        "px-4 py-2 transition-all duration-500"
-        // location.pathname === "/result" ? "h-1/2 " : "h-1/3"
+        "px-4 py-2 transition-all duration-500",
+        location.pathname === "/result" ? "h-1/2 " : "h-1/3"
       )}
     >
       <iframe
