@@ -47,8 +47,12 @@ main {
 }
 
 /* Handle */
-.cyan-scroll::-webkit-scrollbar-thumb {
+.cyan-dark-scroll::-webkit-scrollbar-thumb {
   @apply bg-cyan-dark rounded-full;
+}
+
+.cyan-scroll::-webkit-scrollbar-thumb {
+  @apply bg-cyan rounded-full;
 }
 
 .orange-scroll::-webkit-scrollbar-thumb {

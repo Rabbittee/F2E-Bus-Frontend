@@ -10,16 +10,14 @@ export function Header() {
     <header
       className={clsx(
         "flex flex-col justify-center items-center",
-        "gap-6 pt-12 px-7"
+        "gap-6 pt-8 px-7"
       )}
     >
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/result" element={<Detail />} />
         <Route path="/stations" element={<Detail />} />
-        <Route path="/station" element={<RouteName />} />
-        <Route path="/map" element={<RouteName />} />
-        <Route path="/info" element={<RouteName />} />
+        <Route path="/route/*" element={<RouteName />} />
       </Routes>
     </header>
   );

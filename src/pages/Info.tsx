@@ -1,9 +1,9 @@
-import { Icon } from "@/components";
+import { InfoNavBar, Box } from "@/components";
 
-export function InfoNavBar() {
+export function InfoTab() {
   return (
-    <nav className="pl-10">
-      <ul className="flex overflow-x-scroll gap-2 whitespace-nowrap">
+    <nav className="pl-4 relative">
+      <ul className="flex overflow-x-scroll gap-2 whitespace-nowrap pr-2">
         <li className="text-white bg-cyan rounded-full text-lg px-2 py-1 font-bold">
           <a href="#">台北市公車 262</a>
         </li>
@@ -23,40 +23,13 @@ export function InfoNavBar() {
 
 export function Info() {
   return (
-    <div className="pt-8 flex flex-1 flex-col gap-4 h-screen">
-      <nav className="w-full">
-        <ul className="flex justify-between">
-          <li className="border-b border-gray-200 flex-1 text-center text-cyan-dark">
-            <a href="#">
-              <span className="flex flex-col justify-center items-center py-3">
-                <Icon.Route className="w-10" />
-                <p className="text-base">公車路線</p>
-              </span>
-            </a>
-          </li>
-          <li className="border-b rounded-r-xl flex-1 text-center text-cyan-dark">
-            <a href="#">
-              <span className="flex flex-col justify-center items-center py-3">
-                <Icon.Map className="w-10" />
-                <p className="text-base">公車地圖</p>
-              </span>
-            </a>
-          </li>
-          <li className="border-t rounded-tl-xl flex-1 text-center text-orange">
-            <a href="#">
-              <span className="flex flex-col justify-center items-center py-3">
-                <Icon.Info className="w-10" />
-                <p className="text-base">公車資訊</p>
-              </span>
-            </a>
-          </li>
-        </ul>
-      </nav>
+    <div className="pt-4 flex flex-1 flex-col gap-4 relative">
+      <Box>
+        <InfoNavBar />
 
-      <InfoNavBar />
+        <InfoTab />
 
-      <section className="flex flex-col px-10 text-cyan-dark gap-4 ">
-        <ul className="flex flex-col gap-2 overflow-scroll justify-center">
+        <ul className="flex flex-col gap-2 overflow-scroll px-2 cyan-scroll w-full ">
           <li>
             <div className="rounded-xl flex flex-col shadow m-1">
               <div className="flex p-3 bg-cyan text-white rounded-t-xl">
@@ -95,21 +68,60 @@ export function Info() {
                   <h4 className="font-bold">頭末班車</h4>
                   <p>05:30~21:30</p>
                 </div>
-                <div className="text-lg">
+                <div className="text-lg flex flex-col gap-3">
                   <div>
                     <h4 className="font-bold">班距資訊</h4>
                     <h4 className="font-bold">尖峰</h4>
                     <p>12分至15分</p>
                   </div>
                   <div>
-                    <h4 className="font-bold">離峰班表</h4>
+                    <h4 className="font-bold mb-2">離峰班表</h4>
+                    <table className="w-full">
+                      <tbody className="flex flex-col gap-3 leading-none">
+                        <tr className="flex justify-between ">
+                          <td>0530</td>
+                          <td>0600</td>
+                          <td>0720</td>
+                          <td>0740</td>
+                          <td>0800</td>
+                        </tr>
+                        <tr className="flex justify-between bg-cyan rounded-full bg-opacity-40 ">
+                          <td>0530</td>
+                          <td>0600</td>
+                          <td>0720</td>
+                          <td>0740</td>
+                          <td>0800</td>
+                        </tr>
+                        <tr className="flex justify-between">
+                          <td>0530</td>
+                          <td>0600</td>
+                          <td>0720</td>
+                          <td>0740</td>
+                          <td>0800</td>
+                        </tr>
+                        <tr className="flex justify-between bg-cyan rounded-full bg-opacity-40">
+                          <td>0530</td>
+                          <td>0600</td>
+                          <td>0720</td>
+                          <td>0740</td>
+                          <td>0800</td>
+                        </tr>
+                        <tr className="flex justify-between">
+                          <td>0530</td>
+                          <td>0600</td>
+                          <td>0720</td>
+                          <td>0740</td>
+                          <td>0800</td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>
             </div>
           </li>
         </ul>
-      </section>
+      </Box>
     </div>
   );
 }

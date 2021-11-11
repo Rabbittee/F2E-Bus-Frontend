@@ -6,3 +6,4 @@ export * from "./MapFigure";
 export * from "./NearBy";
 export * from "./Stops";
 export * from "./Background";
+export * from "./InfoNavBar";
