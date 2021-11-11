@@ -12,9 +12,9 @@ function App() {
           <Route path="stations/:id" element={<Stations />} />
 
           <Route path="routes/:id">
-            <Route path="arive" element={<Arive />} />
             <Route path="map" element={<Map />} />
             <Route path="info" element={<Info />} />
+            <Route index element={<Arive />} />
           </Route>
 
           <Route index element={<Home />} />

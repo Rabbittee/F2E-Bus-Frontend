@@ -1,13 +1,12 @@
 import { Icon } from "@/components";
-import { API, Geo, Query, useSelector } from "@/logic";
+import { useRecommendQuery } from "@/logic";
 import * as Model from "@/models";
-import clsx from "clsx";
 import { Link } from "react-router-dom";
 
 type Props = Model.Query;
-function RecommandSearch({ id, name, url }: Props) {
+function RecommandSearch({ name, url }: Props) {
   return (
-    <Link to={`result/${id}`}>
+    <Link to={url}>
       <div className="border-b border-cyan p-2 flex gap-2">
         <Icon.Clock className="text-cyan-dark" />
 
@@ -18,12 +17,7 @@ function RecommandSearch({ id, name, url }: Props) {
 }
 
 export function Home() {
-  const query = useSelector(Query.selectQuery);
-  const location = useSelector(Geo.selectPosition);
-  const { data } = API.useGetRecommendQueryQuery(
-    { query, location },
-    { skip: !query.length && !location }
-  );
+  const data = useRecommendQuery();
 
   return (
     <section className="px-7 flex flex-col gap-3 text-cyan-dark">
