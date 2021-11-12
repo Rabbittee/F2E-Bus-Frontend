@@ -10,7 +10,7 @@ export default function Header() {
     <header
       className={clsx(
         "flex flex-col justify-center items-center",
-        "gap-6 pt-8 px-7"
+        "gap-6 pt-8"
       )}
     >
       <Routes>

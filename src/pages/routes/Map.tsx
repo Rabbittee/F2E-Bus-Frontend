@@ -1,4 +1,4 @@
-import { Icon, MapFigure, InfoNavBar, Box } from "@/components";
+import { Icon, MapFigure, Box } from "@/components";
 
 export function MapTab() {
   return (
@@ -28,8 +28,6 @@ export function Map() {
   return (
     <div className="pt-8 flex flex-1 flex-col gap-4 relative">
       <Box>
-        <InfoNavBar />
-
         <MapFigure />
 
         <MapTab />

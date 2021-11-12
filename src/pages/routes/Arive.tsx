@@ -1,31 +1,34 @@
-import { Icon, InfoNavBar, Box } from "@/components";
+import { Icon, Box } from "@/components";
+
+export function AriveTab() {
+  return (
+    <nav className="pl-4">
+      <ul className="flex overflow-x-scroll gap-2 whitespace-nowrap">
+        <li className="text-white bg-cyan rounded-full text-lg px-1">
+          <a href="#">往台大醫院</a>
+        </li>
+        <li className="text-white bg-gray-400 rounded-full text-lg px-1">
+          <a href="#">往台大醫院</a>
+        </li>
+        <li className="text-white bg-gray-400 rounded-full text-lg px-1">
+          <a href="#">往台大醫院</a>
+        </li>
+        <li className="text-white bg-gray-400 rounded-full text-lg px-1">
+          <a href="#">往台大醫院</a>
+        </li>
+        <li className="text-white bg-gray-400 rounded-full text-lg px-1">
+          <a href="#">往台大醫院</a>
+        </li>
+      </ul>
+    </nav>
+  );
+}
 
 export function Arive() {
   return (
     <div className="pt-8 flex flex-1 flex-col gap-4 relative">
       <Box>
-        <InfoNavBar />
-
-        <nav className="pl-4">
-          <ul className="flex overflow-x-scroll gap-2 whitespace-nowrap">
-            <li className="text-white bg-cyan rounded-full text-lg px-1">
-              <a href="#">往台大醫院</a>
-            </li>
-            <li className="text-white bg-gray-400 rounded-full text-lg px-1">
-              <a href="#">往台大醫院</a>
-            </li>
-            <li className="text-white bg-gray-400 rounded-full text-lg px-1">
-              <a href="#">往台大醫院</a>
-            </li>
-            <li className="text-white bg-gray-400 rounded-full text-lg px-1">
-              <a href="#">往台大醫院</a>
-            </li>
-            <li className="text-white bg-gray-400 rounded-full text-lg px-1">
-              <a href="#">往台大醫院</a>
-            </li>
-          </ul>
-        </nav>
-
+        <AriveTab />
         <div className="flex justify-between">
           <h3 className="text-2xl">公車站牌</h3>
           <div

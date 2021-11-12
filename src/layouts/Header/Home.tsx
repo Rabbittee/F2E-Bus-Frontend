@@ -20,9 +20,9 @@ export function Home() {
   }
 
   return (
-    <>
-      <div className="flex flex-col gap-2 pt-4">
-        <img src={logo} alt="LOGO" />
+    <div className="px-7 flex flex-col gap-4">
+      <div className="flex flex-col items-center gap-8 pt-4">
+        <img className="md:max-w-xl" src={logo} alt="LOGO" />
       </div>
 
       <form
@@ -38,6 +38,6 @@ export function Home() {
 
         <Button className="py-2 text-lg font-bold tracking-widest">搜尋</Button>
       </form>
-    </>
+    </div>
   );
 }

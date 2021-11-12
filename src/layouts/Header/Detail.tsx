@@ -2,7 +2,7 @@ import { Icon } from "@/components";
 
 export function Detail() {
   return (
-    <div className="flex justify-between w-full items-center">
+    <div className="flex justify-between w-full items-center px-7 h-1/2">
       <a className="text-cyan-dark w-3" href="/">
         <Icon.Back />
       </a>
