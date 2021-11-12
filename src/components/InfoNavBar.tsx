@@ -1,5 +1,4 @@
 import { Icon } from "@/components";
-
 import clsx from "clsx";
 
 export function InfoNavBar() {
@@ -9,10 +8,10 @@ export function InfoNavBar() {
         <li
           className={clsx(
             "  flex-1 text-center ",
-            location.pathname === "/route/arive"
+            location.pathname === "/arive"
               ? "text-orange border-t rounded-t-xl"
               : " text-cyan-dark border-b",
-            location.pathname === "/route/map" && "rounded-br-xl"
+            location.pathname === "/map" && "rounded-br-xl"
           )}
         >
           <a href="/route/arive">
@@ -25,11 +24,11 @@ export function InfoNavBar() {
         <li
           className={clsx(
             "flex-1 text-center ",
-            location.pathname === "/route/map"
+            location.pathname === "/map"
               ? "text-orange border-t rounded-xl"
               : "text-cyan-dark border-b",
-            location.pathname === "/route/arive" && "rounded-bl-xl",
-            location.pathname === "/route/info" && " rounded-br-xl"
+            location.pathname === "/arive" && "rounded-bl-xl",
+            location.pathname === "/info" && " rounded-br-xl"
           )}
         >
           <a href="/route/map">
