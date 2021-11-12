@@ -23,10 +23,6 @@ export function Home() {
     <div className="px-7 flex flex-col gap-4">
       <div className="flex flex-col items-center gap-8 pt-4">
         <img className="md:max-w-xl" src={logo} alt="LOGO" />
-
-        {/* <h2 className="text-3xl font-bold text-cyan-dark">
-          今天想去哪裡冒險呢？
-        </h2> */}
       </div>
 
       <form
