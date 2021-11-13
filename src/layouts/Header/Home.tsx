@@ -1,7 +1,7 @@
 import { FormEvent, ChangeEvent } from "react";
 import { Input } from "@/components";
 import logo from "@/assets/images/logo.png";
-import { Query, useDispatch } from "@/logic";
+import { API, Query, useDispatch } from "@/logic";
 
 import { Button } from "./Button";
 
@@ -16,7 +16,17 @@ export function Home() {
 
   function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    console.log("submit");
+
+    const formdata = new FormData(event.currentTarget);
+
+    const query = formdata.get("query");
+    if (!query) return;
+
+    dispatch(API.endpoints.getGeocodeByQuery.initiate(String(query))).then(
+      (result) => console.log(result)
+    );
+
+    // @TODO: navigate to locations page
   }
 
   return (

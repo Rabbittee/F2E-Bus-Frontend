@@ -2,9 +2,10 @@ import { Query, Geo } from "@/models";
 import { lowercaseKeys } from "@/utils";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL } from "@/config";
+import { head } from "ramda";
 
 type GetRecommendQueryProps = {
-  query: string;
+  query?: string;
   location?: Geo.Position;
 };
 
@@ -12,6 +13,11 @@ namespace Res {
   export interface GetRecommendQuery {
     routes: Query[];
     stations: Query[];
+  }
+
+  export interface GetGeocodeByQuery {
+    location: Geo.Position;
+    address: string;
   }
 }
 
@@ -28,7 +34,7 @@ export const API = createApi({
       query: ({ query, location }) => ({
         url: `/queries/recommend`,
         params: {
-          q: query || undefined,
+          q: query,
           location: location && Geo.toString(location),
         },
       }),
@@ -36,6 +42,15 @@ export const API = createApi({
       providesTags: ["Query"],
 
       transformResponse: lowercaseKeys,
+    }),
+
+    getGeocodeByQuery: build.query<Res.GetGeocodeByQuery, string>({
+      query: (query) => ({
+        url: `/queries/geocoding`,
+        params: { keyword: query },
+      }),
+
+      transformResponse: head,
     }),
   }),
 });
