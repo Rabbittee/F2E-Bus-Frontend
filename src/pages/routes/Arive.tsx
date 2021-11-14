@@ -1,6 +1,22 @@
 import { Icon, Box } from "@/components";
+import { BASE_URL } from "@/config";
+import { useParams } from "react-router-dom";
+
+function fetchStops() {
+  const param = useParams();
+  const id = param.id;
+  const api = BASE_URL;
+  const url = `${api}/routes/${id}/stops`;
+  console.log(url);
+  fetch(`${url}`, { body: JSON.stringify({ route_id: "NWT17664" }) }).then(
+    (res) => {
+      console.log(res);
+    }
+  );
+}
 
 export function AriveTab() {
+  fetchStops();
   return (
     <nav className="pl-4">
       <ul className="flex overflow-x-scroll gap-2 whitespace-nowrap">

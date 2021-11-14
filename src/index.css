@@ -10,13 +10,12 @@ body,
   @apply font-notoSans;
 }
 
-.bg-map {
+.bg {
   @apply h-screen w-screen;
   @apply fixed top-0 right-0;
   @apply bg-no-repeat bg-center;
   @apply -z-1;
 
-  background-image: url("@/assets/images/background.png");
   background-size: 100% 100%;
 }
 

@@ -40,6 +40,10 @@ module.exports = {
       tabInset: "inset 2px -2px 2px 0px #B0B0B0",
       DEFAULT: "1px 1px 2px 2px #C9C9C9",
     },
+    backgroundImage: {
+      "search-md": "url('./src/assets/images/background.png')",
+      "search-wd": "url('./src/assets/svgs/bg-Search-wb.svg')",
+    },
   },
   plugins: [],
 };
