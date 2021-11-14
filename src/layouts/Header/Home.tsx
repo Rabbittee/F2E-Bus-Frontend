@@ -7,6 +7,13 @@ import { Button } from "./Button";
 
 export function Home() {
   const dispatch = useDispatch();
+  const titleList = [
+    "今天你想去哪冒險呢？",
+    "就，很想找公車。",
+    "給我公車，其餘免談！",
+    "今晚，我想來點...不同路線！",
+  ];
+  const arryIndex = Math.floor(Math.random() * titleList.length);
 
   function onChange(event: ChangeEvent<HTMLFormElement>) {
     const formdata = new FormData(event.currentTarget);
@@ -41,7 +48,7 @@ export function Home() {
         onSubmit={onSubmit}
       >
         <h2 className="text-3xl text-center font-bold text-cyan-dark">
-          今天想去哪裡冒險呢？
+          {titleList[arryIndex]}
         </h2>
 
         <Input name="query" placeholder="搜尋相關的 公車、站牌或是地標..." />

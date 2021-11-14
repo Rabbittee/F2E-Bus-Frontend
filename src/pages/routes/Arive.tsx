@@ -9,8 +9,7 @@ function fetchStops() {
   const url = `${api}/routes/${id}/stops`;
   console.log(url);
   fetch(`${url}`, {
-    method: "POST",
-    body: JSON.stringify({ route_id: "NWT17664" }),
+    method: "GET",
   }).then((res) => {
     console.log(res);
   });
