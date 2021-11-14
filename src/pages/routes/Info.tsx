@@ -1,20 +1,27 @@
 import { Box } from "@/components";
+import clsx from "clsx";
+import { useState } from "react";
 
 export function InfoTab() {
   return (
     <nav className="pl-4 relative">
       <ul className="flex overflow-x-scroll gap-2 whitespace-nowrap pr-2">
-        <li className="text-white bg-cyan rounded-full text-lg px-2 py-1 font-bold">
-          <a href="#">台北市公車 262</a>
+        <li
+          className={clsx(
+            "text-white bg-cyan rounded-full text-lg px-2 py-1 font-bold"
+          )}
+        >
+          <a href="#routeName">台北市公車 262</a>
+        </li>
+        <li
+          className={clsx(
+            "text-white bg-gray-400 rounded-full text-lg px-2 py-1 font-bold"
+          )}
+        >
+          <a href="#payment">收費方式</a>
         </li>
         <li className="text-white bg-gray-400 rounded-full text-lg px-2 py-1 font-bold">
-          <a href="#">收費方式</a>
-        </li>
-        <li className="text-white bg-gray-400 rounded-full text-lg px-2 py-1 font-bold">
-          <a href="#">平日發車資訊</a>
-        </li>
-        <li className="text-white bg-gray-400 rounded-full text-lg px-2 py-1 font-bold">
-          <a href="#">假日發車資訊</a>
+          <a href="#timelist">平日發車資訊</a>
         </li>
       </ul>
     </nav>
@@ -28,7 +35,7 @@ export function Info() {
         <InfoTab />
 
         <ul className="flex flex-col gap-2 overflow-scroll px-2 cyan-scroll w-full ">
-          <li>
+          <li id="routeName">
             <div className="rounded-xl flex flex-col shadow m-1">
               <div className="flex p-3 bg-cyan text-white rounded-t-xl">
                 <h3 className="text-2xl font-bold">台北市公車 262</h3>
@@ -40,7 +47,7 @@ export function Info() {
               </div>
             </div>
           </li>
-          <li>
+          <li id="payment">
             <div className="rounded-xl flex flex-col shadow m-1">
               <div className="flex p-3 bg-cyan text-white rounded-t-xl">
                 <h3 className="text-2xl font-bold">收費方式</h3>
@@ -56,7 +63,7 @@ export function Info() {
               </div>
             </div>
           </li>
-          <li>
+          <li id="timelist">
             <div className="rounded-xl flex flex-col shadow m-1">
               <div className="flex p-3 bg-cyan text-white rounded-t-xl">
                 <h3 className="text-2xl font-bold">平日發車資訊</h3>

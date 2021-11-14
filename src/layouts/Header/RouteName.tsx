@@ -4,7 +4,7 @@ export function RouteName() {
   return (
     <div className="flex flex-col gap-4 w-full  text-orange">
       <div className="flex items-center gap-4 px-7">
-        <a className="w-3" href="/stations">
+        <a className="w-3" href="/">
           <Icon.Back />
         </a>
 

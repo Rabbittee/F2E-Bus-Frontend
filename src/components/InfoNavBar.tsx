@@ -1,20 +1,24 @@
 import { Icon } from "@/components";
 import clsx from "clsx";
+import { useParams } from "react-router";
 
 export function InfoNavBar() {
+  const param = useParams();
+  const id = param.id;
+
   return (
     <nav className="w-full relative">
       <ul className="flex justify-between">
         <li
           className={clsx(
             "  flex-1 text-center ",
-            location.pathname === "/arive"
+            location.pathname === `/routes/${id}`
               ? "text-orange border-t rounded-t-xl"
               : " text-cyan-dark border-b",
-            location.pathname === "/map" && "rounded-br-xl"
+            location.pathname === `/routes/${id}/map` && "rounded-br-xl"
           )}
         >
-          <a href="/route/arive">
+          <a href={`/routes/${id}`}>
             <span className="flex flex-col justify-center items-center py-3">
               <Icon.Route className="w-10" />
               <p className="text-base">公車路線</p>
@@ -24,14 +28,14 @@ export function InfoNavBar() {
         <li
           className={clsx(
             "flex-1 text-center ",
-            location.pathname === "/map"
+            location.pathname === `/routes/${id}/map`
               ? "text-orange border-t rounded-xl"
               : "text-cyan-dark border-b",
-            location.pathname === "/arive" && "rounded-bl-xl",
-            location.pathname === "/info" && " rounded-br-xl"
+            location.pathname === `/routes/${id}` && "rounded-bl-xl",
+            location.pathname === `/routes/${id}/info` && " rounded-br-xl"
           )}
         >
-          <a href="/route/map">
+          <a href={`/routes/${id}/map`}>
             <span className="flex flex-col justify-center items-center py-3">
               <Icon.Map className="w-10" />
               <p className="text-base">公車地圖</p>
@@ -41,13 +45,13 @@ export function InfoNavBar() {
         <li
           className={clsx(
             " flex-1 text-center ",
-            location.pathname === "/route/info"
+            location.pathname === `/routes/${id}/info`
               ? "border-t rounded-t-xl text-orange"
               : "text-cyan-dark border-b",
-            location.pathname === "/route/map" && "rounded-bl-xl"
+            location.pathname === `/routes/${id}/map` && "rounded-bl-xl"
           )}
         >
-          <a href="/route/info">
+          <a href={`/routes/${id}/info`}>
             <span className="flex flex-col justify-center items-center py-3">
               <Icon.Info className="w-10" />
               <p className="text-base">公車資訊</p>
