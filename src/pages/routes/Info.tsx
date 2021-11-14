@@ -1,32 +1,4 @@
-import { Box } from "@/components";
-import clsx from "clsx";
-import { useState } from "react";
-
-export function InfoTab() {
-  return (
-    <nav className="pl-4 relative">
-      <ul className="flex overflow-x-scroll gap-2 whitespace-nowrap pr-2">
-        <li
-          className={clsx(
-            "text-white bg-cyan rounded-full text-lg px-2 py-1 font-bold"
-          )}
-        >
-          <a href="#routeName">台北市公車 262</a>
-        </li>
-        <li
-          className={clsx(
-            "text-white bg-gray-400 rounded-full text-lg px-2 py-1 font-bold"
-          )}
-        >
-          <a href="#payment">收費方式</a>
-        </li>
-        <li className="text-white bg-gray-400 rounded-full text-lg px-2 py-1 font-bold">
-          <a href="#timelist">平日發車資訊</a>
-        </li>
-      </ul>
-    </nav>
-  );
-}
+import { Box, InfoTab } from "@/components";
 
 export function Info() {
   return (
