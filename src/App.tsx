@@ -9,7 +9,7 @@ function App() {
         <Route path="*" element={<Layout />}>
           <Route path="locations" element={<Location />} />
 
-          <Route path="stations/:id" element={<Stations />} />
+          <Route path="stations/:id/:name" element={<Stations />} />
 
           <Route path="routes/:id">
             <Route path="map" element={<Map />} />
