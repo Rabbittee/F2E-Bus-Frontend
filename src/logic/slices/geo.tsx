@@ -1,9 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import * as Model from "@/models";
 import { State } from "@/logic";
+import { second, minute } from "@/utils";
 
 type Position = Model.Geo.Position;
 const Status = Model.Geo.Status;
+
+const GeoOptions: PositionOptions = {
+  timeout: second(5),
+  maximumAge: minute(3),
+};
 
 function getGeolocation() {
   if ("geolocation" in navigator) {
@@ -31,7 +37,7 @@ function getCurrentPositionByGeolocation(geo?: Geolocation): Promise<Position> {
   }
 
   return new Promise<GeolocationPosition>((resolve, reject) =>
-    geo.getCurrentPosition(resolve, reject)
+    geo.getCurrentPosition(resolve, reject, GeoOptions)
   ).then((position) => ({
     lat: position.coords.latitude,
     lon: position.coords.longitude,
@@ -51,14 +57,12 @@ const fetchGeo = createAsyncThunk<Position, void, { rejectValue: string }>(
     getCurrentPositionByGeolocation(getGeolocation())
       //
       .catch((error) => {
-        if ("code" in error) {
-          switch (error.code) {
-            case Status.NOT_SUPPORTED:
-            case Status.PERMISSION_DENIED:
-            case Status.POSITION_UNAVAILABLE:
-            case Status.TIMEOUT:
-              return getCurrentPositionByIP().catch(rejectWithValue);
-          }
+        switch (error?.code) {
+          case Status.NOT_SUPPORTED:
+          case Status.PERMISSION_DENIED:
+          case Status.POSITION_UNAVAILABLE:
+          case Status.TIMEOUT:
+            return getCurrentPositionByIP().catch(rejectWithValue);
         }
 
         console.error("unexpected error occured: ", error);
