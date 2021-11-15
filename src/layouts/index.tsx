@@ -5,7 +5,7 @@ import Header from "./Header";
 
 export default function Layout() {
   return (
-    <main className="flex flex-col gap-2 h-screen">
+    <main className="flex flex-col gap-2 min-h-screen pb-8">
       <Background.Map />
 
       <Header />
