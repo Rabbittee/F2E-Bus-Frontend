@@ -1,6 +1,15 @@
 import { Box, InfoTab } from "@/components";
+import { API } from "@/logic";
+import { Navigate, useParams } from "react-router";
 
 export function Info() {
+  const { id } = useParams<"id">();
+  const { data } = API.useGetRouteInformationQuery(id!, { skip: !id });
+
+  if (!id) return <Navigate to="/" replace />;
+
+  if (!data) return <></>;
+
   return (
     <div className="pt-4 flex flex-1 flex-col gap-4 relative">
       <Box>

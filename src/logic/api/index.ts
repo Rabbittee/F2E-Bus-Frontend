@@ -1,4 +1,4 @@
-import { Query, Geo, Station } from "@/models";
+import { Query, Geo, Station, Route, SubRoute, Direction } from "@/models";
 import { lowercaseKeys } from "@/utils";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL } from "@/config";
@@ -24,6 +24,22 @@ export namespace Res {
     location: Geo.Position;
     address: string;
   }
+
+  export type GetRouteInformation = Route;
+}
+
+function toSubroute(item: any): SubRoute {
+  return {
+    id: item?.["id"] || "",
+    name: item?.["name"] || "",
+    direction: item?.["direction"] || Direction.Unknown,
+    busTime: {
+      first: item?.["first_bus_time"] || "",
+      last: item?.["last_bus_time"] || "",
+      holidayFirst: item?.["holiday_first_bus_time"] || "",
+      holidayLast: item?.["holiday_last_bus_time"] || "",
+    },
+  };
 }
 
 export const API = createApi({
@@ -57,6 +73,24 @@ export const API = createApi({
       }),
 
       transformResponse: head,
+    }),
+
+    getRouteInformation: build.query<Res.GetRouteInformation, string>({
+      query: (id) => `/routes/${id}/information`,
+
+      transformResponse: (res: any) => ({
+        id: res["id"],
+        name: res["name"],
+        city: res["city"],
+        url: res["url"],
+        subRoutes: res["sub_routes"].map(toSubroute),
+        departure: res["departure"],
+        destination: res["destination"],
+        price: {
+          description: res["price_description"],
+          buffer: res["fare_buffer_zone_description"],
+        },
+      }),
     }),
   }),
 });
