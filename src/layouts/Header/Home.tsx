@@ -1,19 +1,24 @@
+import Geohash from "latlon-geohash";
 import { FormEvent, ChangeEvent } from "react";
 import { Input } from "@/components";
+import { API, Query, Res, useDispatch } from "@/logic";
+import { pickRandomIn } from "@/utils";
 import logo from "@/assets/images/logo.png";
-import { API, Query, useDispatch } from "@/logic";
 
 import { Button } from "./Button";
+import { has } from "ramda";
+import { useNavigate } from "react-router";
+
+const titleList = [
+  "今天你想去哪冒險呢？",
+  "就，很想找公車。",
+  "給我公車，其餘免談！",
+  "今晚，我想來點...不同路線！",
+];
 
 export function Home() {
   const dispatch = useDispatch();
-  const titleList = [
-    "今天你想去哪冒險呢？",
-    "就，很想找公車。",
-    "給我公車，其餘免談！",
-    "今晚，我想來點...不同路線！",
-  ];
-  const arryIndex = Math.floor(Math.random() * titleList.length);
+  const navigate = useNavigate();
 
   function onChange(event: ChangeEvent<HTMLFormElement>) {
     const formdata = new FormData(event.currentTarget);
@@ -29,11 +34,29 @@ export function Home() {
     const query = formdata.get("query");
     if (!query) return;
 
-    dispatch(API.endpoints.getGeocodeByQuery.initiate(String(query))).then(
-      (result) => console.log(result)
-    );
+    dispatch(
+      API.endpoints.getRecommendQuery.initiate({
+        query: String(query),
+        use_geocode_api: true,
+        with_bounding_center: true,
+      })
+    )
+      .then(({ data }) => {
+        if (!data) {
+          return Promise.reject(new Error("API GetRecommendQuery return null"));
+        }
 
-    // @TODO: navigate to locations page
+        if (!has("center", data) || !has("bbox", data)) {
+          return Promise.reject(
+            new Error("API GetRecommendQuery response unexpected")
+          );
+        }
+
+        return data as Required<Res.GetRecommendQuery>;
+      })
+      .then(({ center }) => Geohash.encode(center.lat, center.lon))
+      .then((hash) => navigate(`locations/${hash}`))
+      .catch(console.error);
   }
 
   return (
@@ -48,7 +71,7 @@ export function Home() {
         onSubmit={onSubmit}
       >
         <h2 className="text-3xl text-center font-bold text-cyan-dark">
-          {titleList[arryIndex]}
+          {pickRandomIn(titleList)}
         </h2>
 
         <Input name="query" placeholder="搜尋相關的 公車、站牌或是地標..." />

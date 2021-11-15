@@ -7,12 +7,17 @@ import { head } from "ramda";
 type GetRecommendQueryProps = {
   query?: string;
   location?: Geo.Position;
+  radius?: number;
+  use_geocode_api?: boolean;
+  with_bounding_center?: boolean;
 };
 
-namespace Res {
+export namespace Res {
   export interface GetRecommendQuery {
     routes: Query[];
     stations: Query[];
+    bbox?: Geo.BoundingBox;
+    center?: Geo.Position;
   }
 
   export interface GetGeocodeByQuery {
@@ -31,11 +36,12 @@ export const API = createApi({
       Res.GetRecommendQuery,
       GetRecommendQueryProps
     >({
-      query: ({ query, location }) => ({
+      query: ({ query, location, ...props }) => ({
         url: `/queries/recommend`,
         params: {
           q: query,
           location: location && Geo.toString(location),
+          ...props,
         },
       }),
 

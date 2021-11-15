@@ -1108,6 +1108,11 @@
     "@types/react" "*"
     hoist-non-react-statics "^3.3.0"
 
+"@types/latlon-geohash@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@types/latlon-geohash/-/latlon-geohash-2.0.0.tgz#384723d354cfe40197bb0fadaf2e72f649736314"
+  integrity sha512-bwTttcqf8StBA+ABJ4gxbgA+PgueUJGxjYzuWrlFfzDbIQd2FvOcE5l/0fY+BOKqmeWYAzjBQFdnKweI8KKNpA==
+
 "@types/minimatch@^3.0.3":
   version "3.0.5"
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.5.tgz#1001cc5e6a3704b83c236027e77f2f58ea010f40"
@@ -2271,6 +2276,11 @@ jsonfile@^6.0.1:
     universalify "^2.0.0"
   optionalDependencies:
     graceful-fs "^4.1.6"
+
+latlon-geohash@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/latlon-geohash/-/latlon-geohash-2.0.0.tgz#2b0203ab30ef56a18600b0312b8c3a627cbd17d1"
+  integrity sha512-OKBswTwrvTdtenV+9C9euBmvgGuqyjJNAzpQCarRz1m8/pYD2nz9fKkXmLs2S3jeXaLi3Ry76twQplKKUlgS/g==
 
 lilconfig@^2.0.3:
   version "2.0.3"
