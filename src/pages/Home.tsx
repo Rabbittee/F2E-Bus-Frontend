@@ -31,7 +31,7 @@ function List<T>({ title, items, children }: ListProps<T>) {
     <div>
       {title && <small className="text-sm text-orange">{title}</small>}
 
-      <ul className="flex flex-col gap-2 max-h-72 ">
+      <ul className="flex flex-col gap-2 max-h-72 overflow-auto">
         {items.map((item) => (
           <li key={hash(JSON.stringify(item))}>{children?.(item)}</li>
         ))}
@@ -46,9 +46,9 @@ export function Home() {
   return (
     <section
       className={clsx(
-        "h-screen mt-6 px-7 w-full lg:max-w-xl lg:px-0 lg:mx-auto",
+        "px-8 py-2 w-full lg:max-w-xl lg:px-0 lg:mx-auto",
         "flex flex-col gap-3",
-        " text-cyan-dark"
+        "text-cyan-dark"
       )}
     >
       <h2 className="text-2xl font-bold pt-4">試試這些地方...</h2>
