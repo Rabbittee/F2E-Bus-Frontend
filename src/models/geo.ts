@@ -15,4 +15,11 @@ export namespace Geo {
   export function toString(position: Position) {
     return `${position.lat},${position.lon}`;
   }
+
+  export interface BoundingBox {
+    left: number;
+    right: number;
+    top: number;
+    bottom: number;
+  }
 }
