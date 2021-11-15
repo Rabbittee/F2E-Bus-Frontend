@@ -1,4 +1,4 @@
-import { Query, Geo } from "@/models";
+import { Query, Geo, Station } from "@/models";
 import { lowercaseKeys } from "@/utils";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL } from "@/config";
@@ -15,7 +15,7 @@ type GetRecommendQueryProps = {
 export namespace Res {
   export interface GetRecommendQuery {
     routes: Query[];
-    stations: Query[];
+    stations: Station[];
     bbox?: Geo.BoundingBox;
     center?: Geo.Position;
   }

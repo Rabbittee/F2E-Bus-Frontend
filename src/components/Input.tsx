@@ -1,12 +1,15 @@
+import { InputHTMLAttributes } from "react";
 import { Icon } from "@/components";
 import clsx from "clsx";
 
 type InputProps = {
   placeholder?: string;
   name: string;
+  value?: string;
+  onChange: InputHTMLAttributes<HTMLInputElement>["onChange"];
 };
 
-export function Input({ placeholder, name }: InputProps) {
+export function Input({ ...props }: InputProps) {
   return (
     <label
       className={clsx(
@@ -22,8 +25,7 @@ export function Input({ placeholder, name }: InputProps) {
       <input
         type="search"
         className="outline-none mx-3 py-1.5 w-full placeholder-cyan text-cyan-dark"
-        placeholder={placeholder}
-        name={name}
+        {...props}
       />
     </label>
   );
