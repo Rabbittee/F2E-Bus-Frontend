@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&family=Ubuntu:wght@300;400;500&display=swap");
+@import "leaflet/dist/leaflet.css";
 
 @tailwind base;
 @tailwind components;
@@ -29,30 +30,20 @@ body,
 
 /* width */
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 16px;
+  @apply w-2;
 }
 
-/* Track */
-::-webkit-scrollbar-track {
-  /* border-radius: 100vh; */
-  /* background: #edf2f7; */
-}
+@layer utilities {
+  /* Handle */
+  .cyan-dark-scroll::-webkit-scrollbar-thumb {
+    @apply bg-cyan-dark rounded-full;
+  }
 
-/* Handle */
-.cyan-dark-scroll::-webkit-scrollbar-thumb {
-  @apply bg-cyan-dark rounded-full;
-}
+  .cyan-scroll::-webkit-scrollbar-thumb {
+    @apply bg-cyan rounded-full;
+  }
 
-.cyan-scroll::-webkit-scrollbar-thumb {
-  @apply bg-cyan rounded-full;
+  .orange-scroll::-webkit-scrollbar-thumb {
+    @apply bg-orange rounded-full;
+  }
 }
-
-.orange-scroll::-webkit-scrollbar-thumb {
-  @apply bg-orange rounded-full;
-}
-
-/* Handle on hover */
-/* ::-webkit-scrollbar-thumb:hover {
-  background: #a0aec0;
-} */

@@ -12,9 +12,11 @@
     "clsx": "^1.1.1",
     "history": "^5.1.0",
     "latlon-geohash": "^2.0.0",
+    "leaflet": "^1.7.1",
     "ramda": "^0.27.1",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
+    "react-leaflet": "^3.2.2",
     "react-redux": "^7.2.6",
     "react-router-dom": "^6.0.1"
   },
@@ -22,6 +24,7 @@
     "@svgr/rollup": "^5.5.0",
     "@types/faker": "^5.5.9",
     "@types/latlon-geohash": "^2.0.0",
+    "@types/leaflet": "^1.7.5",
     "@types/node": "^16.11.4",
     "@types/ramda": "^0.27.46",
     "@types/react": "^17.0.0",
@@ -32,7 +35,9 @@
     "miragejs": "^0.1.42",
     "prettier": "^2.4.1",
     "pretty-quick": "^3.1.1",
+    "tailwindcss": "^3.0.0-alpha.2",
     "typescript": "^4.5.0-beta",
+    "utility-types": "^3.10.0",
     "vitawind": "^1.2.7",
     "vite": "^2.4.4"
   }

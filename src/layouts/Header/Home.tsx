@@ -1,42 +1,35 @@
-import Geohash from "latlon-geohash";
 import { FormEvent, ChangeEvent } from "react";
 import { Input } from "@/components";
-import { API, Query, Res, useDispatch } from "@/logic";
-import { pickRandomIn } from "@/utils";
+import { API, Query, Res, useDispatch, useSelector } from "@/logic";
+import { pickRandomIn, URLSearchParams } from "@/utils";
 import logo from "@/assets/images/logo.png";
 
 import { Button } from "./Button";
 import { has } from "ramda";
 import { useNavigate } from "react-router";
 
-const titleList = [
+const title = pickRandomIn([
   "今天你想去哪冒險呢？",
   "就，很想找公車。",
   "給我公車，其餘免談！",
   "今晚，我想來點...不同路線！",
-];
+]);
 
 export function Home() {
+  const query = useSelector(Query.selectQuery);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  function onChange(event: ChangeEvent<HTMLFormElement>) {
-    const formdata = new FormData(event.currentTarget);
-
-    dispatch(Query.update(formdata.get("query")));
+  function onChange(event: ChangeEvent<HTMLInputElement>) {
+    dispatch(Query.update(event.target.value));
   }
 
   function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const formdata = new FormData(event.currentTarget);
-
-    const query = formdata.get("query");
-    if (!query) return;
-
     dispatch(
       API.endpoints.getRecommendQuery.initiate({
-        query: String(query),
+        query,
         use_geocode_api: true,
         with_bounding_center: true,
       })
@@ -54,8 +47,15 @@ export function Home() {
 
         return data as Required<Res.GetRecommendQuery>;
       })
-      .then(({ center }) => Geohash.encode(center.lat, center.lon))
-      .then((hash) => navigate(`locations/${hash}`))
+      .then(({ center }) =>
+        navigate({
+          pathname: `locations`,
+          search: URLSearchParams({
+            query,
+            ...center,
+          }),
+        })
+      )
       .catch(console.error);
   }
 
@@ -65,16 +65,17 @@ export function Home() {
         <img className="md:max-w-xl" src={logo} alt="LOGO" />
       </div>
 
-      <form
-        className="flex flex-col w-full gap-4 bg-white"
-        onChangeCapture={onChange}
-        onSubmit={onSubmit}
-      >
+      <form className="flex flex-col w-full gap-4 bg-white" onSubmit={onSubmit}>
         <h2 className="text-3xl text-center font-bold text-cyan-dark">
-          {pickRandomIn(titleList)}
+          {title}
         </h2>
 
-        <Input name="query" placeholder="搜尋相關的 公車、站牌或是地標..." />
+        <Input
+          name="query"
+          placeholder="搜尋相關的 公車、站牌或是地標..."
+          value={query}
+          onChange={onChange}
+        />
 
         <Button className="py-2 text-lg font-bold tracking-widest">搜尋</Button>
       </form>

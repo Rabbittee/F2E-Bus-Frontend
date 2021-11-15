@@ -1,13 +1,13 @@
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import Layout from "@/layouts";
-import { Home, Result, Stations, Arive, Map, Info } from "@/pages";
+import { Home, Location, Stations, Arive, Map, Info } from "@/pages";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="*" element={<Layout />}>
-          <Route path="locations/:id" element={<Result />} />
+          <Route path="locations" element={<Location />} />
 
           <Route path="stations/:id" element={<Stations />} />
 

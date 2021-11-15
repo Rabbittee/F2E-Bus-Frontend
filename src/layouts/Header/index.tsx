@@ -2,7 +2,8 @@ import clsx from "clsx";
 import { Routes, Route } from "react-router-dom";
 
 import { Home } from "./Home";
-import { Detail } from "./Detail";
+import { HasBack } from "./HasBack";
+import { Location } from "./Location";
 import { RouteName } from "./RouteName";
 
 export default function Header() {
@@ -15,8 +16,8 @@ export default function Header() {
     >
       <Routes>
         <Route path="/">
-          <Route path="locations/*" element={<Detail />} />
-          <Route path="stations/*" element={<Detail />} />
+          <Route path="locations" element={<Location />} />
+          <Route path="stations/*" element={<HasBack />} />
           <Route path="routes/*" element={<RouteName />} />
           <Route index element={<Home />} />
         </Route>
