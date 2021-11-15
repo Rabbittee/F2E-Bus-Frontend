@@ -2,14 +2,22 @@ import { Geo } from "@/models";
 import { lerp } from "@/utils";
 import { MapContainer, TileLayer } from "react-leaflet";
 import type * as Type from "leaflet";
+import { ReactNode } from "react";
 
 type MapProps = {
   className?: string;
   center?: Geo.Position;
   zoom?: number;
   mounted?: (ref: Type.Map) => void;
+  children?: ReactNode;
 };
-export function Map({ className, center, zoom = 50, mounted }: MapProps) {
+export function Map({
+  className,
+  center,
+  zoom = 50,
+  mounted,
+  children,
+}: MapProps) {
   return (
     <div className={className}>
       <MapContainer
@@ -20,7 +28,7 @@ export function Map({ className, center, zoom = 50, mounted }: MapProps) {
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
-        {/* <Marker position={[51.505, -0.09]} /> */}
+        {children}
       </MapContainer>
     </div>
   );
