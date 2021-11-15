@@ -11,12 +11,10 @@ body,
 }
 
 .bg {
-  @apply h-screen w-screen;
+  @apply w-screen h-screen;
   @apply fixed top-0 right-0;
-  @apply bg-no-repeat bg-center;
+  @apply bg-no-repeat bg-cover;
   @apply -z-1;
-
-  background-size: 100% 100%;
 }
 
 .bg-result {

@@ -8,11 +8,11 @@ function fetchStops() {
   const api = BASE_URL;
   const url = `${api}/routes/${id}/stops`;
   console.log(url);
-  fetch(`${url}`, { body: JSON.stringify({ route_id: "NWT17664" }) }).then(
-    (res) => {
-      console.log(res);
-    }
-  );
+  fetch(`${url}`, {
+    method: "GET",
+  }).then((res) => {
+    console.log(res);
+  });
 }
 
 export function AriveTab() {

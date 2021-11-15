@@ -31,7 +31,7 @@ function List<T>({ title, items, children }: ListProps<T>) {
     <div>
       {title && <small className="text-sm text-orange">{title}</small>}
 
-      <ul className="flex flex-col gap-2 max-h-72 overflow-auto">
+      <ul className="flex flex-col gap-2 max-h-72 ">
         {items.map((item) => (
           <li key={hash(JSON.stringify(item))}>{children?.(item)}</li>
         ))}
