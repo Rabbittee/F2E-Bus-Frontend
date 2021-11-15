@@ -4,3 +4,4 @@ export * from "./log";
 export * from "./debounce";
 export * from "./hash";
 export * from "./pickRandomIn";
+export * from "./time";
