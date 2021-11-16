@@ -24,8 +24,6 @@ export namespace Res {
     location: Geo.Position;
     address: string;
   }
-
-  export type GetRouteInformation = Route;
 }
 
 function toSubroute(item: any): SubRoute {
@@ -75,7 +73,20 @@ export const API = createApi({
       transformResponse: head,
     }),
 
-    getRouteInformation: build.query<Res.GetRouteInformation, string>({
+    getStationInformation: build.query<Station, string>({
+      query: (id) => `/stations/${id}/informations`,
+
+      transformResponse: (res: any) => ({
+        id: res["id"],
+        name: res["name"],
+        url: res["url"],
+        position: res["position"],
+        address: res["address"],
+        routes: res["routes"],
+      }),
+    }),
+
+    getRouteInformation: build.query<Route, string>({
       query: (id) => `/routes/${id}/information`,
 
       transformResponse: (res: any) => ({

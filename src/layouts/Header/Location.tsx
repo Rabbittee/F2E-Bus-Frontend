@@ -10,9 +10,7 @@ export function Location() {
 
   const query = param.get("query");
 
-  if (!query) {
-    return <Navigate to="/" replace />;
-  }
+  if (!query) return <Navigate to="/" replace />;
 
   return <HasBack title={query} />;
 }
