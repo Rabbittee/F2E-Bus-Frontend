@@ -1,16 +1,10 @@
 import { Geo } from "./geo";
+import { Direction } from "./const";
 
 export interface Query {
   id: string;
   name: string;
   url: string;
-}
-
-export enum Direction {
-  Departure = 0,
-  Destination = 1,
-  Loop = 2,
-  Unknown = 255,
 }
 
 export interface SubRoute {
@@ -42,4 +36,5 @@ export interface Route extends Query {
 
 export interface Station extends Query {
   position: Geo.Position;
+  address: string;
 }

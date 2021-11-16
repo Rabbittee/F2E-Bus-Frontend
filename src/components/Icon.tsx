@@ -7,4 +7,19 @@ import { ReactComponent as Map } from "@/assets/svgs/map-icon.svg";
 import { ReactComponent as Info } from "@/assets/svgs/info-icon.svg";
 import { ReactComponent as LastTime } from "@/assets/svgs/lasttime-icon.svg";
 
-export const Icon = { Search, Clock, Back, Close, Route, Map, Info, LastTime };
+import _Location from "@/assets/svgs/location.svg";
+import { Icon as LeafletIcon } from "leaflet";
+
+export const Icon = {
+  Search,
+  Clock,
+  Back,
+  Close,
+  Route,
+  Map,
+  Info,
+  LastTime,
+  Leaflet: {
+    Location: new LeafletIcon({ iconUrl: _Location, iconSize: [38, 95] }),
+  },
+};
