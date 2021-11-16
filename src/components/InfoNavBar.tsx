@@ -13,7 +13,7 @@ export function InfoNavBar() {
           className={clsx(
             "  flex-1 text-center ",
             location.pathname === `/routes/${id}`
-              ? "text-orange border-t rounded-t-xl"
+              ? "text-orange border-t rounded-t-xl bg-white"
               : " text-cyan-dark border-b",
             location.pathname === `/routes/${id}/map` && "rounded-br-xl"
           )}
@@ -29,7 +29,7 @@ export function InfoNavBar() {
           className={clsx(
             "flex-1 text-center ",
             location.pathname === `/routes/${id}/map`
-              ? "text-orange border-t rounded-xl"
+              ? "text-orange border-t rounded-xl bg-white"
               : "text-cyan-dark border-b",
             location.pathname === `/routes/${id}` && "rounded-bl-xl",
             location.pathname === `/routes/${id}/info` && " rounded-br-xl"
@@ -46,7 +46,7 @@ export function InfoNavBar() {
           className={clsx(
             " flex-1 text-center ",
             location.pathname === `/routes/${id}/info`
-              ? "border-t rounded-t-xl text-orange"
+              ? "border-t rounded-t-xl text-orange bg-white"
               : "text-cyan-dark border-b",
             location.pathname === `/routes/${id}/map` && "rounded-bl-xl"
           )}
