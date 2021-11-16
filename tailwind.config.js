@@ -12,7 +12,7 @@ module.exports = {
           dark: "#4B707D",
         },
         orange: {
-          DEFAULT: "#EF8C69",
+          DEFAULT: "#DC771A",
         },
       },
       keyframes: {

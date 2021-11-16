@@ -1,6 +1,6 @@
 import { Map, List, Icon } from "@/components";
 import { API, Query, useSelector } from "@/logic";
-import { Geo } from "@/models";
+import { Geo, Station } from "@/models";
 import { URLSearchParams } from "@/utils";
 import { PropsWithChildren, useEffect, useMemo, useState } from "react";
 import { useSearchParams, Link, useNavigate } from "react-router-dom";
@@ -64,6 +64,19 @@ export function Location() {
 
   const nearby = stations.some(({ name }) => name === query);
 
+  const toLocation = (item: Station) =>
+    nearby
+      ? {
+          pathname: `/stations/${item.id}`,
+        }
+      : {
+          search: URLSearchParams({
+            query: item.name,
+            lat: item.position.lat,
+            lon: item.position.lon,
+          }),
+        };
+
   return (
     <div className="flex-1 flex flex-col">
       <Map className="w-full h-[50vh] px-2 my-2" mounted={setMap}>
@@ -73,14 +86,7 @@ export function Location() {
             icon={Icon.Leaflet.Location}
             position={[station.position.lat, station.position.lon]}
             eventHandlers={{
-              click: () =>
-                navigate({
-                  search: URLSearchParams({
-                    query: station.name,
-                    lat: station.position.lat,
-                    lon: station.position.lon,
-                  }),
-                }),
+              click: () => navigate(toLocation(station)),
             }}
           />
         ))}
@@ -99,15 +105,7 @@ export function Location() {
         items={stations}
       >
         {(item) => (
-          <Link
-            to={{
-              search: URLSearchParams({
-                query: item.name,
-                lat: item.position.lat,
-                lon: item.position.lon,
-              }),
-            }}
-          >
+          <Link to={toLocation(item)}>
             <Item className="flex flex-col">
               <strong className="text-sm">{item.name}</strong>
 

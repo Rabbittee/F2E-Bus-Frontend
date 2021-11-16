@@ -37,4 +37,5 @@ export interface Route extends Query {
 export interface Station extends Query {
   position: Geo.Position;
   address: string;
+  routes: Route[];
 }
