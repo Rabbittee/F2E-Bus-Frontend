@@ -3,6 +3,23 @@ import { lerp } from "@/utils";
 import { MapContainer, TileLayer } from "react-leaflet";
 import type * as Type from "leaflet";
 import { ReactNode } from "react";
+import { MAP_TOKEN } from "@/config";
+
+function MapBox(accessToken: string) {
+  return `https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token=${accessToken}`;
+}
+
+function OpenStreetMap() {
+  return `https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`;
+}
+
+function URL() {
+  if (MAP_TOKEN) {
+    return MapBox(MAP_TOKEN);
+  }
+
+  return OpenStreetMap();
+}
 
 type MapProps = {
   className?: string;
@@ -26,7 +43,7 @@ export function Map({
         className="h-full w-full rounded-3xl overflow-hidden"
         whenCreated={mounted}
       >
-        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        <TileLayer url={URL()} />
 
         {children}
       </MapContainer>

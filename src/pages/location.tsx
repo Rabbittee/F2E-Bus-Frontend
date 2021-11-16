@@ -1,20 +1,27 @@
-import { Map, List } from "@/components";
+import { Map, List, Icon } from "@/components";
 import { API, Query, useSelector } from "@/logic";
 import { Geo } from "@/models";
 import { URLSearchParams } from "@/utils";
 import { PropsWithChildren, useEffect, useMemo, useState } from "react";
-import { useSearchParams, Link } from "react-router-dom";
+import { useSearchParams, Link, useNavigate } from "react-router-dom";
 import type * as Type from "leaflet";
+import { Marker } from "react-leaflet";
+import clsx from "clsx";
 
-function Item({ children }: PropsWithChildren<{}>) {
+type BaseProps = PropsWithChildren<{
+  className?: string;
+}>;
+function Item({ children, className }: BaseProps) {
   return (
-    <div className="px-4 py-2 rounded-full bg-cyan-dark font-bold">
+    <div className={clsx("px-4 py-2 rounded-full bg-cyan-dark", className)}>
       {children}
     </div>
   );
 }
 
 export function Location() {
+  const navigate = useNavigate();
+
   const [params] = useSearchParams({
     query: useSelector(Query.selectQuery),
   });
@@ -39,21 +46,45 @@ export function Location() {
   const [map, setMap] = useState<Type.Map>();
 
   useEffect(() => {
-    if (!map) return;
+    if (!map || !data?.bbox) return;
 
-    map.panTo([center.lat, center.lon]);
-  }, [map, center]);
+    const { top, bottom, left, right } = data.bbox;
+    const zoom = map.getBoundsZoom([
+      [top, left],
+      [bottom, right],
+    ]);
+
+    map.setView([center.lat, center.lon], zoom, { animate: true });
+  }, [map, center, data?.bbox]);
 
   if (!data) return <></>;
 
   const query = String(params.get("query"));
   const { stations } = data;
 
-  const matchLocation = stations.find(({ name }) => name === query);
+  const nearby = stations.some(({ name }) => name === query);
 
   return (
     <div className="flex-1 flex flex-col">
-      <Map className="w-full h-[50vh] px-2 my-2" zoom={100} mounted={setMap} />
+      <Map className="w-full h-[50vh] px-2 my-2" mounted={setMap}>
+        {stations.map((station) => (
+          <Marker
+            key={station.id}
+            icon={Icon.Leaflet.Location}
+            position={[station.position.lat, station.position.lon]}
+            eventHandlers={{
+              click: () =>
+                navigate({
+                  search: URLSearchParams({
+                    query: station.name,
+                    lat: station.position.lat,
+                    lon: station.position.lon,
+                  }),
+                }),
+            }}
+          />
+        ))}
+      </Map>
 
       <List
         classes={{
@@ -62,7 +93,7 @@ export function Location() {
         }}
         title={
           <strong className="text-2xl text-cyan-dark">
-            {matchLocation ? "附近的站牌" : "選擇查詢地點"}
+            {nearby ? "這附近的站牌" : "我可能想查"}
           </strong>
         }
         items={stations}
@@ -77,7 +108,11 @@ export function Location() {
               }),
             }}
           >
-            <Item>{item.name}</Item>
+            <Item className="flex flex-col">
+              <strong className="text-sm">{item.name}</strong>
+
+              {nearby || <small className="text-xs">{item.address}</small>}
+            </Item>
           </Link>
         )}
       </List>
