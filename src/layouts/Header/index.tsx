@@ -9,7 +9,7 @@ export default function Header() {
   return (
     <header
       className={clsx(
-        "flex flex-col justify-center items-center",
+        "flex flex-col justify-center items-center md:flex-1",
         "gap-6 pt-8"
       )}
     >

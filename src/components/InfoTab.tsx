@@ -11,8 +11,12 @@ const anchors = [
     name: "收費方式",
   },
   {
-    key: "timelist",
+    key: "worktimelist",
     name: "平日發車資訊",
+  },
+  {
+    key: "holidaytimelist",
+    name: "假日發車資訊",
   },
 ];
 
