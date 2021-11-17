@@ -1,7 +1,8 @@
-import { Map, List } from "@/components";
+import { Map, List, Icon } from "@/components";
 import { API } from "@/logic";
 import { Route } from "@/models";
 import { Link, useParams, Navigate } from "react-router-dom";
+import { Marker } from "react-leaflet";
 
 function Item({ name, departure, destination }: Route) {
   return (
@@ -28,14 +29,21 @@ export function Stations() {
 
   if (!data) return <></>;
 
+  const { position } = data;
+
   return (
     <div className="flex-1 flex flex-col">
-      <Map className="w-full h-[32vh] px-2 my-2" />
+      <Map className="w-full h-[32vh] px-2 my-2" center={position}>
+        <Marker
+          icon={Icon.Leaflet.LocationActive}
+          position={[position.lat, position.lon]}
+        />
+      </Map>
 
       <List
         classes={{
           wrapper: "px-8 py-2 text-lg text-white space-y-4",
-          list: "max-h-56 overflow-auto pr-2 pb-2 cyan-dark-scroll",
+          list: "max-h-96 overflow-auto px-2 pb-2 cyan-dark-scroll",
         }}
         title={<strong className="text-2xl text-orange">廣福國小站</strong>}
         items={data?.routes}

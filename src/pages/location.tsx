@@ -43,20 +43,6 @@ export function Location() {
     [params]
   );
 
-  const [map, setMap] = useState<Type.Map>();
-
-  useEffect(() => {
-    if (!map || !data?.bbox) return;
-
-    const { top, bottom, left, right } = data.bbox;
-    const zoom = map.getBoundsZoom([
-      [top, left],
-      [bottom, right],
-    ]);
-
-    map.setView([center.lat, center.lon], zoom, { animate: true });
-  }, [map, center, data?.bbox]);
-
   if (!data) return <></>;
 
   const query = String(params.get("query"));
@@ -79,7 +65,11 @@ export function Location() {
 
   return (
     <div className="flex-1 flex flex-col">
-      <Map className="w-full h-[50vh] px-2 my-2" mounted={setMap}>
+      <Map
+        className="w-full h-[50vh] px-2 my-2"
+        center={center}
+        bbox={data.bbox}
+      >
         {stations.map((station) => (
           <Marker
             key={station.id}
