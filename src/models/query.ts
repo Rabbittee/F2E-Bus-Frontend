@@ -1,15 +1,10 @@
 import { Geo } from "./geo";
 import { Direction } from "./const";
+import { HasID, HasName, HasURL } from ".";
 
-export interface Query {
-  id: string;
-  name: string;
-  url: string;
-}
+export type Query = HasID & HasName & HasURL;
 
-export interface SubRoute {
-  id: string;
-  name: string;
+export interface SubRoute extends HasID, HasName {
   direction: Direction;
 
   busTime: {
@@ -20,7 +15,7 @@ export interface SubRoute {
   };
 }
 
-export interface Route extends Query {
+export interface Route extends HasID, HasName {
   city: string;
 
   subRoutes: SubRoute[];
@@ -34,8 +29,16 @@ export interface Route extends Query {
   };
 }
 
-export interface Station extends Query {
+export interface Estimate {
+  remain: number;
+  arrival: Date;
+}
+
+export interface Stop extends HasID, HasName {
   position: Geo.Position;
+}
+
+export interface Station extends Stop {
   address: string;
   routes: Route[];
 }

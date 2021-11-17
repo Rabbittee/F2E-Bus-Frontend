@@ -4,7 +4,7 @@ import { has } from "ramda";
 import { useNavigate } from "react-router-dom";
 
 import { Input } from "@/components";
-import { API, Query, Res, useDispatch, useSelector } from "@/logic";
+import { API, Query, useDispatch, useSelector } from "@/logic";
 import { pickRandomIn, URLSearchParams } from "@/utils";
 import logo from "@/assets/images/logo.png";
 
@@ -45,7 +45,7 @@ export function Home() {
           );
         }
 
-        return data as Required<Res.GetRecommendQuery>;
+        return data;
       })
       .then(({ center }) =>
         navigate({

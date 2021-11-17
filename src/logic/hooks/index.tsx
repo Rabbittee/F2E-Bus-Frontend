@@ -75,13 +75,13 @@ export function useRecommendQuery(): RecommendQueries | undefined {
     routes: routes.map(({ id, name }) => ({
       id,
       name,
-      url: `routes/${id}`,
+      url: `routes/${String(id)}`,
     })),
 
     stations: stations.map(({ id, name }) => ({
       id,
       name,
-      url: `stations/${id}`,
+      url: `stations/${String(id)}`,
     })),
   };
 }
