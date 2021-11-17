@@ -10,6 +10,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.2",
     "clsx": "^1.1.1",
+    "date-fns": "^2.25.0",
     "history": "^5.1.0",
     "humps": "^2.0.1",
     "latlon-geohash": "^2.0.0",

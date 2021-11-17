@@ -19,7 +19,7 @@ export function Tabs<T extends HasID>({
     <nav className={classes?.wrapper}>
       <ul className={classes?.list}>
         {items?.map((item) => (
-          <li key={item.id} className={classes?.item}>
+          <li key={String(item.id)} className={classes?.item}>
             {children?.(item)}
           </li>
         ))}

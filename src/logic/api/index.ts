@@ -1,18 +1,33 @@
-import { Query, Geo, Station, Route, SubRoute, Direction } from "@/models";
+import {
+  Query,
+  Geo,
+  Station,
+  Route,
+  SubRoute,
+  Direction,
+  Stop,
+} from "@/models";
 import { lowercaseKeys } from "@/utils";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL } from "@/config";
 import { head } from "ramda";
 
-type GetRecommendQueryProps = {
-  query?: string;
-  location?: Geo.Position;
-  radius?: number;
-  use_geocode_api?: boolean;
-  with_bounding_center?: boolean;
-};
+namespace Req {
+  export interface GetRecommendQuery {
+    query?: string;
+    location?: Geo.Position;
+    radius?: number;
+    use_geocode_api?: boolean;
+    with_bounding_center?: boolean;
+  }
 
-export namespace Res {
+  export interface GetRouteStops {
+    id: string;
+    direction: Direction;
+  }
+}
+
+namespace Res {
   export interface GetRecommendQuery {
     routes: Query[];
     stations: Station[];
@@ -23,6 +38,15 @@ export namespace Res {
   export interface GetGeocodeByQuery {
     location: Geo.Position;
     address: string;
+  }
+
+  export interface GetRouteStops {
+    stops: {
+      id: string;
+      name: string;
+      position: Geo.Position;
+      estimate_time?: number;
+    }[];
   }
 }
 
@@ -48,7 +72,7 @@ export const API = createApi({
   endpoints: (build) => ({
     getRecommendQuery: build.query<
       Res.GetRecommendQuery,
-      GetRecommendQueryProps
+      Req.GetRecommendQuery
     >({
       query: ({ query, location, ...props }) => ({
         url: `/queries/recommend`,
@@ -83,6 +107,26 @@ export const API = createApi({
         position: res["position"],
         address: res["address"],
         routes: res["routes"],
+      }),
+    }),
+
+    getRouteStops: build.query<Stop[], Req.GetRouteStops>({
+      query: ({ id, direction }) => ({
+        url: `/routes/${id}/stops`,
+        params: { direction },
+      }),
+
+      transformResponse: (res: Res.GetRouteStops) =>
+        res.stops.map(({ id, name, position }) => ({ id, name, position })),
+    }),
+
+    getRouteStopEstimate: build.query<
+      Record<string, number>,
+      Req.GetRouteStops
+    >({
+      query: ({ id, direction }) => ({
+        url: `/routes/${id}/stops/estimatetime`,
+        params: { direction },
       }),
     }),
 
