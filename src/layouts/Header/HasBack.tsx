@@ -11,16 +11,16 @@ export function HasBack({ title, className }: DetailProps) {
   return (
     <div
       className={clsx(
-        "w-full h-1/2 px-7 gap-4",
+        "w-full px-7 gap-4",
         "flex justify-between items-center",
         className
       )}
     >
       <Back>
-        <Icon.Back className="p-1.5 w-6" />
+        <Icon.Back className="w-10" />
       </Back>
 
-      <h2 className="text-2xl font-bold w-full">{title}</h2>
+      <h1 className="text-3xl font-bold w-full mb-1">{title}</h1>
 
       <Link to="/">
         <Icon.Close className="w-6" />
