@@ -59,13 +59,21 @@ export function Home() {
       .catch(console.error);
   }
 
+  function onReset() {
+    dispatch(Query.update(""));
+  }
+
   return (
     <div className="px-7 flex flex-col gap-4">
       <div className="flex flex-col items-center gap-8 pt-4">
         <img className="md:max-w-xl" src={logo} alt="LOGO" />
       </div>
 
-      <form className="flex flex-col w-full gap-4 bg-white" onSubmit={onSubmit}>
+      <form
+        className="flex flex-col w-full gap-4 bg-white"
+        onSubmit={onSubmit}
+        onResetCapture={onReset}
+      >
         <h2 className="text-3xl text-center font-bold text-cyan-dark">
           {title}
         </h2>
