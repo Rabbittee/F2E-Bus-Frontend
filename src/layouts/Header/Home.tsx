@@ -1,12 +1,12 @@
 import { FormEvent, ChangeEvent } from "react";
+import clsx from "clsx";
+import { has } from "ramda";
+import { useNavigate } from "react-router-dom";
+
 import { Input } from "@/components";
 import { API, Query, Res, useDispatch, useSelector } from "@/logic";
 import { pickRandomIn, URLSearchParams } from "@/utils";
 import logo from "@/assets/images/logo.png";
-
-import { Button } from "./Button";
-import { has } from "ramda";
-import { useNavigate } from "react-router";
 
 const title = pickRandomIn([
   "今天你想去哪冒險呢？",
@@ -85,7 +85,14 @@ export function Home() {
           onChange={onChange}
         />
 
-        <Button className="py-2 text-lg font-bold tracking-widest">搜尋</Button>
+        <button
+          className={clsx(
+            "bg-cyan-dark text-white rounded-full",
+            "py-2 text-lg font-bold tracking-widest"
+          )}
+        >
+          搜尋
+        </button>
       </form>
     </div>
   );
