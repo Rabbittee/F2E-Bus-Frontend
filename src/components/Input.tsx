@@ -32,7 +32,7 @@ export function Input({ ...props }: InputProps) {
 
         <input
           type="search"
-          className="outline-none py-1.5 w-full placeholder-cyan"
+          className="outline-none py-2.5 w-full placeholder-cyan"
           {...props}
         />
       </label>
