@@ -43,7 +43,7 @@ export function SwitchToggle<T extends HasValue>({
     >
       {options.map((option) => (
         <label
-          key={option.value}
+          key={String(option.value)}
           className={clsx(
             classes?.thumb || "w-6 h-6 opacity-0 pointer-events-none"
           )}
@@ -55,7 +55,7 @@ export function SwitchToggle<T extends HasValue>({
             name={name}
             onChange={() => onChange?.(option.value)}
             className="w-full h-full"
-            {...option}
+            value={String(option.value)}
           />
         </label>
       ))}

@@ -53,7 +53,7 @@ export function Location() {
   const toLocation = (item: Station) =>
     nearby
       ? {
-          pathname: `/stations/${item.id}`,
+          pathname: `/stations/${String(item.id)}`,
         }
       : {
           search: URLSearchParams({
@@ -72,7 +72,7 @@ export function Location() {
       >
         {stations.map((station) => (
           <Marker
-            key={station.id}
+            key={String(station.id)}
             icon={Icon.Leaflet.Location}
             position={[station.position.lat, station.position.lon]}
             eventHandlers={{

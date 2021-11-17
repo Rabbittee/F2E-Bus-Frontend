@@ -49,7 +49,7 @@ export function Stations() {
         items={data?.routes}
       >
         {(item) => (
-          <Link to={{ pathname: `/routes/${item.id}` }}>
+          <Link to={{ pathname: `/routes/${String(item.id)}` }}>
             <Item {...item} />
           </Link>
         )}
