@@ -1,11 +1,25 @@
+import { ReactNode } from "react";
 import clsx from "clsx";
-import { Routes, Route } from "react-router-dom";
+import { useLocation, matchPath, useSearchParams } from "react-router-dom";
+import { cond, T } from "ramda";
 
+import { useSelector, Query } from "@/logic";
 import { Home } from "./Home";
-import { Location } from "./Location";
-import { RouteName } from "./RouteName";
+import { HasBack } from "./HasBack";
+
+const match =
+  (...patterns: string[]) =>
+  (pathname: string) =>
+    patterns.some((pattern) => matchPath(pattern, pathname));
 
 export default function Header() {
+  const location = useLocation();
+
+  const [param] = useSearchParams({
+    query: useSelector(Query.selectQuery),
+  });
+  const query = param.get("query");
+
   return (
     <header
       className={clsx(
@@ -13,14 +27,18 @@ export default function Header() {
         "gap-6 pt-8"
       )}
     >
-      <Routes>
-        <Route path="/">
-          <Route path="locations" element={<Location />} />
-          <Route path="stations/*" element={<Location />} />
-          <Route path="routes/*" element={<RouteName />} />
-          <Route index element={<Home />} />
-        </Route>
-      </Routes>
+      {cond<string, ReactNode>([
+        [match("/"), () => <Home />],
+        [
+          match("locations", "stations/:id"),
+          () => <HasBack className="text-cyan-dark" title={query} />,
+        ],
+        [
+          match("routes/:id"),
+          () => <HasBack className="text-orange" title={query} />,
+        ],
+        [T, () => <></>],
+      ])(location.pathname)}
     </header>
   );
 }

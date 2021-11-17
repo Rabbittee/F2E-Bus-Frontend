@@ -1,31 +1,30 @@
 import { Icon, Back } from "@/components";
+import { Link } from "react-router-dom";
 import clsx from "clsx";
+import { Primitive } from "utility-types";
 
 type DetailProps = {
-  title?: string;
+  title?: Primitive;
+  className?: string;
 };
-export function HasBack({ title }: DetailProps) {
+export function HasBack({ title, className }: DetailProps) {
   return (
     <div
       className={clsx(
-        "w-full h-1/2 px-7",
+        "w-full h-1/2 px-7 gap-4",
         "flex justify-between items-center",
-        "text-cyan-dark"
+        className
       )}
     >
       <Back>
-        <div className="p-1.5 w-6">
-          <Icon.Back />
-        </div>
+        <Icon.Back className="p-1.5 w-6" />
       </Back>
 
-      <h2 className="text-2xl font-bold">{title}</h2>
+      <h2 className="text-2xl font-bold w-full">{title}</h2>
 
-      <a href="/">
-        <div className="w-6">
-          <Icon.Close />
-        </div>
-      </a>
+      <Link to="/">
+        <Icon.Close className="w-6" />
+      </Link>
     </div>
   );
 }
