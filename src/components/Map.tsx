@@ -2,7 +2,7 @@ import { Geo } from "@/models";
 import { lerp } from "@/utils";
 import { MapContainer, TileLayer } from "react-leaflet";
 import type * as Type from "leaflet";
-import { ReactNode } from "react";
+import { ReactNode, useState, useEffect } from "react";
 import { MAP_TOKEN } from "@/config";
 
 function MapBox(accessToken: string) {
@@ -24,24 +24,42 @@ function URL() {
 type MapProps = {
   className?: string;
   center?: Geo.Position;
+  bbox?: Geo.BoundingBox;
   zoom?: number;
-  mounted?: (ref: Type.Map) => void;
   children?: ReactNode;
 };
 export function Map({
   className,
   center,
+  bbox,
   zoom = 50,
-  mounted,
   children,
 }: MapProps) {
+  const [map, setMap] = useState<Type.Map>();
+
+  useEffect(() => {
+    if (!map || !center) return;
+
+    if (bbox) {
+      const { top, bottom, left, right } = bbox;
+
+      zoom = map.getBoundsZoom([
+        [top, left],
+        [bottom, right],
+      ]);
+    }
+
+    const { lat, lon } = center;
+    map.setView([lat, lon], zoom, { animate: true });
+  }, [map, center, zoom, bbox]);
+
   return (
     <div className={className}>
       <MapContainer
         center={[center?.lat || 0, center?.lon || 0]}
         zoom={lerp(0, 18, zoom / 100)}
         className="h-full w-full rounded-3xl overflow-hidden"
-        whenCreated={mounted}
+        whenCreated={setMap}
       >
         <TileLayer url={URL()} />
 

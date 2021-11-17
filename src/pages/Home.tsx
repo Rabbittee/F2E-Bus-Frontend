@@ -1,7 +1,7 @@
 import { Icon } from "@/components";
 import { useRecommendQuery } from "@/logic";
 import * as Model from "@/models";
-import { hash } from "@/utils";
+import { hash, URLSearchParams } from "@/utils";
 import { Link } from "react-router-dom";
 import clsx from "clsx";
 import { ReactNode } from "react";
@@ -9,7 +9,7 @@ import { ReactNode } from "react";
 type Props = Model.Query;
 function RecommendSearch({ name, url }: Props) {
   return (
-    <Link to={url}>
+    <Link to={{ pathname: url, search: URLSearchParams({ query: name }) }}>
       <div className="border-b border-cyan p-2 flex gap-2">
         <Icon.Clock className="text-cyan-dark" />
 
