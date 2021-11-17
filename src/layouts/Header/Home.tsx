@@ -88,7 +88,9 @@ export function Home() {
         <button
           className={clsx(
             "bg-cyan-dark text-white rounded-full",
-            "py-2 text-lg font-bold tracking-widest"
+            "py-2 text-lg font-bold tracking-widest",
+            "transition-all duration-200",
+            "hover:bg-cyan active:bg-cyan active:scale-95"
           )}
         >
           搜尋
