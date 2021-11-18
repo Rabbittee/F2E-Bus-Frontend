@@ -1,42 +1,18 @@
-import { Icon } from "@/components";
-import { useRecommendQuery } from "@/logic";
-import * as Model from "@/models";
-import { hash, URLSearchParams } from "@/utils";
 import { Link } from "react-router-dom";
 import clsx from "clsx";
-import { ReactNode } from "react";
 
-type Props = Model.Query;
-function RecommendSearch({ name, url }: Props) {
+import { Icon, List, Item } from "@/components";
+import { useRecommendQuery } from "@/logic";
+import { URLSearchParams } from "@/utils";
+import { Query } from "@/models";
+
+function RecommendSearch({ name, url }: Query) {
   return (
     <Link to={{ pathname: url, search: URLSearchParams({ query: name }) }}>
-      <div className="border-b border-blue p-2 flex gap-2">
-        <Icon.Clock className="text-dark-green" />
-
+      <Item icon={<Icon.Search />}>
         <strong>{name}</strong>
-      </div>
+      </Item>
     </Link>
-  );
-}
-
-type ListProps<T> = {
-  title?: string;
-  items?: T[];
-  children?: (item: T) => ReactNode;
-};
-function List<T>({ title, items, children }: ListProps<T>) {
-  if (!items?.length) return <></>;
-
-  return (
-    <div>
-      {title && <small className="text-sm text-orange">{title}</small>}
-
-      <ul className="flex flex-col gap-2 my-2">
-        {items.map((item) => (
-          <li key={hash(JSON.stringify(item))}>{children?.(item)}</li>
-        ))}
-      </ul>
-    </div>
   );
 }
 
@@ -51,15 +27,25 @@ export function Home() {
         "text-dark-green"
       )}
     >
-      <h2 className="text-2xl font-bold pt-4">試試這些地方...</h2>
+      <h2 className="text-2xl font-bold pt-4 mb-2">試試這些地方...</h2>
 
-      <List title="我附近的巴士站" items={data?.stations}>
-        {(data) => <RecommendSearch {...data} />}
-      </List>
+      <div className="space-y-4">
+        <List
+          title={<small className="text-sm text-orange">我附近的巴士站</small>}
+          items={data?.stations}
+        >
+          {RecommendSearch}
+        </List>
 
-      <List title="我附近的巴士路線" items={data?.routes}>
-        {(data) => <RecommendSearch {...data} />}
-      </List>
+        <List
+          title={
+            <small className="text-sm text-orange">我附近的巴士路線</small>
+          }
+          items={data?.routes}
+        >
+          {RecommendSearch}
+        </List>
+      </div>
     </section>
   );
 }
