@@ -49,5 +49,5 @@ module.exports = {
       "search-wd": "url('/assets/bg-Search-wb.svg')",
     },
   },
-  plugins: [],
+  plugins: [require("@whiterussianstudio/tailwind-easing")],
 };

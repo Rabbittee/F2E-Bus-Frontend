@@ -65,7 +65,7 @@ export function SwitchToggle<T extends HasValue>({
           classes?.thumb || "w-6 h-6",
           "rounded-full bg-white p-0.5",
           "absolute transform pointer-events-none",
-          "transition-transform"
+          "transition-transform ease-out-cubic"
         )}
         style={CSS({
           "--tw-translate-x": `${(index / (options.length - 1)) * 100}%`,

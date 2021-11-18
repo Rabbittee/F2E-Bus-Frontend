@@ -1,9 +1,8 @@
 import { FormEvent, ChangeEvent } from "react";
-import clsx from "clsx";
 import { has } from "ramda";
 import { useNavigate } from "react-router-dom";
 
-import { Input } from "@/components";
+import { Input, Button } from "@/components";
 import { API, Query, useDispatch, useSelector } from "@/logic";
 import { pickRandomIn, URLSearchParams } from "@/utils";
 import logo from "@/assets/images/logo.png";
@@ -85,18 +84,7 @@ export function Home() {
           onChange={onChange}
         />
 
-        <button
-          className={clsx(
-            "bg-dark-green text-white rounded-full",
-            "py-2 text-lg font-bold tracking-widest",
-            "transition-all duration-200",
-            "active:bg-blue active:scale-95",
-            "disabled:opacity-50"
-          )}
-          disabled={!query}
-        >
-          搜尋
-        </button>
+        <Button disabled={!query}>搜尋</Button>
       </form>
     </div>
   );
