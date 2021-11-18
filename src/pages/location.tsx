@@ -68,7 +68,7 @@ export function Location() {
       >
         {(item) => (
           <Link to={toLocation(item)}>
-            <Item icon={<Icon.Search />}>
+            <Item.WithIcon icon={<Icon.Search />}>
               <div className="flex flex-col">
                 <strong className="text-lg">{item.name}</strong>
 
@@ -78,7 +78,7 @@ export function Location() {
                   </small>
                 )}
               </div>
-            </Item>
+            </Item.WithIcon>
           </Link>
         )}
       </List>

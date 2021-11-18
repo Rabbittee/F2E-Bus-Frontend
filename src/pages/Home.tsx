@@ -9,9 +9,9 @@ import { Query } from "@/models";
 function RecommendSearch({ name, url }: Query) {
   return (
     <Link to={{ pathname: url, search: URLSearchParams({ query: name }) }}>
-      <Item icon={<Icon.Search />}>
+      <Item.WithIcon icon={<Icon.Search />}>
         <strong>{name}</strong>
-      </Item>
+      </Item.WithIcon>
     </Link>
   );
 }

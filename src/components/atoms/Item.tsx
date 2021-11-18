@@ -1,11 +1,15 @@
 import clsx from "clsx";
-import { cloneElement, isValidElement, ReactNode } from "react";
+import {
+  PropsWithChildren,
+  cloneElement,
+  isValidElement,
+  ReactNode,
+} from "react";
 
-type Props = {
-  children: ReactNode;
+type WithIconProps = PropsWithChildren<{
   icon?: ReactNode;
-};
-export function Item({ icon, children }: Props) {
+}>;
+function WithIcon({ icon, children }: WithIconProps) {
   return (
     <div className="border-b border-blue p-2 flex gap-2">
       {isValidElement(icon) && cloneElement(icon, { className: "flex-[1]" })}
@@ -17,3 +21,21 @@ export function Item({ icon, children }: Props) {
     </div>
   );
 }
+
+type WithTitleProps = PropsWithChildren<{
+  title?: ReactNode;
+}>;
+function WithTitle({ title, children }: WithTitleProps) {
+  return (
+    <div className="flex flex-col rounded-xl overflow-hidden shadow">
+      <header className="bg-orange text-white p-3">{title}</header>
+
+      <div className="p-3">{children}</div>
+    </div>
+  );
+}
+
+export const Item = {
+  WithIcon,
+  WithTitle,
+};
