@@ -1,10 +1,8 @@
 import { useLocation, useParams, useSearchParams } from "react-router-dom";
 
-import { Icon, Map, PageTabs } from "@/components";
+import { Icon, Map, PageTabs, SubRoutes, ListOfStops } from "@/components";
 import { API, Query, useSelector } from "@/logic";
 import { Direction } from "@/models";
-
-import { SubRoutes, ListOfStops } from "@/pages/Routes/Arrival";
 
 export function Routes() {
   const location = useLocation();
