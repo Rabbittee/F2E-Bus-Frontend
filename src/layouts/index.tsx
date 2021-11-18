@@ -1,24 +1,44 @@
-import { Background } from "@/components";
-import { Outlet } from "react-router";
 import clsx from "clsx";
-import { useParams } from "react-router";
+import { ReactNode } from "react";
+import { matchPath, Outlet, useLocation } from "react-router-dom";
+import { cond, T } from "ramda";
 
-import Header from "./Header";
+import { Background, HasBack } from "@/components";
+import { SearchParams } from "@/logic";
+import { Home } from "./Home";
+
+const match =
+  (...patterns: string[]) =>
+  (pathname: string) =>
+    patterns.some((pattern) => matchPath(pattern, pathname));
 
 export default function Layout() {
-  const { id } = useParams<"id">();
+  const location = useLocation();
+  const query = SearchParams.useQuery();
+
   return (
-    <main
-      className={clsx(
-        "flex flex-col gap-2",
-        location.pathname >= "/routes/${id}"
-          ? "h-screen justify-between md:flex-row"
-          : "min-h-full"
-      )}
-    >
+    <main className="flex flex-col gap-2">
       <Background.Map />
 
-      <Header />
+      <header
+        className={clsx(
+          "flex flex-col justify-center items-center md:flex-1",
+          "gap-6 pt-8"
+        )}
+      >
+        {cond<string, ReactNode>([
+          [match("/"), () => <Home />],
+          [
+            match("locations", "stations/:id"),
+            () => <HasBack className="text-dark-green" title={query} />,
+          ],
+          [
+            match("routes/:id"),
+            () => <HasBack className="text-orange" title={query} />,
+          ],
+          [T, () => <></>],
+        ])(location.pathname)}
+      </header>
 
       <Outlet />
     </main>

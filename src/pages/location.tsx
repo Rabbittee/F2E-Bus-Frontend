@@ -1,76 +1,48 @@
-import { PropsWithChildren, useMemo } from "react";
-import { useSearchParams, Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Marker } from "react-leaflet";
-import clsx from "clsx";
 
-import { Map, List, Icon } from "@/components";
-import { API, Query, useSelector } from "@/logic";
-import { Geo, Station } from "@/models";
+import { Map, List, Icon, Item } from "@/components";
+import { API, SearchParams } from "@/logic";
+import { Station } from "@/models";
 import { URLSearchParams } from "@/utils";
-
-type BaseProps = PropsWithChildren<{
-  className?: string;
-}>;
-function Item({ children, className }: BaseProps) {
-  return (
-    <div className={clsx("px-4 py-2 rounded-full bg-dark-green", className)}>
-      {children}
-    </div>
-  );
-}
 
 export function Location() {
   const navigate = useNavigate();
-
-  const [params] = useSearchParams({
-    query: useSelector(Query.selectQuery),
-  });
+  const query = SearchParams.useQuery();
+  const center = SearchParams.useGeo();
 
   const { data } = API.useGetRecommendQueryQuery(
     {
-      query: String(params.get("query")),
+      query: query!,
       use_geocode_api: true,
       with_bounding_center: true,
     },
-    { skip: !params.get("query") }
+    { skip: !query }
   );
 
-  const center = useMemo<Geo.Position>(
-    () => ({
-      lat: Number(params.get("lat")),
-      lon: Number(params.get("lon")),
-    }),
-    [params]
-  );
+  const nearby = data?.stations.some(({ name }) => name === query);
 
-  if (!data) return <></>;
-
-  const query = String(params.get("query"));
-  const { stations } = data;
-
-  const nearby = stations.some(({ name }) => name === query);
-
-  const toLocation = (item: Station) =>
+  const toLocation = (station: Station) =>
     nearby
       ? {
-          pathname: `/stations/${String(item.id)}`,
+          pathname: `/stations/${String(station.id)}`,
         }
       : {
           search: URLSearchParams({
-            query: item.name,
-            lat: item.position.lat,
-            lon: item.position.lon,
+            query: station.name,
+            lat: station.position.lat,
+            lon: station.position.lon,
           }),
         };
 
   return (
-    <div className="flex-1 flex flex-col">
+    <div className="flex-1 flex flex-col text-dark-green">
       <Map
         className="w-full h-[50vh] px-2 my-2"
         center={center}
-        bbox={data.bbox}
+        bbox={data?.bbox}
       >
-        {stations.map((station) => (
+        {data?.stations.map((station) => (
           <Marker
             key={String(station.id)}
             icon={Icon.Leaflet.Location}
@@ -84,7 +56,7 @@ export function Location() {
 
       <List
         classes={{
-          wrapper: "px-8 py-2 text-lg text-white space-y-4",
+          wrapper: "px-8 py-2 text-lg space-y-4",
           list: "max-h-56 overflow-auto pr-2 dark-green-scroll",
         }}
         title={
@@ -92,14 +64,20 @@ export function Location() {
             {nearby ? "這附近的站牌" : "我可能想查"}
           </strong>
         }
-        items={stations}
+        items={data?.stations}
       >
         {(item) => (
           <Link to={toLocation(item)}>
-            <Item className="flex flex-col">
-              <strong className="text-sm">{item.name}</strong>
+            <Item icon={<Icon.Search />}>
+              <div className="flex flex-col">
+                <strong className="text-lg">{item.name}</strong>
 
-              {nearby || <small className="text-xs">{item.address}</small>}
+                {nearby || (
+                  <small className="text-sm text-gray-400">
+                    {item.address}
+                  </small>
+                )}
+              </div>
             </Item>
           </Link>
         )}
