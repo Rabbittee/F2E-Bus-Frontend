@@ -1,5 +1,5 @@
 function Map() {
-  return <div className="bg-search-md bg md:bg-search-wd" />;
+  return <div className="bg-search-md bg xl:bg-search-wd" />;
 }
 
 function Result() {
