@@ -1,14 +1,13 @@
 import clsx from "clsx";
-import { useParams, Link, useSearchParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { cond, gt, pipe, T } from "ramda";
 import { ReactNode, useState } from "react";
 import { addSeconds, formatDistanceToNowStrict, format } from "date-fns";
 import zhTW from "date-fns/locale/zh-TW";
 
 import { Icon, Tabs, SwitchToggle, List } from "@/components";
-import { API, Query, useSelector } from "@/logic";
 import * as Model from "@/models";
-import { Direction, Estimate, Has, HasID, HasName } from "@/models";
+import { Estimate, Has, HasID, HasName } from "@/models";
 import { URLSearchParams } from "@/utils";
 
 type Item = HasID & HasName & Has<"active", boolean>;
@@ -19,7 +18,7 @@ type SubRoutesProps = {
   items: Item[];
   query: string;
 };
-function SubRoutes({ className, items, query }: SubRoutesProps) {
+export function SubRoutes({ className, items, query }: SubRoutesProps) {
   return (
     <Tabs
       classes={{
@@ -105,7 +104,7 @@ type StopWithEstimate = Model.Stop & Has<"estimate", number>;
 type ListOfStopsProps = {
   data?: StopWithEstimate[];
 };
-function ListOfStops({ data }: ListOfStopsProps) {
+export function ListOfStops({ data }: ListOfStopsProps) {
   const options: Option[] = [
     { value: "remain", label: "剩餘時間" },
     { value: "arrival", label: "到達時間" },
@@ -163,59 +162,5 @@ function ListOfStops({ data }: ListOfStopsProps) {
         ])(estimate)
       }
     </List>
-  );
-}
-
-export default function Arrival() {
-  const { id } = useParams<"id">();
-  const [param] = useSearchParams({
-    query: useSelector(Query.selectQuery),
-    direction: String(Direction.Departure),
-  });
-  const searchParam = Object.fromEntries(param.entries());
-
-  const { data: info } = API.useGetRouteInformationQuery(id!, { skip: !id });
-
-  const direction = Number(searchParam["direction"]) as Direction;
-  const { data: stops } = API.useGetRouteStopsQuery(
-    { id: id!, direction },
-    { skip: !id }
-  );
-
-  const { data: times } = API.useGetRouteStopEstimateQuery(
-    { id: id!, direction },
-    {
-      skip: !id,
-      pollingInterval: 5 * 1000,
-    }
-  );
-
-  const getTimeByID = (id: string) => times?.[id] || 0;
-  const data = stops?.map((stop) => ({
-    ...stop,
-    estimate: getTimeByID(String(stop.id)),
-  }));
-
-  return (
-    <div className="pt-4">
-      <SubRoutes
-        className="ml-8"
-        query={searchParam["query"]}
-        items={[
-          {
-            id: Direction.Departure,
-            name: `往${info?.departure}`,
-            active: direction === Direction.Departure,
-          },
-          {
-            id: Direction.Destination,
-            name: `往${info?.destination}`,
-            active: direction === Direction.Destination,
-          },
-        ]}
-      />
-
-      <ListOfStops data={data} />
-    </div>
   );
 }

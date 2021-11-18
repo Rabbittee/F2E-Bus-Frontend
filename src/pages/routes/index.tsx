@@ -1,54 +1,41 @@
-import clsx from "clsx";
-import { useLocation, Link, To } from "react-router-dom";
-import { cond, equals, T } from "ramda";
-import { ReactNode } from "react";
+import { useLocation, useParams, useSearchParams } from "react-router-dom";
 
-import { Icon, Tabs } from "@/components";
-import { HasID, HasName } from "@/models";
-import Arrival from "./Arrival";
+import { Icon, Map, PageTabs } from "@/components";
+import { API, Query, useSelector } from "@/logic";
+import { Direction } from "@/models";
 
-interface Tab extends HasID, HasName {
-  icon: ReactNode;
-  active?: boolean;
-  to: To;
-}
-type PageTabsProps = {
-  items: Tab[];
-};
-function PageTabs({ items }: PageTabsProps) {
-  return (
-    <div className="flex flex-col relative overflow-hidden pt-2">
-      <Tabs classes={{ list: "flex", item: "flex-1" }} items={items}>
-        {({ name, icon, active, to }) => (
-          <Link to={to}>
-            <div
-              className={clsx(
-                "h-full py-3 rounded-2xl",
-                "flex flex-col justify-end items-center gap-1",
-                active
-                  ? "shadow bg-white text-orange relative z-10"
-                  : "text-gray-400"
-              )}
-            >
-              {icon}
-
-              <strong>{name}</strong>
-
-              {active && (
-                <div className="bg-white h-3 w-full absolute bottom-0" />
-              )}
-            </div>
-          </Link>
-        )}
-      </Tabs>
-
-      <div className="bg-white shadow h-2 w-full absolute bottom-0" />
-    </div>
-  );
-}
+import { SubRoutes, ListOfStops } from "./Arrival";
 
 export function Routes() {
   const location = useLocation();
+  const { id } = useParams<"id">();
+  const [param] = useSearchParams({
+    query: useSelector(Query.selectQuery),
+    direction: String(Direction.Departure),
+  });
+  const searchParam = Object.fromEntries(param.entries());
+
+  const { data: info } = API.useGetRouteInformationQuery(id!, { skip: !id });
+
+  const direction = Number(searchParam["direction"]) as Direction;
+
+  const { data: times } = API.useGetRouteStopEstimateQuery(
+    { id: id!, direction },
+    {
+      skip: !id,
+      pollingInterval: 5 * 1000,
+    }
+  );
+  const getTimeByID = (id: string) => times?.[id] || 0;
+
+  const { data: stops } = API.useGetRouteStopsQuery(
+    { id: id!, direction },
+    { skip: !id }
+  );
+  const data = stops?.map((stop) => ({
+    ...stop,
+    estimate: getTimeByID(String(stop.id)),
+  }));
 
   return (
     <div className="flex flex-col flex-1">
@@ -79,11 +66,30 @@ export function Routes() {
       />
 
       <div className="flex-1">
-        {cond<string, ReactNode>([
-          [equals("#map"), () => <></>],
-          [equals("#info"), () => <></>],
-          [T, () => <Arrival />],
-        ])(location.hash)}
+        <div className="pt-4 flex flex-col gap-2">
+          {location.hash === "#map" && (
+            <Map className="w-full h-[32vh] px-2 my-2" />
+          )}
+
+          <SubRoutes
+            className="ml-8"
+            query={searchParam["query"]}
+            items={[
+              {
+                id: Direction.Departure,
+                name: `往${info?.departure}`,
+                active: direction === Direction.Departure,
+              },
+              {
+                id: Direction.Destination,
+                name: `往${info?.destination}`,
+                active: direction === Direction.Destination,
+              },
+            ]}
+          />
+
+          {location.hash !== "#info" && <ListOfStops data={data} />}
+        </div>
       </div>
     </div>
   );

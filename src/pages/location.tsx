@@ -1,12 +1,12 @@
+import { PropsWithChildren, useMemo } from "react";
+import { useSearchParams, Link, useNavigate } from "react-router-dom";
+import { Marker } from "react-leaflet";
+import clsx from "clsx";
+
 import { Map, List, Icon } from "@/components";
 import { API, Query, useSelector } from "@/logic";
 import { Geo, Station } from "@/models";
 import { URLSearchParams } from "@/utils";
-import { PropsWithChildren, useEffect, useMemo, useState } from "react";
-import { useSearchParams, Link, useNavigate } from "react-router-dom";
-import type * as Type from "leaflet";
-import { Marker } from "react-leaflet";
-import clsx from "clsx";
 
 type BaseProps = PropsWithChildren<{
   className?: string;
