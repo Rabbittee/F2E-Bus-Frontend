@@ -13,7 +13,7 @@ type BaseProps = PropsWithChildren<{
 }>;
 function Item({ children, className }: BaseProps) {
   return (
-    <div className={clsx("px-4 py-2 rounded-full bg-cyan-dark", className)}>
+    <div className={clsx("px-4 py-2 rounded-full bg-dark-green", className)}>
       {children}
     </div>
   );
@@ -85,10 +85,10 @@ export function Location() {
       <List
         classes={{
           wrapper: "px-8 py-2 text-lg text-white space-y-4",
-          list: "max-h-56 overflow-auto pr-2 cyan-dark-scroll",
+          list: "max-h-56 overflow-auto pr-2 dark-green-scroll",
         }}
         title={
-          <strong className="text-2xl text-cyan-dark">
+          <strong className="text-2xl text-dark-green">
             {nearby ? "這附近的站牌" : "我可能想查"}
           </strong>
         }

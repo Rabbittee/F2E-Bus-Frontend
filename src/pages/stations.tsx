@@ -13,7 +13,7 @@ function Item({ name, departure, destination }: Route) {
         <small>7分鐘</small>
       </div>
 
-      <strong className="p-3 rounded-b-xl text-cyan-dark">
+      <strong className="p-3 rounded-b-xl text-dark-green">
         {departure} — {destination}
       </strong>
     </div>
@@ -43,7 +43,7 @@ export function Stations() {
       <List
         classes={{
           wrapper: "px-8 py-2 text-lg text-white space-y-4",
-          list: "max-h-96 overflow-auto px-2 pb-2 cyan-dark-scroll",
+          list: "max-h-96 overflow-auto px-2 pb-2 dark-green-scroll",
         }}
         title={<strong className="text-2xl text-orange">廣福國小站</strong>}
         items={data?.routes}

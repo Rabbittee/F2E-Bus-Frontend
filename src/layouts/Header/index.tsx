@@ -31,7 +31,7 @@ export default function Header() {
         [match("/"), () => <Home />],
         [
           match("locations", "stations/:id"),
-          () => <HasBack className="text-cyan-dark" title={query} />,
+          () => <HasBack className="text-dark-green" title={query} />,
         ],
         [
           match("routes/:id"),

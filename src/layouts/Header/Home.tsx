@@ -74,7 +74,7 @@ export function Home() {
         onSubmit={onSubmit}
         onResetCapture={onReset}
       >
-        <h2 className="text-3xl text-center font-bold text-cyan-dark">
+        <h2 className="text-3xl text-center font-bold text-dark-green">
           {title}
         </h2>
 
@@ -87,10 +87,10 @@ export function Home() {
 
         <button
           className={clsx(
-            "bg-cyan-dark text-white rounded-full",
+            "bg-dark-green text-white rounded-full",
             "py-2 text-lg font-bold tracking-widest",
             "transition-all duration-200",
-            "hover:bg-cyan active:bg-cyan active:scale-95"
+            "hover:bg-blue active:bg-blue active:scale-95"
           )}
         >
           搜尋

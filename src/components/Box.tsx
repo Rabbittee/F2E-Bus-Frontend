@@ -9,7 +9,7 @@ export function Box({ children }: BoxProps) {
     <div
       className={clsx(
         "absolute bottom-0 p-4 rounded-t-2xl w-full h-full",
-        " text-cyan-dark",
+        " text-dark-green",
         "flex flex-col gap-4",
         "animate-upper"
       )}

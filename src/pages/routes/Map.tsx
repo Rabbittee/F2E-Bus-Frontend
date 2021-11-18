@@ -4,7 +4,7 @@ export function MapTab() {
   return (
     <nav className="pl-4">
       <ul className="flex overflow-x-scroll gap-2 whitespace-nowrap">
-        <li className="text-white bg-cyan rounded-full text-lg px-1">
+        <li className="text-white bg-blue rounded-full text-lg px-1">
           <a href="#">往台大醫院</a>
         </li>
         <li className="text-white bg-gray-400 rounded-full text-lg px-1">
@@ -57,7 +57,7 @@ export function Map() {
             </div>
           </div>
         </div>
-        <ul className="flex flex-col gap-2 overflow-scroll cyan-scroll px-2">
+        <ul className="flex flex-col gap-2 overflow-scroll blue-scroll px-2">
           <li>
             <div className="flex rounded-full bg-gray-200 py-2 px-4 justify-between items-center">
               <p>廣福國小</p>

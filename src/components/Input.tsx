@@ -16,7 +16,7 @@ export function Input({ ...props }: InputProps) {
         "flex items-center",
         "border border-gray-200",
         "rounded-full overflow-hidden",
-        "text-cyan-dark"
+        "text-dark-green"
       )}
     >
       <label className="flex items-center w-full">
@@ -24,7 +24,7 @@ export function Input({ ...props }: InputProps) {
           className={clsx(
             "w-6 ml-3 mr-2",
             "transition-colors duration-150",
-            props.value ? "text-current" : "text-cyan"
+            props.value ? "text-current" : "text-blue"
           )}
         >
           <Icon.Search />
@@ -32,7 +32,7 @@ export function Input({ ...props }: InputProps) {
 
         <input
           type="search"
-          className="outline-none py-2.5 w-full placeholder-cyan"
+          className="outline-none py-2.5 w-full placeholder-blue"
           {...props}
         />
       </label>

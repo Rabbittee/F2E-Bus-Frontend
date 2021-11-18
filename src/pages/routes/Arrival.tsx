@@ -1,8 +1,9 @@
 import clsx from "clsx";
 import { useParams, Link, useSearchParams } from "react-router-dom";
-import { max } from "ramda";
-import { useCallback, useState } from "react";
-import { addSeconds } from "date-fns";
+import { cond, gt, pipe, T } from "ramda";
+import { ReactNode, useState } from "react";
+import { addSeconds, formatDistanceToNowStrict, format } from "date-fns";
+import zhTW from "date-fns/locale/zh-TW";
 
 import { Icon, Tabs, SwitchToggle, List } from "@/components";
 import { API, Query, useSelector } from "@/logic";
@@ -11,6 +12,7 @@ import { Direction, Estimate, Has, HasID, HasName } from "@/models";
 import { URLSearchParams } from "@/utils";
 
 type Item = HasID & HasName & Has<"active", boolean>;
+type Option = Has<"value", keyof Estimate> & Has<"label", string>;
 
 type SubRoutesProps = {
   className?: string;
@@ -31,7 +33,7 @@ function SubRoutes({ className, items, query }: SubRoutesProps) {
           <div
             className={clsx(
               "rounded-full px-3 py-1",
-              active ? "bg-cyan" : "bg-gray-400"
+              active ? "bg-blue" : "bg-gray-400"
             )}
           >
             {name}
@@ -42,8 +44,6 @@ function SubRoutes({ className, items, query }: SubRoutesProps) {
   );
 }
 
-type Option = Has<"value", keyof Estimate> & Has<"label", string>;
-
 type TitleProps = {
   className?: string;
   options: Option[];
@@ -52,7 +52,7 @@ type TitleProps = {
 };
 function Title({ className, options, value, onChange }: TitleProps) {
   return (
-    <div className={clsx("flex justify-between text-cyan-dark", className)}>
+    <div className={clsx("flex justify-between text-dark-green", className)}>
       <h3 className="text-2xl font-bold">公車站牌</h3>
 
       <div className="flex gap-1 items-center">
@@ -72,17 +72,25 @@ function Title({ className, options, value, onChange }: TitleProps) {
   );
 }
 
+type StopStatus = "Has Departed" | "Arrive" | "Coming Soon";
+
 type StopProps = {
   name: string;
+  type?: StopStatus;
   estimate: string;
 };
-function Stop({ name, estimate }: StopProps) {
+function Stop({ name, type, estimate }: StopProps) {
   return (
     <div
       className={clsx(
         "rounded-full py-2 px-4",
         "flex justify-between items-center",
-        "bg-gray-200 text-cyan-dark"
+
+        type === "Has Departed" && "bg-gray-400 text-gray-200",
+        type === "Arrive" && "bg-blue text-white",
+        type === "Coming Soon" && "bg-blue text-white",
+
+        type || "bg-gray-200 text-dark-green"
       )}
     >
       <strong className="text-lg">{name}</strong>
@@ -92,7 +100,12 @@ function Stop({ name, estimate }: StopProps) {
   );
 }
 
-export default function Arrival() {
+type StopWithEstimate = Model.Stop & Has<"estimate", number>;
+
+type ListOfStopsProps = {
+  data?: StopWithEstimate[];
+};
+function ListOfStops({ data }: ListOfStopsProps) {
   const options: Option[] = [
     { value: "remain", label: "剩餘時間" },
     { value: "arrival", label: "到達時間" },
@@ -101,6 +114,59 @@ export default function Arrival() {
     options[0].value
   );
 
+  const Case: Record<StopStatus, (value: number) => boolean> = {
+    ["Has Departed"]: gt(0),
+    ["Arrive"]: gt(20),
+    ["Coming Soon"]: gt(60),
+  };
+
+  const formatEstimate = pipe(
+    (estimate: number) => addSeconds(new Date(), estimate),
+    {
+      remain: (arrival: Date) =>
+        formatDistanceToNowStrict(arrival, { locale: zhTW }),
+      arrival: (arrival: Date) => format(arrival, "HH:mm"),
+    }[display]
+  );
+
+  return (
+    <List
+      classes={{
+        wrapper: "pl-8 pr-6 mt-4",
+        list: "mt-4 pr-2 gap-2 max-h-[58vh] overflow-auto dark-green-scroll",
+      }}
+      title={
+        <Title
+          className="pr-4"
+          value={display}
+          options={options}
+          onChange={setEstimateDisplay}
+        />
+      }
+      items={data}
+    >
+      {({ name, estimate }) =>
+        cond<number, ReactNode>([
+          [
+            Case["Has Departed"],
+            () => <Stop type="Has Departed" name={name} estimate="尚未發車" />,
+          ],
+          [
+            Case["Arrive"],
+            () => <Stop type="Arrive" name={name} estimate="進站中" />,
+          ],
+          [
+            Case["Coming Soon"],
+            () => <Stop type="Coming Soon" name={name} estimate="即將進站" />,
+          ],
+          [T, () => <Stop name={name} estimate={formatEstimate(estimate)} />],
+        ])(estimate)
+      }
+    </List>
+  );
+}
+
+export default function Arrival() {
   const { id } = useParams<"id">();
   const [param] = useSearchParams({
     query: useSelector(Query.selectQuery),
@@ -108,10 +174,9 @@ export default function Arrival() {
   });
   const searchParam = Object.fromEntries(param.entries());
 
-  const direction = Number(searchParam["direction"]) as Direction;
-
   const { data: info } = API.useGetRouteInformationQuery(id!, { skip: !id });
 
+  const direction = Number(searchParam["direction"]) as Direction;
   const { data: stops } = API.useGetRouteStopsQuery(
     { id: id!, direction },
     { skip: !id }
@@ -119,17 +184,16 @@ export default function Arrival() {
 
   const { data: times } = API.useGetRouteStopEstimateQuery(
     { id: id!, direction },
-    { skip: !id, pollingInterval: 5 * 1000 }
+    {
+      skip: !id,
+      pollingInterval: 5 * 1000,
+    }
   );
 
-  const getTimeByID = useCallback((id) => max(times?.[id] || 0, 0), [times]);
-
-  const data = stops?.map<Model.Stop & { estimate: Estimate }>((stop) => ({
+  const getTimeByID = (id: string) => times?.[id] || 0;
+  const data = stops?.map((stop) => ({
     ...stop,
-    estimate: {
-      remain: getTimeByID(id),
-      arrival: addSeconds(new Date(), getTimeByID(id)),
-    },
+    estimate: getTimeByID(String(stop.id)),
   }));
 
   return (
@@ -151,25 +215,7 @@ export default function Arrival() {
         ]}
       />
 
-      <List
-        classes={{
-          wrapper: "pl-8 pr-6 mt-4",
-          list: "mt-4 pr-2 gap-2 max-h-[58vh] overflow-auto cyan-dark-scroll",
-        }}
-        title={
-          <Title
-            className="pr-4"
-            value={display}
-            options={options}
-            onChange={setEstimateDisplay}
-          />
-        }
-        items={data}
-      >
-        {({ name, estimate }) => (
-          <Stop name={name} estimate={`${estimate[display]}`} />
-        )}
-      </List>
+      <ListOfStops data={data} />
     </div>
   );
 }

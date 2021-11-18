@@ -36,7 +36,7 @@ export function InfoTab() {
               className={clsx(
                 "rounded-full text-lg font-bold px-2 py-1",
                 "text-white",
-                anchor.key === active ? "bg-cyan" : "bg-gray-400"
+                anchor.key === active ? "bg-blue" : "bg-gray-400"
               )}
             >
               <a
