@@ -1,8 +1,9 @@
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
+
 import { API } from "@/logic/api";
 import { Query, Geo } from "@/logic/slices";
 import * as Model from "@/models";
-import { useEffect } from "react";
 import { debounce } from "@/utils";
 import {
   both,
@@ -62,7 +63,7 @@ export function useRecommendQuery(): RecommendQueries | undefined {
   const [trigger, { data }] = API.useLazyGetRecommendQueryQuery();
 
   useEffect(
-    () => void execute({ query, location, trigger }),
+    () => execute({ query, location, trigger }),
     [query, location]
     //
   );
