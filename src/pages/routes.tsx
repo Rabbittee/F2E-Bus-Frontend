@@ -1,10 +1,8 @@
 import { useLocation, useParams, useSearchParams } from "react-router-dom";
 
-import { Icon, Map, PageTabs } from "@/components";
+import { Icon, Map, PageTabs, SubRoutes, ListOfStops } from "@/components";
 import { API, Query, useSelector } from "@/logic";
 import { Direction } from "@/models";
-
-import { SubRoutes, ListOfStops } from "./Arrival";
 
 export function Routes() {
   const location = useLocation();
@@ -18,24 +16,6 @@ export function Routes() {
   const { data: info } = API.useGetRouteInformationQuery(id!, { skip: !id });
 
   const direction = Number(searchParam["direction"]) as Direction;
-
-  const { data: times } = API.useGetRouteStopEstimateQuery(
-    { id: id!, direction },
-    {
-      skip: !id,
-      pollingInterval: 5 * 1000,
-    }
-  );
-  const getTimeByID = (id: string) => times?.[id] || 0;
-
-  const { data: stops } = API.useGetRouteStopsQuery(
-    { id: id!, direction },
-    { skip: !id }
-  );
-  const data = stops?.map((stop) => ({
-    ...stop,
-    estimate: getTimeByID(String(stop.id)),
-  }));
 
   return (
     <div className="flex flex-col flex-1">
@@ -88,7 +68,9 @@ export function Routes() {
             ]}
           />
 
-          {location.hash !== "#info" && <ListOfStops data={data} />}
+          {location.hash !== "#info" && (
+            <ListOfStops id={id} direction={direction} />
+          )}
         </div>
       </div>
     </div>

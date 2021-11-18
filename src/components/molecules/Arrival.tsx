@@ -5,10 +5,10 @@ import { ReactNode, useState } from "react";
 import { addSeconds, formatDistanceToNowStrict, format } from "date-fns";
 import zhTW from "date-fns/locale/zh-TW";
 
-import { Icon, Tabs, SwitchToggle, List } from "@/components";
-import * as Model from "@/models";
-import { Estimate, Has, HasID, HasName } from "@/models";
+import { Icon, Tabs, SwitchToggle, List, Badge } from "@/components";
+import { Direction, Estimate, Has, HasID, HasName } from "@/models";
 import { URLSearchParams } from "@/utils";
+import { API } from "@/logic";
 
 type Item = HasID & HasName & Has<"active", boolean>;
 type Option = Has<"value", keyof Estimate> & Has<"label", string>;
@@ -23,20 +23,13 @@ export function SubRoutes({ className, items, query }: SubRoutesProps) {
     <Tabs
       classes={{
         wrapper: clsx(className, "text-lg text-white"),
-        list: "flex whitespace-nowrap overflow-x-scroll gap-4",
+        list: "flex whitespace-nowrap overflow-scroll gap-4",
       }}
       items={items}
     >
       {({ id, name, active }) => (
         <Link to={{ search: URLSearchParams({ direction: id, query }) }}>
-          <div
-            className={clsx(
-              "rounded-full px-3 py-1",
-              active ? "bg-blue" : "bg-gray-400"
-            )}
-          >
-            {name}
-          </div>
+          <Badge active={active}>{name}</Badge>
         </Link>
       )}
     </Tabs>
@@ -88,7 +81,6 @@ function Stop({ name, type, estimate }: StopProps) {
         type === "Has Departed" && "bg-gray-400 text-gray-200",
         type === "Arrive" && "bg-blue text-white",
         type === "Coming Soon" && "bg-blue text-white",
-
         type || "bg-gray-200 text-dark-green"
       )}
     >
@@ -99,12 +91,29 @@ function Stop({ name, type, estimate }: StopProps) {
   );
 }
 
-type StopWithEstimate = Model.Stop & Has<"estimate", number>;
-
-type ListOfStopsProps = {
-  data?: StopWithEstimate[];
+type Props = {
+  id?: string;
+  direction: Direction;
 };
-export function ListOfStops({ data }: ListOfStopsProps) {
+export function ListOfStops({ id, direction }: Props) {
+  const { data: times } = API.useGetRouteStopEstimateQuery(
+    { id: id!, direction },
+    {
+      skip: !id,
+      pollingInterval: 5 * 1000,
+    }
+  );
+  const getTimeByID = (id: string) => times?.[id] || 0;
+
+  const { data: stops } = API.useGetRouteStopsQuery(
+    { id: id!, direction },
+    { skip: !id }
+  );
+  const data = stops?.map((stop) => ({
+    ...stop,
+    estimate: getTimeByID(String(stop.id)),
+  }));
+
   const options: Option[] = [
     { value: "remain", label: "剩餘時間" },
     { value: "arrival", label: "到達時間" },
