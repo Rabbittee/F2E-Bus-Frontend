@@ -17,7 +17,7 @@ export default function Layout() {
   const query = SearchParams.useQuery();
 
   return (
-    <main className="flex flex-col gap-2">
+    <main className="flex flex-col gap-2 items-center">
       <Background.Map />
 
       <header

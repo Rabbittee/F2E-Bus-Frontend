@@ -13,6 +13,7 @@ function App() {
 
           <Route path="routes/:id" element={<Pages.Routes />} />
 
+          <Route path="notfound" element={<Pages.NotFound />} />
           <Route index element={<Pages.Home />} />
         </Route>
       </Routes>
