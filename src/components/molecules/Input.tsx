@@ -23,7 +23,7 @@ export function Input({ ...props }: InputProps) {
         <span
           className={clsx(
             "w-6 ml-3 mr-2",
-            "transition-colors duration-150",
+            "transition-colors ease-out-circ",
             props.value ? "text-current" : "text-blue"
           )}
         >
@@ -40,7 +40,7 @@ export function Input({ ...props }: InputProps) {
       <button
         className={clsx(
           "w-6 mr-3",
-          "transition-opacity duration-150",
+          "transition-opacity ease-out-circ",
           props.value
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"

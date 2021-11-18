@@ -1209,6 +1209,11 @@
     "@rollup/pluginutils" "^4.1.1"
     react-refresh "^0.10.0"
 
+"@whiterussianstudio/tailwind-easing@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@whiterussianstudio/tailwind-easing/-/tailwind-easing-1.0.0.tgz#0d0ff3c13410850fd74d3c345ee8a6d3e0c4e236"
+  integrity sha512-j7UISIoHyz0iOGctKUNeQLT7mdBAAAJikj7M18F4MQOikIt9bx3rjxoppisZMQAQ7hUz4RHwDDHc9//4/UfTKA==
+
 acorn-node@^1.6.1:
   version "1.8.2"
   resolved "https://registry.yarnpkg.com/acorn-node/-/acorn-node-1.8.2.tgz#114c95d64539e53dede23de8b9d96df7c7ae2af8"
