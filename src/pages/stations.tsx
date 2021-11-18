@@ -1,7 +1,9 @@
-import { Map, List, Icon, Item } from "@/components";
-import { API } from "@/logic";
 import { Link, useParams, Navigate } from "react-router-dom";
 import { Marker } from "react-leaflet";
+
+import { Map, List, Icon, Item } from "@/components";
+import { API } from "@/logic";
+import { URLSearchParams } from "@/utils";
 
 export function Stations() {
   const { id } = useParams<"id">();
@@ -25,11 +27,16 @@ export function Stations() {
           wrapper: "px-8 py-2 text-lg text-white space-y-4",
           list: "max-h-96 overflow-auto px-2 pb-2 dark-green-scroll",
         }}
-        title={<strong className="text-2xl text-orange">廣福國小站</strong>}
+        title={<strong className="text-2xl text-orange">{data?.name}</strong>}
         items={data?.routes}
       >
         {({ id, name, departure, destination }) => (
-          <Link to={{ pathname: `/routes/${String(id)}` }}>
+          <Link
+            to={{
+              pathname: `/routes/${String(id)}`,
+              search: URLSearchParams({ query: name }),
+            }}
+          >
             <Item.WithTitle
               title={
                 <div className="flex justify-between">
