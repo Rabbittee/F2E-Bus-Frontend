@@ -1,4 +1,4 @@
 export * from "./Home";
-export * from "./location";
-export * from "./stations";
-export * from "./routes";
+export * from "./Location";
+export * from "./Stations";
+export * from "./Routes";
