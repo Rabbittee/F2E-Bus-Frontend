@@ -19,17 +19,17 @@ export function List<T extends HasID>({
   children,
   classes,
 }: ListProps<T>) {
+  if (!items?.length) return <></>;
+
   return (
     <div className={clsx(className, classes?.wrapper)}>
       {title}
 
-      {items && (
-        <ul className={clsx("flex flex-col gap-2", classes?.list)}>
-          {items.map((item) => (
-            <li key={String(item.id)}>{children?.(item)}</li>
-          ))}
-        </ul>
-      )}
+      <ul className={clsx("flex flex-col gap-2", classes?.list)}>
+        {items.map((item) => (
+          <li key={String(item.id)}>{children?.(item)}</li>
+        ))}
+      </ul>
     </div>
   );
 }
