@@ -90,7 +90,8 @@ export function Home() {
             "bg-dark-green text-white rounded-full",
             "py-2 text-lg font-bold tracking-widest",
             "transition-all duration-200",
-            "hover:bg-blue active:bg-blue active:scale-95"
+            "hover:bg-blue active:bg-blue active:scale-95",
+            query === "" ? "pointer-events-none" : ""
           )}
         >
           搜尋
