@@ -13,7 +13,7 @@ export default function Layout() {
         "flex flex-col gap-2",
         location.pathname >= "/routes/${id}"
           ? "h-screen justify-between md:flex-row"
-          : "min-h-full pb-8"
+          : "min-h-full"
       )}
     >
       <Background.Map />
