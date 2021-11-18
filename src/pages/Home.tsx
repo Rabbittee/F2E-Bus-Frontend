@@ -10,8 +10,8 @@ type Props = Model.Query;
 function RecommendSearch({ name, url }: Props) {
   return (
     <Link to={{ pathname: url, search: URLSearchParams({ query: name }) }}>
-      <div className="border-b border-cyan p-2 flex gap-2">
-        <Icon.Clock className="text-cyan-dark" />
+      <div className="border-b border-blue p-2 flex gap-2">
+        <Icon.Clock className="text-dark-green" />
 
         <strong>{name}</strong>
       </div>
@@ -48,7 +48,7 @@ export function Home() {
       className={clsx(
         "px-8 py-2 w-full lg:max-w-xl lg:px-0 lg:mx-auto",
         "flex flex-col gap-3",
-        "text-cyan-dark"
+        "text-dark-green"
       )}
     >
       <h2 className="text-2xl font-bold pt-4">試試這些地方...</h2>

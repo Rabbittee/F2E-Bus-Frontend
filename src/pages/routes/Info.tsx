@@ -15,10 +15,10 @@ export function Info() {
       <Box>
         <InfoTab />
 
-        <ul className="flex flex-col gap-2 overflow-scroll px-2 cyan-scroll w-full ">
+        <ul className="flex flex-col gap-2 overflow-scroll px-2 blue-scroll w-full ">
           <li id="routeName">
             <div className="rounded-xl flex flex-col shadow m-1">
-              <div className="flex p-3 bg-cyan text-white rounded-t-xl">
+              <div className="flex p-3 bg-blue text-white rounded-t-xl">
                 <h3 className="text-2xl font-bold">
                   {data.city} {data.name}
                 </h3>
@@ -32,7 +32,7 @@ export function Info() {
           </li>
           <li id="payment">
             <div className="rounded-xl flex flex-col shadow m-1">
-              <div className="flex p-3 bg-cyan text-white rounded-t-xl">
+              <div className="flex p-3 bg-blue text-white rounded-t-xl">
                 <h3 className="text-2xl font-bold">收費方式</h3>
               </div>
               <div className="flex flex-col gap-6 rounded-b-xl bg-white p-3">
@@ -48,7 +48,7 @@ export function Info() {
           </li>
           <li id="worktimelist">
             <div className="rounded-xl flex flex-col shadow m-1">
-              <div className="flex p-3 bg-cyan text-white rounded-t-xl">
+              <div className="flex p-3 bg-blue text-white rounded-t-xl">
                 <h3 className="text-2xl font-bold">平日發車資訊</h3>
               </div>
               <div className="flex flex-col gap-6 rounded-b-xl bg-white p-3">
@@ -68,7 +68,7 @@ export function Info() {
           </li>
           <li id="holidaytimelist">
             <div className="rounded-xl flex flex-col shadow m-1">
-              <div className="flex p-3 bg-cyan text-white rounded-t-xl">
+              <div className="flex p-3 bg-blue text-white rounded-t-xl">
                 <h3 className="text-2xl font-bold">假日發車資訊</h3>
               </div>
               <div className="flex flex-col gap-6 rounded-b-xl bg-white p-3">

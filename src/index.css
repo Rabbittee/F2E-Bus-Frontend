@@ -39,12 +39,12 @@ input[type="search"]::-webkit-search-cancel-button {
 
 @layer utilities {
   /* Handle */
-  .cyan-dark-scroll::-webkit-scrollbar-thumb {
-    @apply bg-cyan-dark rounded-full;
+  .dark-green-scroll::-webkit-scrollbar-thumb {
+    @apply bg-dark-green rounded-full;
   }
 
-  .cyan-scroll::-webkit-scrollbar-thumb {
-    @apply bg-cyan rounded-full;
+  .blue-scroll::-webkit-scrollbar-thumb {
+    @apply bg-blue rounded-full;
   }
 
   .orange-scroll::-webkit-scrollbar-thumb {

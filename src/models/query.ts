@@ -31,7 +31,7 @@ export interface Route extends HasID, HasName {
 
 export interface Estimate {
   remain: number;
-  arrival: Date;
+  arrival: number;
 }
 
 export interface Stop extends HasID, HasName {

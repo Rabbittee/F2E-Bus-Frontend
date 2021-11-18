@@ -7,12 +7,16 @@ module.exports = {
         notoSans: ["Noto Sans TC", "sans-serif"],
       },
       colors: {
-        cyan: {
-          DEFAULT: "#83C3C0",
-          dark: "#4B707D",
-        },
-        orange: {
-          DEFAULT: "#DC771A",
+        orange: "#DC771A",
+
+        "dark-green": "#4B707D",
+        blue: "#83C3C0",
+        "light-blue": "#D8EEED",
+
+        gray: {
+          500: "#6B7280",
+          400: "#9CA3AF",
+          200: "#E5E7EB",
         },
       },
       keyframes: {
