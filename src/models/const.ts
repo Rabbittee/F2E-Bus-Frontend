@@ -4,3 +4,12 @@ export enum Direction {
   Loop = 2,
   Unknown = 255,
 }
+
+export type Day =
+  | "monday"
+  | "tuesday"
+  | "wednesday"
+  | "thursday"
+  | "friday"
+  | "saturday"
+  | "sunday";

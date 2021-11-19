@@ -1,17 +1,19 @@
 import clsx from "clsx";
-import { Link } from "react-router-dom";
+import { Link, To } from "react-router-dom";
 
 import { Tabs, Badge } from "@/components";
-import { Has, HasID, HasName } from "@/models";
-import { URLSearchParams } from "@/utils";
+import { HasID, HasName } from "@/models";
 
-type Item = HasID & HasName & Has<"active", boolean>;
+type Item = HasID &
+  HasName & {
+    active?: boolean;
+    to: To;
+  };
 type SubRoutesProps = {
   className?: string;
   items: Item[];
-  query: string;
 };
-export function SubRoutes({ className, items, query }: SubRoutesProps) {
+export function SubRoutes({ className, items }: SubRoutesProps) {
   return (
     <Tabs
       classes={{
@@ -20,11 +22,17 @@ export function SubRoutes({ className, items, query }: SubRoutesProps) {
       }}
       items={items}
     >
-      {({ id, name, active }) => (
-        <Link to={{ search: URLSearchParams({ direction: id, query }) }}>
-          <Badge active={active}>{name}</Badge>
-        </Link>
-      )}
+      {({ to, name, active }) =>
+        typeof to !== "string" && to.hash ? (
+          <a href={`#${to.hash}`}>
+            <Badge active={active}>{name}</Badge>
+          </a>
+        ) : (
+          <Link to={to}>
+            <Badge active={active}>{name}</Badge>
+          </Link>
+        )
+      }
     </Tabs>
   );
 }
