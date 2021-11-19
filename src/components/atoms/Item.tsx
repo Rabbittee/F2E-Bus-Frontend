@@ -35,7 +35,31 @@ function WithTitle({ title, children }: WithTitleProps) {
   );
 }
 
+type StopProps = PropsWithChildren<{
+  type: "default" | "arrive" | "disable";
+  name: string;
+}>;
+function Stop({ name, type, children }: StopProps) {
+  return (
+    <div
+      className={clsx(
+        "rounded-full py-2 px-4",
+        "flex justify-between items-center",
+
+        type === "disable" && "bg-gray-400 text-gray-200",
+        type === "arrive" && "bg-blue text-white",
+        type === "default" && "bg-gray-200 text-dark-green"
+      )}
+    >
+      <strong className="text-lg">{name}</strong>
+
+      <span>{children}</span>
+    </div>
+  );
+}
+
 export const Item = {
   WithIcon,
   WithTitle,
+  Stop,
 };
