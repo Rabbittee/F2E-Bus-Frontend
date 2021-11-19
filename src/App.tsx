@@ -7,14 +7,11 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route element={<Layout />}>
-          <Route path="locations" element={<Pages.Location />} />
-
-          <Route path="stations/:id" element={<Pages.Stations />} />
-
-          <Route path="routes/:id" element={<Pages.Routes />} />
-
-          <Route path="notfound" element={<Pages.NotFound />} />
           <Route index element={<Pages.Home />} />
+          <Route path="locations" element={<Pages.Location />} />
+          <Route path="stations/:id" element={<Pages.Stations />} />
+          <Route path="routes/:id" element={<Pages.Routes />} />
+          <Route path="*" element={<Pages.NotFound />} />
         </Route>
       </Routes>
     </BrowserRouter>
