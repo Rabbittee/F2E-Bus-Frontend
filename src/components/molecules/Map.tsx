@@ -23,6 +23,7 @@ function URL() {
 
 type MapProps = {
   className?: string;
+  bounds?: Type.LatLngBounds;
   center?: Geo.Position;
   bbox?: Geo.BoundingBox;
   zoom?: number;
@@ -31,6 +32,7 @@ type MapProps = {
 export function Map({
   className,
   center,
+  bounds,
   bbox,
   zoom = 50,
   children,
@@ -38,7 +40,13 @@ export function Map({
   const [map, setMap] = useState<Type.Map>();
 
   useEffect(() => {
-    if (!map || !center) return;
+    if (!map) return;
+
+    if (bounds) {
+      map.fitBounds(bounds);
+
+      return;
+    }
 
     if (bbox) {
       const { top, bottom, left, right } = bbox;
@@ -49,9 +57,11 @@ export function Map({
       ]);
     }
 
+    if (!center) return;
+
     const { lat, lon } = center;
     map.setView([lat, lon], zoom, { animate: true });
-  }, [map, center, zoom, bbox]);
+  }, [map, center, zoom, bbox, bounds]);
 
   return (
     <div className={className}>

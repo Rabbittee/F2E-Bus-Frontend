@@ -1,5 +1,5 @@
 import { Geo } from "./geo";
-import { Direction } from "./const";
+import { Direction, Day } from "./const";
 import { HasID, HasName, HasURL } from ".";
 
 export type Query = HasID & HasName & HasURL;
@@ -15,8 +15,32 @@ export interface SubRoute extends HasID, HasName {
   };
 }
 
+export type City =
+  | "Taipei"
+  | "NewTaipei"
+  | "Taoyuan"
+  | "Taichung"
+  | "Tainan"
+  | "Kaohsiung"
+  | "Keelung"
+  | "Hsinchu"
+  | "HsinchuCounty"
+  | "MiaoliCounty"
+  | "ChanghuaCounty"
+  | "NantouCounty"
+  | "YunlinCounty"
+  | "ChiayiCounty"
+  | "Chiayi"
+  | "PingtungCounty"
+  | "YilanCounty"
+  | "HualienCounty"
+  | "TaitungCounty"
+  | "KinmenCounty"
+  | "PenghuCounty"
+  | "LienchiangCounty";
+
 export interface Route extends HasID, HasName {
-  city: string;
+  city: City;
 
   subRoutes: SubRoute[];
 
@@ -57,3 +81,15 @@ export interface Station extends Stop {
   address: string;
   routes: Route[];
 }
+
+interface Res {
+  day: Day;
+  max_headway: number;
+  min_headway: number;
+  start_time: string;
+  end_time: string;
+}
+
+export type Schedule = {
+  [key in Day]?: Res;
+};

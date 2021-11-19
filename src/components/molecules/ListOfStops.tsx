@@ -4,14 +4,17 @@ import { addSeconds, formatDistanceToNowStrict, format } from "date-fns";
 import zhTW from "date-fns/locale/zh-TW";
 
 import { Title, List, Item } from "@/components";
-import { Direction, Trip, TripStatus, Estimate } from "@/models";
+import { Direction, Trip, TripStatus, Estimate, Stop } from "@/models";
 import { API } from "@/logic";
+import clsx from "clsx";
 
 type Props = {
   id?: string;
+  stops?: Stop[];
   direction: Direction;
+  className?: string;
 };
-export function ListOfStops({ id, direction }: Props) {
+export function ListOfStops({ id, stops, direction, className }: Props) {
   const { data: trips } = API.useGetRouteStopEstimateQuery(
     { id: id!, direction },
     {
@@ -20,10 +23,6 @@ export function ListOfStops({ id, direction }: Props) {
     }
   );
 
-  const { data: stops } = API.useGetRouteStopsQuery(
-    { id: id!, direction },
-    { skip: !id }
-  );
   const data = stops?.map((stop) => ({
     ...stop,
     trip: trips?.find(({ stationID }) => stationID === stop.id),
@@ -62,8 +61,11 @@ export function ListOfStops({ id, direction }: Props) {
   return (
     <List
       classes={{
-        wrapper: "pl-8 pr-6 mt-4",
-        list: "mt-4 pr-2 gap-2 max-h-[58vh] overflow-auto dark-green-scroll",
+        wrapper: "pl-8 pr-6",
+        list: clsx(
+          "mt-4 pr-2 gap-2 overflow-auto dark-green-scroll",
+          className
+        ),
       }}
       title={
         <Title
