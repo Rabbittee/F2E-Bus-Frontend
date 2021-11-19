@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 
-import { API } from "@/logic/api";
+import { API } from "@/logic";
 import { Query, Geo } from "@/logic/slices";
 import * as Model from "@/models";
 import { debounce } from "@/utils";

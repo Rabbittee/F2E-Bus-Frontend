@@ -7,7 +7,7 @@ import {
   useSelector as useSelectorWith,
 } from "react-redux";
 
-import API from "./api";
+import { API } from "./api/api";
 import { query, geo } from "./slices";
 import { GeoProvider } from "./providers";
 
