@@ -12,8 +12,11 @@ export function Stations() {
   if (!id) return <Navigate to="/" replace />;
 
   return (
-    <div className="flex-1 flex flex-col">
-      <Map className="w-full h-[32vh] px-2 my-2" center={data?.position}>
+    <div className="flex-1 flex md:flex-row flex-col">
+      <Map
+        className="w-full md:h-[84vh] h-[32vh] px-2 my-2 md:flex-[8]"
+        center={data?.position}
+      >
         {data?.position && (
           <Marker
             icon={Icon.Leaflet.LocationActive}
@@ -24,7 +27,7 @@ export function Stations() {
 
       <List
         classes={{
-          wrapper: "px-8 py-2 text-lg text-white space-y-4",
+          wrapper: "px-8 py-2 text-lg text-white space-y-4 md:flex-[4]",
           list: "max-h-96 overflow-auto px-2 pb-2 dark-orange-scroll",
         }}
         title={<strong className="text-2xl text-orange">{data?.name}</strong>}
