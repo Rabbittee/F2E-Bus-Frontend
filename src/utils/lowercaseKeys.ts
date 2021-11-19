@@ -1,17 +1,19 @@
 import { map, is, cond, T, identity } from "ramda";
 
-const mapping = cond([
-  [is(Array), map(lowercaseKeys)],
-  [is(Object), lowercaseKeys],
-  [T, identity],
-]);
-
-export function lowercaseKeys<I extends {}, R extends {}>(obj: I): R {
+function mapping<I extends {}, R extends {}>(obj: I): R {
   const result: [string, any][] = [];
 
   for (const [key, value] of Object.entries(obj)) {
-    result.push([key.toLowerCase(), mapping(value)]);
+    result.push([key.toLowerCase(), lowercaseKeys(value)]);
   }
 
   return Object.fromEntries(result) as R;
+}
+
+export function lowercaseKeys<R extends {}>(data: any): R {
+  return cond([
+    [is(Array), map(lowercaseKeys)],
+    [is(Object), mapping],
+    [T, identity],
+  ])(data);
 }

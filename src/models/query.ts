@@ -29,6 +29,21 @@ export interface Route extends HasID, HasName {
   };
 }
 
+export const enum TripStatus {
+  Default = 0,
+  NotDepart = 1,
+  Skipped = 2,
+  Terminate = 3,
+  Unscheduled = 4,
+}
+
+export interface Trip {
+  routeID: Route["id"];
+  stationID: Station["id"];
+  timeOffset: number;
+  status: TripStatus;
+}
+
 export interface Estimate {
   remain: number;
   arrival: number;

@@ -6,7 +6,15 @@ import { addSeconds, formatDistanceToNowStrict, format } from "date-fns";
 import zhTW from "date-fns/locale/zh-TW";
 
 import { Icon, Tabs, SwitchToggle, List, Badge } from "@/components";
-import { Direction, Estimate, Has, HasID, HasName } from "@/models";
+import {
+  Direction,
+  Estimate,
+  Has,
+  HasID,
+  HasName,
+  Trip,
+  TripStatus,
+} from "@/models";
 import { URLSearchParams } from "@/utils";
 import { API } from "@/logic";
 
@@ -64,29 +72,26 @@ function Title({ className, options, value, onChange }: TitleProps) {
   );
 }
 
-type StopStatus = "Has Departed" | "Arrive" | "Coming Soon";
-
 type StopProps = {
+  type: "default" | "arrive" | "disable";
   name: string;
-  type?: StopStatus;
-  estimate: string;
+  children: ReactNode;
 };
-function Stop({ name, type, estimate }: StopProps) {
+function Stop({ name, type, children }: StopProps) {
   return (
     <div
       className={clsx(
         "rounded-full py-2 px-4",
         "flex justify-between items-center",
 
-        type === "Has Departed" && "bg-gray-400 text-gray-200",
-        type === "Arrive" && "bg-blue text-white",
-        type === "Coming Soon" && "bg-blue text-white",
-        type || "bg-gray-200 text-dark-green"
+        type === "disable" && "bg-gray-400 text-gray-200",
+        type === "arrive" && "bg-blue text-white",
+        type === "default" && "bg-gray-200 text-dark-green"
       )}
     >
       <strong className="text-lg">{name}</strong>
 
-      <span>{estimate}</span>
+      <span>{children}</span>
     </div>
   );
 }
@@ -96,14 +101,13 @@ type Props = {
   direction: Direction;
 };
 export function ListOfStops({ id, direction }: Props) {
-  const { data: times } = API.useGetRouteStopEstimateQuery(
+  const { data: trips } = API.useGetRouteStopEstimateQuery(
     { id: id!, direction },
     {
       skip: !id,
       pollingInterval: 5 * 1000,
     }
   );
-  const getTimeByID = (id: string) => times?.[id] || 0;
 
   const { data: stops } = API.useGetRouteStopsQuery(
     { id: id!, direction },
@@ -111,7 +115,7 @@ export function ListOfStops({ id, direction }: Props) {
   );
   const data = stops?.map((stop) => ({
     ...stop,
-    estimate: getTimeByID(String(stop.id)),
+    trip: trips?.find(({ stationID }) => stationID === stop.id),
   }));
 
   const options: Option[] = [
@@ -122,10 +126,22 @@ export function ListOfStops({ id, direction }: Props) {
     options[0].value
   );
 
-  const Case: Record<StopStatus, (value: number) => boolean> = {
-    ["Has Departed"]: gt(0),
-    ["Arrive"]: gt(20),
-    ["Coming Soon"]: gt(60),
+  const Case = {
+    ["Unscheduled"]: (trip: Trip) => trip.status === TripStatus.Unscheduled,
+
+    ["Skipped"]: (trip: Trip) => trip.status === TripStatus.Skipped,
+
+    ["Terminate"]: (trip: Trip) => trip.status === TripStatus.Terminate,
+
+    ["Not Depart"]: (trip: Trip) => trip.status === TripStatus.NotDepart,
+
+    ["Arrive"]: (trip: Trip) =>
+      trip.status === TripStatus.Default && trip.timeOffset <= 30,
+
+    ["Coming"]: (trip: Trip) =>
+      trip.status === TripStatus.Default && trip.timeOffset <= 60,
+
+    ["En Route"]: (trip: Trip) => trip.status === TripStatus.Default,
   };
 
   const formatEstimate = pipe(
@@ -153,22 +169,44 @@ export function ListOfStops({ id, direction }: Props) {
       }
       items={data}
     >
-      {({ name, estimate }) =>
-        cond<number, ReactNode>([
+      {({ name, trip }) =>
+        trip &&
+        cond<Trip, ReactNode>([
           [
-            Case["Has Departed"],
-            () => <Stop type="Has Departed" name={name} estimate="尚未發車" />,
+            Case["Unscheduled"],
+            () => <Stop type="disable" name={name} children="今日未營運" />,
+          ],
+          [
+            Case["Skipped"],
+            () => <Stop type="disable" name={name} children="此站未停靠" />,
+          ],
+          [
+            Case["Terminate"],
+            () => <Stop type="disable" name={name} children="末班車已過" />,
+          ],
+          [
+            Case["Not Depart"],
+            () => <Stop type="disable" name={name} children="尚未發車" />,
+          ],
+          [
+            Case["Coming"],
+            () => <Stop type="arrive" name={name} children="即將進站" />,
           ],
           [
             Case["Arrive"],
-            () => <Stop type="Arrive" name={name} estimate="進站中" />,
+            () => <Stop type="arrive" name={name} children="進站中" />,
           ],
           [
-            Case["Coming Soon"],
-            () => <Stop type="Coming Soon" name={name} estimate="即將進站" />,
+            Case["En Route"],
+            () => (
+              <Stop
+                type="default"
+                name={name}
+                children={formatEstimate(trip.timeOffset)}
+              />
+            ),
           ],
-          [T, () => <Stop name={name} estimate={formatEstimate(estimate)} />],
-        ])(estimate)
+        ])(trip)
       }
     </List>
   );

@@ -6,6 +6,7 @@ import {
   SubRoute,
   Direction,
   Stop,
+  Trip,
 } from "@/models";
 import { lowercaseKeys } from "@/utils";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
@@ -120,14 +121,19 @@ export const API = createApi({
         res.stops.map(({ id, name, position }) => ({ id, name, position })),
     }),
 
-    getRouteStopEstimate: build.query<
-      Record<string, number>,
-      Req.GetRouteStops
-    >({
+    getRouteStopEstimate: build.query<Trip[], Req.GetRouteStops>({
       query: ({ id, direction }) => ({
         url: `/routes/${id}/stops/estimatetime`,
         params: { direction },
       }),
+
+      transformResponse: (res: any[]) =>
+        res.map((item) => ({
+          routeID: item["route_id"],
+          stationID: item["station_id"],
+          timeOffset: item["time_offset"],
+          status: item["status"],
+        })),
     }),
 
     getRouteInformation: build.query<Route, string>({
