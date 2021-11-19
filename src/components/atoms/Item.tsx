@@ -11,7 +11,7 @@ type WithIconProps = PropsWithChildren<{
 }>;
 function WithIcon({ icon, children }: WithIconProps) {
   return (
-    <div className="border-b border-blue p-2 flex gap-2">
+    <div className="border-b border-blue p-2 flex gap-2 items-center">
       {isValidElement(icon) && cloneElement(icon, { className: "flex-[1]" })}
 
       {isValidElement(children) &&
