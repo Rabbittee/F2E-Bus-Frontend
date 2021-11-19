@@ -25,7 +25,7 @@ export function Stations() {
       <List
         classes={{
           wrapper: "px-8 py-2 text-lg text-white space-y-4",
-          list: "max-h-96 overflow-auto px-2 pb-2 dark-green-scroll",
+          list: "max-h-96 overflow-auto px-2 pb-2 dark-orange-scroll",
         }}
         title={<strong className="text-2xl text-orange">{data?.name}</strong>}
         items={data?.routes}
@@ -46,7 +46,7 @@ export function Stations() {
                 </div>
               }
             >
-              <strong className="text-dark-green">
+              <strong className="text-orange">
                 {departure} — {destination}
               </strong>
             </Item.WithTitle>

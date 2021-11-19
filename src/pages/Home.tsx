@@ -10,7 +10,7 @@ function RecommendSearch({ name, url }: Query) {
   return (
     <Link to={{ pathname: url, search: URLSearchParams({ query: name }) }}>
       <Item.WithIcon icon={<Icon.Search />}>
-        <strong>{name}</strong>
+        <strong className="text-lg">{name}</strong>
       </Item.WithIcon>
     </Link>
   );

@@ -17,7 +17,14 @@ export default function Layout() {
   const query = SearchParams.useQuery();
 
   return (
-    <main className="flex flex-col gap-2 items-center">
+    <main
+      className={clsx(
+        "flex flex-col gap-2",
+        location.pathname === "/" || location.pathname === "notfound"
+          ? "items-center"
+          : ""
+      )}
+    >
       <Background.Map />
 
       <header
