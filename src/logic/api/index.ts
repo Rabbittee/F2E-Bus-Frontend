@@ -12,4 +12,12 @@ export const API = {
   ...GetRouteStopEstimate,
   ...GetRouteStops,
   ...GetStationInformation,
+  endpoints: {
+    ...GetRecommendQuery.endpoints,
+    ...GetGeocodeByQuery.endpoints,
+    ...GetRouteInformation.endpoints,
+    ...GetRouteStopEstimate.endpoints,
+    ...GetRouteStops.endpoints,
+    ...GetStationInformation.endpoints,
+  },
 };
