@@ -19,7 +19,7 @@ export default function Layout() {
   return (
     <main
       className={clsx(
-        "flex flex-col gap-2",
+        "flex flex-col gap-2 container mx-auto",
         location.pathname === "/" || location.pathname === "notfound"
           ? "items-center"
           : ""
@@ -30,14 +30,19 @@ export default function Layout() {
       <header
         className={clsx(
           "flex flex-col justify-center items-center md:flex-1",
-          "gap-6 pt-8"
+          "gap-6 pt-8",
+          "flex-[8]"
         )}
       >
         {cond<string, ReactNode>([
           [match("/"), () => <Home />],
           [
-            match("locations", "stations/:id"),
+            match("locations"),
             () => <HasBack className="text-dark-green" title={query} />,
+          ],
+          [
+            match("stations/:id"),
+            () => <HasBack className="text-orange" title={query} />,
           ],
           [
             match("routes/:id"),

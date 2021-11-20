@@ -36,9 +36,9 @@ export function Location() {
         };
 
   return (
-    <div className="flex-1 flex flex-col text-dark-green">
+    <div className="flex-1 flex flex-col md:flex-row">
       <Map
-        className="w-full h-[50vh] px-2 my-2"
+        className="w-full md:h-[84vh] md:flex-[8] h-[50vh] px-2 my-2"
         center={center}
         bbox={data?.bbox}
       >
@@ -56,8 +56,8 @@ export function Location() {
 
       <List
         classes={{
-          wrapper: "px-8 py-2 text-lg space-y-4",
-          list: "max-h-56 overflow-auto pr-2 dark-green-scroll",
+          wrapper: "px-8 py-2 text-lg space-y-4 md:flex-[4]",
+          list: "md:max-h-[78vh] max-h-56 overflow-auto pr-2 dark-green-scroll text-dark-green",
         }}
         title={
           <strong className="text-2xl text-dark-green">
