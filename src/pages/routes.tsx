@@ -217,7 +217,7 @@ export function Routes() {
     information.some(({ id }) => hash.includes(id));
 
   return (
-    <div className="flex flex-col flex-1 text-dark-green">
+    <div className="flex flex-col flex-1 text-dark-green md:flex-row">
       <PageTabs
         items={[
           {
@@ -244,7 +244,7 @@ export function Routes() {
         ]}
       />
 
-      <div className="flex-1">
+      <div className="flex-1 md:flex-[4]">
         <div className="pt-4 pb-8 flex flex-col gap-2">
           {matchInfo(location.hash) && (
             <>

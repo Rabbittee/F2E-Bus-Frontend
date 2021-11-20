@@ -56,7 +56,7 @@ export function Location() {
 
       <List
         classes={{
-          wrapper: "px-8 py-2 text-lg space-y-4 md:flex-[4]",
+          wrapper: "md:px-2 px-8 py-2 text-lg space-y-4 md:flex-[4]",
           list: "md:max-h-[78vh] max-h-56 overflow-auto pr-2 dark-green-scroll text-dark-green",
         }}
         title={

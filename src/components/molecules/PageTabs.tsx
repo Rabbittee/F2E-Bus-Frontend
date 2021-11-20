@@ -15,14 +15,21 @@ type Props = {
 };
 export function PageTabs({ items }: Props) {
   return (
-    <div className="flex flex-col relative overflow-hidden pt-2">
-      <Tabs classes={{ list: "flex", item: "flex-1" }} items={items}>
+    <div className="flex flex-col relative overflow-hidden pt-2 md:h-full md:flex-[8]">
+      <Tabs
+        classes={{
+          wrapper: "md:flex md:justify-start ",
+          list: "flex",
+          item: "flex-1",
+        }}
+        items={items}
+      >
         {({ name, icon, active, to }) => (
           <Link to={to}>
             <div
               className={clsx(
                 "h-full py-3 rounded-2xl",
-                "flex flex-col justify-end items-center gap-1",
+                "flex flex-col justify-end items-center gap-1 md:px-8",
                 active
                   ? "shadow bg-white text-orange relative z-10"
                   : "text-gray-400"
