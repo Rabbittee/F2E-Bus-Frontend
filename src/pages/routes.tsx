@@ -138,15 +138,19 @@ function Stops({ stops }: StopsProps) {
 
 type RouteMapProps = {
   stops?: Stop[];
+  isWeb?: boolean;
 };
-function RouteMap({ stops }: RouteMapProps) {
+function RouteMap({ stops, isWeb }: RouteMapProps) {
   const points = stops?.map(({ position }) =>
     latLng(position.lat, position.lon)
   );
 
   return (
     <Map
-      className="w-full h-[32vh] px-2 my-2"
+      className={clsx(
+        "w-full md:h-[68vh] h-[32vh] px-2 my-2",
+        isWeb ? "md:block hidden" : "md:hidden"
+      )}
       bounds={points && latLngBounds(points)}
     >
       <Stops stops={stops} />
@@ -242,9 +246,16 @@ export function Routes() {
             active: matchInfo(location.hash),
           },
         ]}
-      />
+      >
+        <RouteMap isWeb={true} />
+      </PageTabs>
 
-      <div className="flex-1 md:flex-[4]">
+      <div
+        className={clsx(
+          "flex-1 md:flex-[5]",
+          location.hash === "#map" ? "md:hidden" : ""
+        )}
+      >
         <div className="pt-4 pb-8 flex flex-col gap-2">
           {matchInfo(location.hash) && (
             <>
@@ -277,7 +288,9 @@ export function Routes() {
 
           {!matchInfo(location.hash) && (
             <>
-              {location.hash === "#map" && <RouteMap stops={stops} />}
+              {location.hash === "#map" && (
+                <RouteMap isWeb={false} stops={stops} />
+              )}
 
               <SubRoutes
                 className="ml-8"
@@ -314,7 +327,7 @@ export function Routes() {
                 className={clsx(
                   location.hash.includes("map")
                     ? "max-h-[24vh]"
-                    : "max-h-[58vh]"
+                    : "max-h-[66vh]"
                 )}
               />
             </>

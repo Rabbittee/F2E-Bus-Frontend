@@ -12,42 +12,46 @@ interface Tab extends HasID, HasName {
 }
 type Props = {
   items: Tab[];
+  children: ReactNode;
 };
-export function PageTabs({ items }: Props) {
+export function PageTabs({ items, children }: Props) {
   return (
-    <div className="flex flex-col relative overflow-hidden pt-2 md:h-full md:flex-[8]">
-      <Tabs
-        classes={{
-          wrapper: "md:flex md:justify-start ",
-          list: "flex",
-          item: "flex-1",
-        }}
-        items={items}
-      >
-        {({ name, icon, active, to }) => (
-          <Link to={to}>
-            <div
-              className={clsx(
-                "h-full py-3 rounded-2xl",
-                "flex flex-col justify-end items-center gap-1 md:px-8",
-                active
-                  ? "shadow bg-white text-orange relative z-10"
-                  : "text-gray-400"
-              )}
-            >
-              {icon}
+    <div className="flex flex-col  md:h-full md:flex-[7]">
+      <div className="flex md:h-full relative overflow-hidden pt-2 flex-col md:flex-[8]">
+        <Tabs
+          classes={{
+            wrapper: "md:flex md:justify-start ",
+            list: "flex",
+            item: "flex-1",
+          }}
+          items={items}
+        >
+          {({ name, icon, active, to }) => (
+            <Link to={to}>
+              <div
+                className={clsx(
+                  "h-full py-3 rounded-2xl",
+                  "flex flex-col justify-end items-center gap-1 md:px-8",
+                  active
+                    ? "shadow bg-white text-orange relative z-10"
+                    : "text-gray-400"
+                )}
+              >
+                {icon}
 
-              <strong>{name}</strong>
+                <strong>{name}</strong>
 
-              {active && (
-                <div className="bg-white h-3 w-full absolute bottom-0" />
-              )}
-            </div>
-          </Link>
-        )}
-      </Tabs>
+                {active && (
+                  <div className="bg-white h-3 w-full absolute bottom-0" />
+                )}
+              </div>
+            </Link>
+          )}
+        </Tabs>
 
-      <div className="bg-white shadow h-2 w-full absolute bottom-0" />
+        <div className="bg-white shadow h-2 w-full absolute bottom-0" />
+      </div>
+      {children}
     </div>
   );
 }
