@@ -26,6 +26,9 @@ export function Location() {
     nearby
       ? {
           pathname: `/stations/${String(station.id)}`,
+          search: URLSearchParams({
+            query: station.name,
+          }),
         }
       : {
           search: URLSearchParams({
@@ -56,11 +59,11 @@ export function Location() {
 
       <List
         classes={{
-          wrapper: "md:px-2 px-8 py-2 text-lg space-y-4 md:flex-[4]",
-          list: "md:max-h-[78vh] max-h-56 overflow-auto pr-2 dark-green-scroll text-dark-green",
+          wrapper:
+            "md:px-2 px-8 py-2 text-lg space-y-4 md:flex-[4] text-dark-green",
         }}
         title={
-          <strong className="text-2xl text-dark-green">
+          <strong className="text-2xl">
             {nearby ? "這附近的站牌" : "我可能想查"}
           </strong>
         }

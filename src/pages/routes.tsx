@@ -307,16 +307,7 @@ export function Routes() {
                 ]}
               />
 
-              <ListOfStops
-                id={id}
-                stops={stops}
-                direction={direction}
-                className={clsx(
-                  location.hash.includes("map")
-                    ? "max-h-[24vh]"
-                    : "max-h-[58vh]"
-                )}
-              />
+              <ListOfStops id={id} stops={stops} direction={direction} />
             </>
           )}
         </div>

@@ -28,7 +28,6 @@ export function Stations() {
       <List
         classes={{
           wrapper: "md:px-2 px-8 py-2 text-lg text-white space-y-4 md:flex-[4]",
-          list: "md:max-h-[78vh] max-h-56 overflow-auto pr-2 orange-scroll",
         }}
         title={<strong className="text-2xl text-orange">{data?.name}</strong>}
         items={data?.routes}
