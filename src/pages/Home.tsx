@@ -5,7 +5,6 @@ import { Icon, List, Item } from "@/components";
 import { useRecommendQuery } from "@/logic";
 import { URLSearchParams } from "@/utils";
 import { Query } from "@/models";
-import { FormEvent } from "react";
 
 function RecommendSearch({ name, url }: Query) {
   return (
