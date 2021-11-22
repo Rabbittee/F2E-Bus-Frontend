@@ -19,10 +19,15 @@ export function Title({
   onChange,
 }: TitleProps) {
   return (
-    <div className={clsx("flex justify-between text-dark-green", className)}>
+    <div
+      className={clsx(
+        "flex flex-col justify-between text-dark-green",
+        className
+      )}
+    >
       <h3 className="text-2xl font-bold">{title}</h3>
 
-      <div className="flex gap-1 items-center">
+      <div className="flex gap-1 items-center justify-end">
         <strong className="text-sm">
           {options.find((option) => option.value === value)?.label}
         </strong>
