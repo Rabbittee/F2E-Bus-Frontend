@@ -21,10 +21,15 @@ export const Icon = {
   Info,
   LastTime,
   Leaflet: {
-    Location: new LeafletIcon({ iconUrl: Location, iconSize: [40, 40] }),
+    Location: new LeafletIcon({
+      iconUrl: Location,
+      iconSize: [40, 40],
+      iconAnchor: [20, 35],
+    }),
     LocationActive: new LeafletIcon({
       iconUrl: LocationActive,
       iconSize: [60, 60],
+      iconAnchor: [31, 55],
     }),
   },
 };
