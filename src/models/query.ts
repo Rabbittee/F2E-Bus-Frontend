@@ -1,5 +1,5 @@
 import { Geo } from "./geo";
-import { Direction, Day } from "./const";
+import { Direction, Day, City } from "./const";
 import { HasID, HasName, HasURL } from ".";
 
 export type Query = HasID & HasName & HasURL;
@@ -14,30 +14,6 @@ export interface SubRoute extends HasID, HasName {
     holidayLast: string;
   };
 }
-
-export type City =
-  | "Taipei"
-  | "NewTaipei"
-  | "Taoyuan"
-  | "Taichung"
-  | "Tainan"
-  | "Kaohsiung"
-  | "Keelung"
-  | "Hsinchu"
-  | "HsinchuCounty"
-  | "MiaoliCounty"
-  | "ChanghuaCounty"
-  | "NantouCounty"
-  | "YunlinCounty"
-  | "ChiayiCounty"
-  | "Chiayi"
-  | "PingtungCounty"
-  | "YilanCounty"
-  | "HualienCounty"
-  | "TaitungCounty"
-  | "KinmenCounty"
-  | "PenghuCounty"
-  | "LienchiangCounty";
 
 export interface Route extends HasID, HasName {
   city: City;
