@@ -43,8 +43,19 @@ export function Home() {
         return data;
       })
       .then((data) => {
-        if (!data.stations.length) {
+        if (!data.stations.length && data.routes.length >= 2) {
           return;
+        }
+
+        if (data.routes.length === 1) {
+          const [route] = data.routes;
+
+          return navigate({
+            pathname: `routes/${String(route.id)}`,
+            search: URLSearchParams({
+              query,
+            }),
+          });
         }
 
         return navigate({
