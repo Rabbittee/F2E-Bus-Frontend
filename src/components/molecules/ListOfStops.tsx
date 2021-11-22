@@ -61,8 +61,8 @@ export function ListOfStops({ id, stops, direction, className }: Props) {
   return (
     <List
       classes={{
-        wrapper: "pl-8 pr-6",
-        list: clsx("mt-4 pr-2 gap-2", className),
+        wrapper: clsx("pl-8 pr-6 flex flex-col", className),
+        list: "mt-4 pr-2 gap-2",
       }}
       title={
         <Title
