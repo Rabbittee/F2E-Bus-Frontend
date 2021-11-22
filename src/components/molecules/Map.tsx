@@ -5,21 +5,22 @@ import type * as Type from "leaflet";
 import { ReactNode, useState, useEffect } from "react";
 import { MAP_TOKEN } from "@/config";
 
-function MapBox(accessToken: string) {
-  return `https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token=${accessToken}`;
-}
-
-function OpenStreetMap() {
-  return `https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`;
-}
-
-function URL() {
-  if (MAP_TOKEN) {
-    return MapBox(MAP_TOKEN);
-  }
-
-  return OpenStreetMap();
-}
+const Tile = {
+  MapBox() {
+    return (
+      <TileLayer
+        url={
+          "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}"
+        }
+        tileSize={512}
+        maxZoom={18}
+        zoomOffset={-1}
+        id="mapbox/streets-v11"
+        accessToken={MAP_TOKEN}
+      />
+    );
+  },
+};
 
 type MapProps = {
   className?: string;
@@ -71,7 +72,7 @@ export function Map({
         className="h-full w-full rounded-3xl overflow-hidden"
         whenCreated={setMap}
       >
-        <TileLayer url={URL()} />
+        <Tile.MapBox />
 
         {children}
       </MapContainer>
