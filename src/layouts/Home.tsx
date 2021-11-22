@@ -42,15 +42,19 @@ export function Home() {
 
         return data;
       })
-      .then(({ center }) =>
-        navigate({
+      .then((data) => {
+        if (!data.stations.length) {
+          return;
+        }
+
+        return navigate({
           pathname: `locations`,
           search: URLSearchParams({
             query,
-            ...center,
+            ...data.center,
           }),
-        })
-      )
+        });
+      })
       .catch(console.error);
   }
 
