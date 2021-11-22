@@ -6,13 +6,9 @@ import { Input, Button } from "@/components";
 import { API, Query, useDispatch, useSelector } from "@/logic";
 import { pickRandomIn, URLSearchParams } from "@/utils";
 import logo from "@/assets/images/logo.png";
+import TITLE from "@/assets/title.json";
 
-const title = pickRandomIn([
-  "今天你想去哪冒險呢？",
-  "就，很想找公車。",
-  "給我公車，其餘免談！",
-  "今晚，我想來點...不同路線！",
-]);
+const title = pickRandomIn(TITLE);
 
 export function Home() {
   const query = useSelector(Query.selectQuery);
