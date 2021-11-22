@@ -84,9 +84,10 @@ export function Home() {
         onSubmit={onSubmit}
         onResetCapture={onReset}
       >
-        <h2 className="text-3xl text-center font-bold text-dark-green">
-          {title}
-        </h2>
+        <h2
+          className="text-3xl text-center font-bold text-dark-green"
+          dangerouslySetInnerHTML={{ __html: title }}
+        />
 
         <Input
           name="query"
