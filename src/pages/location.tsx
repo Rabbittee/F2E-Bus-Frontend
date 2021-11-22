@@ -75,11 +75,7 @@ export function Location() {
               <div className="flex flex-col">
                 <strong className="text-lg">{item.name}</strong>
 
-                {nearby || (
-                  <small className="text-sm text-gray-400">
-                    {item.address}
-                  </small>
-                )}
+                <small className="text-sm text-gray-400">{item.address}</small>
               </div>
             </Item.WithIcon>
           </Link>
