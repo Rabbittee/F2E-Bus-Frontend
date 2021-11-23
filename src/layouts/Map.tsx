@@ -33,7 +33,7 @@ function Stops({ stops }: StopsProps) {
         <Marker
           key={String(stop.id)}
           icon={Icon.Leaflet.Location}
-          position={[stop.position.lat, stop.position.lon]}
+          position={stop.position}
         />
       ))}
     </>
@@ -52,8 +52,7 @@ export default function RouteMap({ className }: RouteMapProps) {
     { skip: !id }
   );
 
-  const points =
-    stops && stops.map(({ position }) => latLng(position.lat, position.lon));
+  const points = stops && stops.map(({ position }) => latLng(position));
 
   const bounds = points && latLngBounds(points);
 
