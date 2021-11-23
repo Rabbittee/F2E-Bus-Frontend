@@ -46,7 +46,7 @@ export function Route() {
 
         <Map
           className={clsx(
-            match("map") || "hidden",
+            match("map") || "sr-only",
             "h-[32vh] md:block md:h-[76vh]"
           )}
         />

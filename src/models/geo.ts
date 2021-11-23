@@ -1,6 +1,7 @@
+import type { LatLngBoundsLiteral } from "leaflet";
 export namespace Geo {
   export interface Position {
-    lon: number;
+    lng: number;
     lat: number;
   }
 
@@ -13,13 +14,8 @@ export namespace Geo {
   }
 
   export function toString(position: Position) {
-    return `${position.lat},${position.lon}`;
+    return `${position.lat},${position.lng}`;
   }
 
-  export interface BoundingBox {
-    left: number;
-    right: number;
-    top: number;
-    bottom: number;
-  }
+  export type BoundingBox = LatLngBoundsLiteral;
 }

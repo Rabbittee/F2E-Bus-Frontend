@@ -1,9 +1,12 @@
-import { Geo } from "@/models";
-import { lerp } from "@/utils";
 import { MapContainer, TileLayer } from "react-leaflet";
 import type * as Type from "leaflet";
 import { ReactNode, useState, useEffect } from "react";
 import { MAP_TOKEN } from "@/config";
+import { clamp } from "ramda";
+
+const TILE_SIZE = 512;
+const MAX_ZOOM = 18;
+const DEFAULT_CENTER = { lat: 23.6978, lng: 120.9605 };
 
 const Tile = {
   MapBox() {
@@ -12,8 +15,8 @@ const Tile = {
         url={
           "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}"
         }
-        tileSize={512}
-        maxZoom={18}
+        tileSize={TILE_SIZE}
+        maxZoom={MAX_ZOOM}
         zoomOffset={-1}
         id="mapbox/streets-v11"
         accessToken={MAP_TOKEN}
@@ -25,47 +28,35 @@ const Tile = {
 type MapProps = {
   className?: string;
   bounds?: Type.LatLngBounds;
-  center?: Geo.Position;
-  bbox?: Geo.BoundingBox;
+  center?: Type.LatLngLiteral;
   zoom?: number;
   children?: ReactNode;
 };
 export function Map({
   className,
-  center = { lat: 23.6978, lon: 120.9605 },
+  center = DEFAULT_CENTER,
   bounds,
-  bbox,
-  zoom = 50,
+  zoom = MAX_ZOOM / 2,
   children,
 }: MapProps) {
   const [map, setMap] = useState<Type.Map>();
+  const _zoom = clamp(0, MAX_ZOOM, zoom);
 
   useEffect(() => {
     if (!map) return;
 
-    if (bbox) {
-      const { top, bottom, left, right } = bbox;
-
-      zoom = map.getBoundsZoom([
-        [top, left],
-        [bottom, right],
-      ]);
-    }
-
-    if (!center) return;
-
-    const { lat, lon } = center;
-    map.setView([lat, lon], zoom, { animate: true });
-
     if (bounds) {
-      map.fitBounds(bounds);
+      return void map.fitBounds(bounds);
     }
-  }, [map, center, zoom, bbox, bounds]);
+
+    if (center) {
+      return void map.setView(center, _zoom, { animate: true });
+    }
+  }, [map, _zoom, center, bounds]);
 
   return (
     <div className={className}>
       <MapContainer
-        zoom={lerp(0, 18, zoom / 100)}
         className="h-full w-full rounded-3xl overflow-hidden"
         whenCreated={setMap}
       >

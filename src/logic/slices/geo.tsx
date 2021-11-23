@@ -1,15 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import * as Model from "@/models";
 import { State } from "@/logic";
-import { second, minute } from "@/utils";
 
 type Position = Model.Geo.Position;
 const Status = Model.Geo.Status;
 
-const GeoOptions: PositionOptions = {
-  timeout: second(5),
-  maximumAge: minute(3),
-};
+const GeoOptions: PositionOptions = {};
 
 function getGeolocation() {
   if ("geolocation" in navigator) {
@@ -24,7 +20,7 @@ function getCurrentPositionByIP(): Promise<Position> {
     .then((response) => response.json())
     .then((data) => ({
       lat: data.latitude,
-      lon: data.longitude,
+      lng: data.longitude,
     }));
 }
 
@@ -40,7 +36,7 @@ function getCurrentPositionByGeolocation(geo?: Geolocation): Promise<Position> {
     geo.getCurrentPosition(resolve, reject, GeoOptions)
   ).then((position) => ({
     lat: position.coords.latitude,
-    lon: position.coords.longitude,
+    lng: position.coords.longitude,
   }));
 }
 
@@ -92,11 +88,9 @@ export const geo = createSlice({
     });
 
     builder.addCase(fetchGeo.fulfilled, (state, action) => {
-      const { lat, lon } = action.payload;
-
       Object.assign(state, {
         loading: false,
-        position: { lat, lon },
+        position: action.payload,
         error: undefined,
       });
     });
