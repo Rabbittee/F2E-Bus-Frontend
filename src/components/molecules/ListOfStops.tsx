@@ -2,6 +2,7 @@ import { cond, pipe } from "ramda";
 import { ReactNode, useState } from "react";
 import { addSeconds, formatDistanceToNowStrict, format } from "date-fns";
 import zhTW from "date-fns/locale/zh-TW";
+import { Link, useLocation } from "react-router-dom";
 
 import { Title, List, Item } from "@/components";
 import { Direction, Trip, TripStatus, Estimate, Stop } from "@/models";
@@ -15,6 +16,8 @@ type Props = {
   className?: string;
 };
 export function ListOfStops({ id, stops, direction, className }: Props) {
+  const pathname = useLocation()["pathname"].replace("/map", "");
+
   const { data: trips } = API.useGetRouteStopEstimateQuery(
     { id: id!, direction },
     {
@@ -84,78 +87,92 @@ export function ListOfStops({ id, stops, direction, className }: Props) {
           [
             Case["Unscheduled"],
             () => (
-              <Item.Stop
-                type="disable"
-                name={name}
-                id={String(id)}
-                children="今日未營運"
-              />
+              <Link to={{ hash: String(id), pathname: `${pathname}/map` }}>
+                <Item.Stop
+                  type="disable"
+                  name={name}
+                  id={String(id)}
+                  children="今日未營運"
+                />
+              </Link>
             ),
           ],
           [
             Case["Skipped"],
             () => (
-              <Item.Stop
-                type="disable"
-                name={name}
-                id={String(id)}
-                children="此站未停靠"
-              />
+              <Link to={{ hash: String(id), pathname: `${pathname}/map` }}>
+                <Item.Stop
+                  type="disable"
+                  name={name}
+                  id={String(id)}
+                  children="此站未停靠"
+                />
+              </Link>
             ),
           ],
           [
             Case["Terminate"],
             () => (
-              <Item.Stop
-                type="disable"
-                name={name}
-                id={String(id)}
-                children="末班車已過"
-              />
+              <Link to={{ hash: String(id), pathname: `${pathname}/map` }}>
+                <Item.Stop
+                  type="disable"
+                  name={name}
+                  id={String(id)}
+                  children="末班車已過"
+                />
+              </Link>
             ),
           ],
           [
             Case["Not Depart"],
             () => (
-              <Item.Stop
-                type="disable"
-                name={name}
-                id={String(id)}
-                children="尚未發車"
-              />
+              <Link to={{ hash: String(id), pathname: `${pathname}/map` }}>
+                <Item.Stop
+                  type="disable"
+                  name={name}
+                  id={String(id)}
+                  children="尚未發車"
+                />
+              </Link>
             ),
           ],
           [
             Case["Coming"],
             () => (
-              <Item.Stop
-                type="arrive"
-                name={name}
-                id={String(id)}
-                children="即將進站"
-              />
+              <Link to={{ hash: String(id), pathname: `${pathname}/map` }}>
+                <Item.Stop
+                  type="arrive"
+                  name={name}
+                  id={String(id)}
+                  children="即將進站"
+                />
+              </Link>
             ),
           ],
           [
             Case["Arrive"],
             () => (
-              <Item.Stop
-                type="arrive"
-                name={name}
-                id={String(id)}
-                children="進站中"
-              />
+              <Link to={{ hash: String(id), pathname: `${pathname}/map` }}>
+                <Item.Stop
+                  type="arrive"
+                  name={name}
+                  id={String(id)}
+                  children="進站中"
+                />
+              </Link>
             ),
           ],
           [
             Case["En Route"],
             () => (
-              <Item.Stop
-                type="default"
-                name={name}
-                id={String(id)}
-                children={formatEstimate(trip.timeOffset)}
-              />
+              <Link to={{ hash: String(id), pathname: `${pathname}/map` }}>
+                <Item.Stop
+                  type="default"
+                  name={name}
+                  id={String(id)}
+                  children={formatEstimate(trip.timeOffset)}
+                />
+              </Link>
             ),
           ],
         ])(trip)
