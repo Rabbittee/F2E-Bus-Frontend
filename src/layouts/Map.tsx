@@ -4,7 +4,7 @@ import { Marker, Polyline, Popup, Tooltip, useMap } from "react-leaflet";
 
 import { Icon, Map } from "@/components";
 import { Stop } from "@/models";
-import { API, Params, SearchParams } from "@/logic";
+import { API, Params, SearchParams, useHash } from "@/logic";
 import clsx from "clsx";
 import { useNavigate } from "react-router";
 
@@ -66,11 +66,32 @@ export default function RouteMap({ className }: RouteMapProps) {
   );
 
   const points = stops && stops.map(({ position }) => latLng(position));
-
   const bounds = points && latLngBounds(points);
 
+  const hash = useHash();
+  const focus = stops && stops.find(({ id }) => id === hash)?.position;
+  useEffect(() => focus && scroll({ top: 0 }), [focus]);
+
+  if (focus) {
+    return (
+      <Map
+        className={clsx("w-full px-2 my-2", className)}
+        center={focus}
+        zoom={18}
+      >
+        {stops && <Stops stops={stops} />}
+
+        {points && <Polyline positions={points} />}
+      </Map>
+    );
+  }
+
   return (
-    <Map className={clsx("w-full px-2 my-2", className)} bounds={bounds}>
+    <Map
+      className={clsx("w-full px-2 my-2", className)}
+      bounds={bounds}
+      center={focus}
+    >
       {stops && <Stops stops={stops} />}
 
       {points && <Polyline positions={points} />}

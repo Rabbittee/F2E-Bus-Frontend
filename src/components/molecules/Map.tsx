@@ -6,7 +6,6 @@ import { clamp } from "ramda";
 
 const TILE_SIZE = 512;
 const MAX_ZOOM = 18;
-const DEFAULT_CENTER = { lat: 23.6978, lng: 120.9605 };
 
 const Tile = {
   MapBox() {
@@ -26,6 +25,7 @@ const Tile = {
 };
 
 type MapProps = {
+  id?: string;
   className?: string;
   bounds?: Type.LatLngBounds;
   center?: Type.LatLngLiteral;
@@ -33,8 +33,9 @@ type MapProps = {
   children?: ReactNode;
 };
 export function Map({
+  id,
   className,
-  center = DEFAULT_CENTER,
+  center,
   bounds,
   zoom = MAX_ZOOM / 2,
   children,
@@ -45,17 +46,17 @@ export function Map({
   useEffect(() => {
     if (!map) return;
 
-    if (bounds) {
-      return void map.fitBounds(bounds);
-    }
-
     if (center) {
       return void map.setView(center, _zoom, { animate: true });
+    }
+
+    if (bounds) {
+      return void map.fitBounds(bounds);
     }
   }, [map, _zoom, center, bounds]);
 
   return (
-    <div className={className}>
+    <div id={id} className={className}>
       <MapContainer
         className="h-full w-full rounded-3xl overflow-hidden"
         whenCreated={setMap}
