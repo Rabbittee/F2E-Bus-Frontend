@@ -87,7 +87,7 @@ export function Default() {
   return (
     <main
       className={clsx(
-        "flex flex-col gap-2 container mx-auto py-8",
+        "flex flex-col gap-2 container mx-auto py-8 lg:max-h-[98vh]",
         matchPath("/") ? "lg:items-center" : "lg:flex-row"
       )}
     >
@@ -181,12 +181,13 @@ export function Default() {
           </Map>
         )}
 
-        {matchPath("/routes/:id/map") && (
+        {matchPath("/routes/:id/*") && (
           <Map
             className={clsx(
               "w-full h-[32vh] px-2 my-2",
               "sm:h-[64vh]",
-              "lg:h-[84vh]"
+              "lg:h-[84vh]",
+              matchPath("/routes/:id/map") || "sr-only lg:not-sr-only"
             )}
             {...(focus ? { center: focus, zoom: 18 } : { bounds })}
           >
@@ -203,7 +204,7 @@ export function Default() {
         )}
       </header>
 
-      <div className="lg:w-1/3">
+      <div className={clsx(matchPath("/") ? "w-full" : "lg:w-1/3")}>
         <Outlet />
       </div>
     </main>
