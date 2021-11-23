@@ -22,7 +22,7 @@ export default function Route() {
   });
 
   return (
-    <div className="pt-4 pb-8 flex flex-col gap-2">
+    <div className="pt-4 pb-8 flex flex-col gap-2 h-full">
       <SubRoutes
         className="ml-8"
         items={[

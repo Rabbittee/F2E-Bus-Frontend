@@ -110,7 +110,7 @@ export default function Info() {
   const location = useLocation();
 
   return (
-    <>
+    <div className="pt-4 pb-8 flex flex-col gap-2 h-full">
       <SubRoutes
         className="ml-8"
         items={information.map(({ id, title, defaultActive }) => ({
@@ -123,7 +123,10 @@ export default function Info() {
         }))}
       />
 
-      <List classes={{ wrapper: "px-8 h-full md:pb-8" }} items={information}>
+      <List
+        classes={{ wrapper: "px-8 h-full", list: "md:pb-8" }}
+        items={information}
+      >
         {({ id, title, children }) => (
           <Item.WithTitle
             id={id}
@@ -134,6 +137,6 @@ export default function Info() {
           </Item.WithTitle>
         )}
       </List>
-    </>
+    </div>
   );
 }
