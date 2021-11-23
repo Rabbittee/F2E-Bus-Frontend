@@ -1,41 +1,54 @@
 import { useEffect, useState } from "react";
 import { latLng, latLngBounds } from "leaflet";
-import { Marker, Polyline, useMap } from "react-leaflet";
+import { Marker, Polyline, Popup, Tooltip, useMap } from "react-leaflet";
 
 import { Icon, Map } from "@/components";
 import { Stop } from "@/models";
 import { API, Params, SearchParams } from "@/logic";
 import clsx from "clsx";
+import { useNavigate } from "react-router";
 
 type StopsProps = {
-  stops?: Stop[];
+  stops: Stop[];
 };
 function Stops({ stops }: StopsProps) {
   const map = useMap();
 
-  const canShow = () => map.getMaxZoom() - map.getZoom() <= 4;
-
-  const [show, setShow] = useState(canShow());
+  const [zoom, setZoom] = useState(map.getZoom());
 
   useEffect(() => {
-    const zoom = () => setShow(canShow());
+    const zoom = () => setZoom(map.getZoom());
 
     map.addEventListener("zoom", zoom);
 
     return () => void map.removeEventListener("zoom", zoom);
-  }, [map]);
+  }, [map, setZoom]);
 
-  if (!show) return <></>;
+  const diff = map.getMaxZoom() - zoom;
+
+  const showMarker = diff <= 4;
+  const showStationName = diff <= 3;
 
   return (
     <>
-      {stops?.map((stop) => (
-        <Marker
-          key={String(stop.id)}
-          icon={Icon.Leaflet.Location}
-          position={stop.position}
-        />
-      ))}
+      {showMarker &&
+        stops.map((stop, index) => (
+          <Marker
+            key={String(stop.id)}
+            icon={Icon.Leaflet.Location}
+            position={stop.position}
+            eventHandlers={{
+              click: () =>
+                document.getElementById(String(stop.id))?.scrollIntoView(),
+            }}
+          >
+            <Tooltip direction="top" offset={[0, -28]} permanent>
+              <span>{index + 1}</span>
+
+              {showStationName && <span>{stop.name}</span>}
+            </Tooltip>
+          </Marker>
+        ))}
     </>
   );
 }
@@ -58,7 +71,7 @@ export default function RouteMap({ className }: RouteMapProps) {
 
   return (
     <Map className={clsx("w-full px-2 my-2", className)} bounds={bounds}>
-      <Stops stops={stops} />
+      {stops && <Stops stops={stops} />}
 
       {points && <Polyline positions={points} />}
     </Map>

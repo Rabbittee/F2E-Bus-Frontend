@@ -44,11 +44,13 @@ function WithTitle({
 
 type StopProps = PropsWithChildren<{
   type: "default" | "arrive" | "disable";
+  id?: string;
   name: string;
 }>;
-function Stop({ name, type, children }: StopProps) {
+function Stop({ id, name, type, children }: StopProps) {
   return (
     <div
+      id={id}
       className={clsx(
         "rounded-full py-2 px-4",
         "flex justify-between items-center",

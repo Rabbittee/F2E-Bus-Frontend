@@ -78,38 +78,74 @@ export function ListOfStops({ id, stops, direction, className }: Props) {
       }
       items={data}
     >
-      {({ name, trip }) =>
+      {({ id, name, trip }) =>
         trip &&
         cond<Trip, ReactNode>([
           [
             Case["Unscheduled"],
             () => (
-              <Item.Stop type="disable" name={name} children="今日未營運" />
+              <Item.Stop
+                type="disable"
+                name={name}
+                id={String(id)}
+                children="今日未營運"
+              />
             ),
           ],
           [
             Case["Skipped"],
             () => (
-              <Item.Stop type="disable" name={name} children="此站未停靠" />
+              <Item.Stop
+                type="disable"
+                name={name}
+                id={String(id)}
+                children="此站未停靠"
+              />
             ),
           ],
           [
             Case["Terminate"],
             () => (
-              <Item.Stop type="disable" name={name} children="末班車已過" />
+              <Item.Stop
+                type="disable"
+                name={name}
+                id={String(id)}
+                children="末班車已過"
+              />
             ),
           ],
           [
             Case["Not Depart"],
-            () => <Item.Stop type="disable" name={name} children="尚未發車" />,
+            () => (
+              <Item.Stop
+                type="disable"
+                name={name}
+                id={String(id)}
+                children="尚未發車"
+              />
+            ),
           ],
           [
             Case["Coming"],
-            () => <Item.Stop type="arrive" name={name} children="即將進站" />,
+            () => (
+              <Item.Stop
+                type="arrive"
+                name={name}
+                id={String(id)}
+                children="即將進站"
+              />
+            ),
           ],
           [
             Case["Arrive"],
-            () => <Item.Stop type="arrive" name={name} children="進站中" />,
+            () => (
+              <Item.Stop
+                type="arrive"
+                name={name}
+                id={String(id)}
+                children="進站中"
+              />
+            ),
           ],
           [
             Case["En Route"],
@@ -117,6 +153,7 @@ export function ListOfStops({ id, stops, direction, className }: Props) {
               <Item.Stop
                 type="default"
                 name={name}
+                id={String(id)}
                 children={formatEstimate(trip.timeOffset)}
               />
             ),
