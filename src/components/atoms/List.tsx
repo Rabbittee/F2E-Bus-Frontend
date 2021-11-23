@@ -25,7 +25,12 @@ export function List<T extends HasID>({
     <div className={clsx("flex flex-col", className, classes?.wrapper)}>
       {title}
 
-      <ul className={clsx("flex flex-col gap-2 overflow-auto", classes?.list)}>
+      <ul
+        className={clsx(
+          "flex flex-col gap-2 overflow-auto px-2",
+          classes?.list
+        )}
+      >
         {items.map((item) => (
           <li key={String(item.id)}>{children?.(item)}</li>
         ))}

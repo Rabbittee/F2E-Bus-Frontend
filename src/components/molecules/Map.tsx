@@ -69,7 +69,7 @@ export function Map({
         className="h-full w-full rounded-3xl overflow-hidden"
         whenCreated={setMap}
       >
-        <Tile.MapBox />
+        {/* <Tile.MapBox /> */}
 
         {children}
       </MapContainer>
