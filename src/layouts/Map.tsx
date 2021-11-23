@@ -33,7 +33,7 @@ function Stops({ stops }: StopsProps) {
         <Marker
           key={String(stop.id)}
           icon={Icon.Leaflet.Location}
-          position={[stop.position.lat, stop.position.lon]}
+          position={stop.position}
         />
       ))}
     </>
@@ -52,15 +52,12 @@ export default function RouteMap({ className }: RouteMapProps) {
     { skip: !id }
   );
 
-  const points = stops?.map(({ position }) =>
-    latLng(position.lat, position.lon)
-  );
+  const points = stops && stops.map(({ position }) => latLng(position));
+
+  const bounds = points && latLngBounds(points);
 
   return (
-    <Map
-      className={clsx("w-full px-2 my-2", className)}
-      bounds={points && latLngBounds(points)}
-    >
+    <Map className={clsx("w-full px-2 my-2", className)} bounds={bounds}>
       <Stops stops={stops} />
 
       {points && <Polyline positions={points} />}

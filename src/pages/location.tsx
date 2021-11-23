@@ -5,6 +5,7 @@ import { Map, List, Icon, Item } from "@/components";
 import { API, SearchParams } from "@/logic";
 import { Station } from "@/models";
 import { URLSearchParams } from "@/utils";
+import { latLngBounds } from "leaflet";
 
 export function Location() {
   const navigate = useNavigate();
@@ -21,6 +22,9 @@ export function Location() {
   );
 
   const nearby = data?.stations.some(({ name }) => name === query);
+  const bounds =
+    data?.stations &&
+    latLngBounds(data.stations.map(({ position }) => position));
 
   const toLocation = (station: Station) =>
     nearby
@@ -33,8 +37,7 @@ export function Location() {
       : {
           search: URLSearchParams({
             query: station.name,
-            lat: station.position.lat,
-            lon: station.position.lon,
+            ...station.position,
           }),
         };
 
@@ -43,13 +46,13 @@ export function Location() {
       <Map
         className="w-full md:h-[84vh] md:flex-[8] h-[50vh] px-2 my-2"
         center={center}
-        bbox={data?.bbox}
+        bounds={bounds}
       >
         {data?.stations.map((station) => (
           <Marker
             key={String(station.id)}
             icon={Icon.Leaflet.Location}
-            position={[station.position.lat, station.position.lon]}
+            position={station.position}
             eventHandlers={{
               click: () => navigate(toLocation(station)),
             }}

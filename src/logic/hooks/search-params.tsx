@@ -33,7 +33,7 @@ export namespace SearchParams {
     return useMemo<Geo.Position>(
       () => ({
         lat: Number(params["lat"] || 0),
-        lon: Number(params["lon"] || 0),
+        lng: Number(params["lng"] || 0),
       }),
       [params]
     );
