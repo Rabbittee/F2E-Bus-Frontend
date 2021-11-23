@@ -6,13 +6,9 @@ export default API.injectEndpoints({
     getStationInformation: build.query<Station, string>({
       query: (id) => `/stations/${id}/informations`,
 
-      transformResponse: (res: any) => ({
-        id: res["id"],
-        name: res["name"],
-        url: res["url"],
-        position: res["position"],
-        address: res["address"],
-        routes: res["routes"],
+      transformResponse: ({ position, ...props }: any) => ({
+        ...props,
+        position: { lat: position.lat, lng: position.lon },
       }),
     }),
   }),

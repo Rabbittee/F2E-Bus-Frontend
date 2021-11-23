@@ -53,7 +53,7 @@ export default function Info() {
   const id = Params.useID();
 
   const { city, name, departure, destination, price } =
-    API.useGetRouteInformationQuery(id, {
+    API.useGetRouteInformationQuery(id!, {
       skip: !id,
       selectFromResult: ({ data }) => ({
         city: data?.city,

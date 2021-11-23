@@ -14,7 +14,7 @@ export namespace Geo {
   }
 
   export function toString(position: Position) {
-    return `${position.lat},${position.lng}`;
+    return `${position.lat.toPrecision(7)},${position.lng.toPrecision(7)}`;
   }
 
   export type BoundingBox = LatLngBoundsLiteral;

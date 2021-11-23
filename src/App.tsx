@@ -11,7 +11,7 @@ function App() {
           <Route path="locations" element={<Pages.Location />} />
           <Route path="stations/:id" element={<Pages.Stations />} />
 
-          <Route path="routes/:id/*" element={<Layout.Route />}>
+          <Route path="routes/:id/*">
             <Route path="map" element={<Pages.Routes.Route />} />
             <Route path="info" element={<Pages.Routes.Info />} />
             <Route index element={<Pages.Routes.Route />} />
