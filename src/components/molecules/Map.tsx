@@ -32,7 +32,7 @@ type MapProps = {
 };
 export function Map({
   className,
-  center,
+  center = { lat: 23.6978, lon: 120.9605 },
   bounds,
   bbox,
   zoom = 50,
@@ -42,12 +42,6 @@ export function Map({
 
   useEffect(() => {
     if (!map) return;
-
-    if (bounds) {
-      map.fitBounds(bounds);
-
-      return;
-    }
 
     if (bbox) {
       const { top, bottom, left, right } = bbox;
@@ -62,12 +56,15 @@ export function Map({
 
     const { lat, lon } = center;
     map.setView([lat, lon], zoom, { animate: true });
+
+    if (bounds) {
+      map.fitBounds(bounds);
+    }
   }, [map, center, zoom, bbox, bounds]);
 
   return (
     <div className={className}>
       <MapContainer
-        center={[center?.lat || 0, center?.lon || 0]}
         zoom={lerp(0, 18, zoom / 100)}
         className="h-full w-full rounded-3xl overflow-hidden"
         whenCreated={setMap}
