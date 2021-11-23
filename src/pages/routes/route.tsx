@@ -9,11 +9,11 @@ export default function Route() {
   const direction = SearchParams.useDirection();
 
   const { data: stops } = API.useGetRouteStopsQuery(
-    { id, direction },
+    { id: id!, direction },
     { skip: !id }
   );
 
-  const { departure, destination } = API.useGetRouteInformationQuery(id, {
+  const { departure, destination } = API.useGetRouteInformationQuery(id!, {
     skip: !id,
     selectFromResult: ({ data }) => ({
       departure: data?.departure,
@@ -22,7 +22,7 @@ export default function Route() {
   });
 
   return (
-    <>
+    <div className="pt-4 pb-8 flex flex-col gap-2">
       <SubRoutes
         className="ml-8"
         items={[
@@ -57,6 +57,6 @@ export default function Route() {
         stops={stops}
         direction={direction}
       />
-    </>
+    </div>
   );
 }

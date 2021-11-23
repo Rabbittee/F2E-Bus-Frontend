@@ -62,7 +62,6 @@ export function Home() {
           pathname: `locations`,
           search: URLSearchParams({
             query,
-            ...data.center,
           }),
         });
       })

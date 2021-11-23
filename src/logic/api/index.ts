@@ -1,5 +1,4 @@
 import GetRecommendQuery from "./get-recommend-query";
-import GetGeocodeByQuery from "./get-geocode-by-query";
 import GetRouteInformation from "./get-route-information";
 import GetRouteStopEstimate from "./get-route-stop-estimate";
 import GetRouteSchedule from "./get-route-schedule";
@@ -8,7 +7,6 @@ import GetStationInformation from "./get-station-information";
 
 export const API = {
   ...GetRecommendQuery,
-  ...GetGeocodeByQuery,
   ...GetRouteInformation,
   ...GetRouteStopEstimate,
   ...GetRouteStops,
@@ -16,7 +14,6 @@ export const API = {
   ...GetRouteSchedule,
   endpoints: {
     ...GetRecommendQuery.endpoints,
-    ...GetGeocodeByQuery.endpoints,
     ...GetRouteInformation.endpoints,
     ...GetRouteStopEstimate.endpoints,
     ...GetRouteStops.endpoints,

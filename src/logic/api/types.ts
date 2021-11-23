@@ -23,11 +23,6 @@ export namespace Res {
     center?: Geo.Position;
   }
 
-  export interface GetGeocodeByQuery {
-    location: Geo.Position;
-    address: string;
-  }
-
   export interface GetRouteStops {
     stops: {
       id: string;

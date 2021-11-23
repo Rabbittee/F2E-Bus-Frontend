@@ -6,11 +6,18 @@ import { useRecommendQuery } from "@/logic";
 import { URLSearchParams } from "@/utils";
 import { Query } from "@/models";
 
-function RecommendSearch({ name, url }: Query) {
+type Props = Query & { address?: string };
+function RecommendSearch({ name, url, address }: Props) {
   return (
     <Link to={{ pathname: url, search: URLSearchParams({ query: name }) }}>
       <Item.WithIcon icon={<Icon.Search />}>
-        <strong className="text-lg">{name}</strong>
+        <div className="flex flex-col">
+          <strong className="text-lg">{name}</strong>
+
+          {address && (
+            <small className="text-sm text-gray-400">{address}</small>
+          )}
+        </div>
       </Item.WithIcon>
     </Link>
   );
