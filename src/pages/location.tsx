@@ -28,7 +28,7 @@ export function Location() {
     <List
       classes={{
         wrapper:
-          "md:px-2 px-8 py-2 text-lg space-y-4 md:flex-[4] text-dark-green",
+          "md:px-2 px-8 py-2 text-lg space-y-4 md:flex-[4] text-dark-green overflow-auto h-full",
       }}
       title={
         <strong className="text-2xl">
