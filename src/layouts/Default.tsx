@@ -93,7 +93,11 @@ export function Default() {
       <Background.Map />
 
       <header
-        className={clsx("flex flex-col gap-6", "lg:w-2/3 lg:max-w-[72vw]")}
+        className={clsx(
+          "flex flex-col gap-6",
+          matchPath("/locations", "/stations/:id", "/routes/:id/*") &&
+            "lg:w-2/3 lg:max-w-[72vw]"
+        )}
       >
         {cond<string, ReactNode>([
           [match("/"), () => <Home />],
@@ -211,7 +215,13 @@ export function Default() {
         )}
       </header>
 
-      <div className={clsx(matchPath("/") ? "w-full" : "lg:w-1/3")}>
+      <div
+        className={clsx(
+          matchPath("/locations", "/stations/:id", "/routes/:id/*")
+            ? "lg:w-1/3"
+            : "w-full"
+        )}
+      >
         <Outlet />
       </div>
     </main>
