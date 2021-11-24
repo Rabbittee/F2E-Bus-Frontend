@@ -50,6 +50,7 @@ export interface Estimate {
 }
 
 export interface Stop extends HasID, HasName {
+  tdxID: string;
   position: Geo.Position;
 }
 

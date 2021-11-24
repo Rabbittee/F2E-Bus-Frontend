@@ -1,13 +1,13 @@
 import clsx from "clsx";
 import { ReactNode, useEffect } from "react";
 import { matchPath, Outlet, useLocation } from "react-router-dom";
-import { cond, T } from "ramda";
+import { cond, T, uniqBy } from "ramda";
 
 import {
   Background,
   HasBack,
   Map,
-  Stations,
+  Maps,
   Icon,
   PageTabs,
   UpperButton,
@@ -53,18 +53,21 @@ export function Default() {
     skip: !id || !matchPath("/stations/:id"),
   });
 
-  const { data: nearby } = API.useGetRecommendQueryQuery(
+  const { data: _nearby } = API.useGetRecommendQueryQuery(
     {
       use_geocode_api: true,
       location: station?.position,
     },
     {
       skip: !station?.position || !matchPath("/stations/:id"),
-      selectFromResult: ({ data }) => ({
-        data: data?.stations.filter((nearby) => nearby.id !== id),
-      }),
+      selectFromResult: ({ data }) => ({ data: data?.stations }),
     }
   );
+  const nearby =
+    _nearby &&
+    uniqBy(({ tdxID }) => tdxID, _nearby).filter(
+      ({ tdxID }) => tdxID !== station?.tdxID
+    );
 
   const { data: route } = API.useGetRouteInformationQuery(id!, {
     skip: !id || !matchPath("/routes/:id/*"),
@@ -170,13 +173,23 @@ export function Default() {
             }
             zoom={18}
           >
-            <Stations
-              stops={locations?.stations}
-              icon={Icon.Leaflet.Location}
-              onClick={(station) =>
-                navigate(toLocation(station as Station), { replace: true })
-              }
-            />
+            {locations?.stations.map((stop, index) => (
+              <Maps.Station
+                key={String(stop.id)}
+                stop={stop}
+                icon={Icon.Leaflet.Location}
+                tooltip={({ max, current }) => (
+                  <Maps.Tooltip.DarkGreen>
+                    <span>{index + 1}</span>
+
+                    {max - current < 2 && <span>{stop.name}</span>}
+                  </Maps.Tooltip.DarkGreen>
+                )}
+                onClick={(station) =>
+                  navigate(toLocation(station as Station), { replace: true })
+                }
+              />
+            ))}
           </Map>
         )}
 
@@ -190,18 +203,31 @@ export function Default() {
             center={station?.position}
             zoom={18}
           >
-            <Stations
-              stops={station && [station]}
-              icon={Icon.Leaflet.LocationActive}
-            />
+            {nearby?.map((stop, index) => (
+              <Maps.Station
+                key={String(stop.id)}
+                stop={stop}
+                tooltip={({ max, current }) =>
+                  max - current < 3 && (
+                    <Maps.Tooltip.DarkGreen>{index + 1}</Maps.Tooltip.DarkGreen>
+                  )
+                }
+                icon={Icon.Leaflet.Location}
+                onClick={(station) =>
+                  navigate(toLocation(station as Station), { replace: true })
+                }
+              />
+            ))}
 
-            <Stations
-              stops={nearby}
-              icon={Icon.Leaflet.Location}
-              onClick={(station) =>
-                navigate(toLocation(station as Station), { replace: true })
-              }
-            />
+            {station && (
+              <Maps.Station
+                stop={station}
+                icon={Icon.Leaflet.LocationActive}
+                tooltip={
+                  <Maps.Tooltip.Orange>{station.name}</Maps.Tooltip.Orange>
+                }
+              />
+            )}
           </Map>
         )}
 
@@ -215,13 +241,25 @@ export function Default() {
             )}
             {...(focus ? { center: focus, zoom: 18 } : { bounds })}
           >
-            <Stations
-              stops={stops}
-              icon={Icon.Leaflet.Location}
-              onClick={(station) =>
-                document.getElementById(String(station.id))?.scrollIntoView()
-              }
-            />
+            {stops?.map((stop, index) => (
+              <Maps.Station
+                key={String(stop.id)}
+                stop={stop}
+                icon={Icon.Leaflet.Location}
+                tooltip={({ max, current }) =>
+                  max - current < 4 && (
+                    <Maps.Tooltip.DarkGreen>
+                      <span>{index + 1}</span>
+
+                      {max - current < 2 && <span>{stop.name}</span>}
+                    </Maps.Tooltip.DarkGreen>
+                  )
+                }
+                onClick={(station) =>
+                  document.getElementById(String(station.id))?.scrollIntoView()
+                }
+              />
+            ))}
 
             {points && <Polygon positions={points} />}
           </Map>
