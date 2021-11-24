@@ -1,13 +1,23 @@
 import { Link } from "react-router-dom";
+import clsx from "clsx";
 
 import { List, Item } from "@/components";
-import { API, Params } from "@/logic";
+import { API, Params, Estimate } from "@/logic";
 import { URLSearchParams } from "@/utils";
-import clsx from "clsx";
+import { TripStatus } from "@/models";
 
 export function Stations() {
   const id = Params.useID();
-  const { data } = API.useGetStationInformationQuery(id!, { skip: !id });
+  const { data: information } = API.useGetStationInformationQuery(id!, {
+    skip: !id,
+  });
+  const { data: estimate } = API.useGetStationEstimateQuery(id!, {
+    skip: !id,
+    pollingInterval: 5 * 1000,
+  });
+
+  const getRemainByID = Estimate.remain(estimate);
+  const getStatusByID = Estimate.status(estimate);
 
   return (
     <List
@@ -18,8 +28,10 @@ export function Stations() {
         ),
         list: "pb-8",
       }}
-      title={<strong className="text-2xl text-orange">{data?.name}</strong>}
-      items={data?.routes}
+      title={
+        <strong className="text-2xl text-orange">{information?.name}</strong>
+      }
+      items={information?.routes}
     >
       {({ id, name, departure, destination }) => (
         <Link
@@ -29,15 +41,30 @@ export function Stations() {
           }}
         >
           <Item.WithTitle
+            classes={{
+              wrapper: clsx(
+                getStatusByID(String(id)) === TripStatus.Default || "opacity-50"
+              ),
+              title: clsx(
+                getStatusByID(String(id)) === TripStatus.Default
+                  ? "bg-orange"
+                  : "bg-gray-500"
+              ),
+              content: clsx(
+                getStatusByID(String(id)) === TripStatus.Default
+                  ? "text-orange"
+                  : "text-gray-500"
+              ),
+            }}
             title={
               <div className="flex justify-between">
                 <strong className="text-xl">{name}</strong>
 
-                <small>7分鐘</small>
+                <small>{getRemainByID(String(id))}</small>
               </div>
             }
           >
-            <strong className="text-orange">
+            <strong>
               {departure} — {destination}
             </strong>
           </Item.WithTitle>

@@ -45,3 +45,4 @@ export function StoreProvider({ children }: PropsWithChildren<{}>) {
 export * from "./slices";
 export * from "./api";
 export * from "./hooks";
+export * from "./functions";

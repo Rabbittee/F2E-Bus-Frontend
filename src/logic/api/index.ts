@@ -4,14 +4,16 @@ import GetRouteStopEstimate from "./get-route-stop-estimate";
 import GetRouteSchedule from "./get-route-schedule";
 import GetRouteStops from "./get-route-stops";
 import GetStationInformation from "./get-station-information";
+import GetStationEstimate from "./get-station-estimate";
 
 export const API = {
   ...GetRecommendQuery,
   ...GetRouteInformation,
   ...GetRouteStopEstimate,
   ...GetRouteStops,
-  ...GetStationInformation,
   ...GetRouteSchedule,
+  ...GetStationInformation,
+  ...GetStationEstimate,
   endpoints: {
     ...GetRecommendQuery.endpoints,
     ...GetRouteInformation.endpoints,
@@ -19,5 +21,6 @@ export const API = {
     ...GetRouteStops.endpoints,
     ...GetStationInformation.endpoints,
     ...GetRouteSchedule.endpoints,
+    ...GetStationEstimate.endpoints,
   },
 };
