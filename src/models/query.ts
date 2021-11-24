@@ -77,5 +77,5 @@ namespace TimeTable {
 }
 
 export type Schedule = {
-  [key in Day]?: TimeTable.Regular[] | TimeTable.Flexible;
+  [key in Day]?: TimeTable.Regular[] | TimeTable.Flexible[];
 };
