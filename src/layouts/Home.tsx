@@ -78,7 +78,7 @@ export function Home() {
       </div>
 
       <form
-        className="flex flex-col w-full gap-4 bg-white"
+        className="flex flex-col w-full gap-4 bg-white max-w-xl mx-auto"
         onSubmit={onSubmit}
         onResetCapture={onReset}
       >
