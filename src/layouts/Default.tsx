@@ -90,7 +90,13 @@ export function Default() {
         matchPath("/") ? "lg:items-center" : "lg:flex-row"
       )}
     >
-      {(matchPath("/") || matchPath("*")) && <Background.Map />}
+      {matchPath("/routes/:id/*") ||
+      matchPath("/stations/:id/*") ||
+      matchPath("/locations") ? (
+        <Background.Map />
+      ) : (
+        <Background.Search />
+      )}
 
       <header
         className={clsx("flex flex-col gap-6", "lg:w-2/3 lg:max-w-[72vw]")}
