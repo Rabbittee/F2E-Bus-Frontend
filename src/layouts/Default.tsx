@@ -10,7 +10,7 @@ import {
   Stations,
   Icon,
   PageTabs,
-  UpperButton,
+  ClickToTopButton,
 } from "@/components";
 import { API, Params, SearchParams, useHash } from "@/logic";
 import { Home } from "./Home";
@@ -94,7 +94,7 @@ export function Default() {
       {matchPath("/locations", "/stations/:id", "/routes/:id/*") ? (
         <>
           <Background.Map />
-          <UpperButton />
+          <ClickToTopButton />
         </>
       ) : (
         <Background.Search />
