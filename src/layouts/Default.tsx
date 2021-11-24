@@ -10,6 +10,7 @@ import {
   Stations,
   Icon,
   PageTabs,
+  UpperButton,
 } from "@/components";
 import { API, Params, SearchParams, useHash } from "@/logic";
 import { Home } from "./Home";
@@ -93,7 +94,10 @@ export function Default() {
       {matchPath("/routes/:id/*") ||
       matchPath("/stations/:id/*") ||
       matchPath("/locations") ? (
-        <Background.Map />
+        <>
+          <Background.Map />
+          <UpperButton />
+        </>
       ) : (
         <Background.Search />
       )}
