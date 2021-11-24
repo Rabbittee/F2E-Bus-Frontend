@@ -5,4 +5,4 @@ export * from "./Tabs";
 export * from "./Item";
 export * from "./Button";
 export * from "./Badge";
-export * from "./Upper";
+export * from "./ClickToTop";

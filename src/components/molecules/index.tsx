@@ -6,3 +6,4 @@ export * from "./HasBack";
 export * from "./ListOfStops";
 export * from "./SubRoutes";
 export * from "./Title";
+export * from "./Modal";
