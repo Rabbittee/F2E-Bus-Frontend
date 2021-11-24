@@ -1,7 +1,15 @@
-import { cloneElement, ReactNode, useEffect, useState } from "react";
+import {
+  cloneElement,
+  isValidElement,
+  ReactNode,
+  useEffect,
+  useState,
+} from "react";
 import { Icon } from "leaflet";
 import { Marker, useMap } from "react-leaflet";
 import { Stop } from "@/models";
+
+import type { Props } from "./Tooltip";
 
 function getTooltipOffsetHeight(icon: Icon) {
   const [, iconHeight] = icon.options.iconSize as [number, number];
@@ -38,6 +46,8 @@ export function Station({ stop, icon, onClick, tooltip }: StationProps) {
     current,
   };
 
+  const element = typeof tooltip === "function" ? tooltip(zoom) : tooltip;
+
   return (
     <Marker
       icon={icon}
@@ -46,9 +56,10 @@ export function Station({ stop, icon, onClick, tooltip }: StationProps) {
         click: () => onClick?.(stop),
       }}
     >
-      {cloneElement(typeof tooltip === "function" ? tooltip(zoom) : tooltip, {
-        offset: getTooltipOffsetHeight(icon),
-      })}
+      {isValidElement(element) &&
+        cloneElement(element, {
+          offset: getTooltipOffsetHeight(icon),
+        } as Props)}
     </Marker>
   );
 }
