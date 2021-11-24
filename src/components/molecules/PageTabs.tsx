@@ -25,7 +25,7 @@ export function PageTabs({ items }: Props) {
         items={items}
       >
         {({ name, icon, active, to }) => (
-          <Link to={to}>
+          <Link to={to} replace>
             <div
               className={clsx(
                 "h-full py-3 rounded-2xl",
