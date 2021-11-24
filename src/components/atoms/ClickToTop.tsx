@@ -25,7 +25,7 @@ export function ClickToTopButton() {
   return (
     <div
       className={clsx(
-        "fixed w-12 bottom-3 right-3 lg:hidden z-10 duration-300 transition-all",
+        "fixed w-12 bottom-3 right-3 z-10 duration-300 transition-all",
         !isVisable && "pointer-events-none opacity-0"
       )}
     >

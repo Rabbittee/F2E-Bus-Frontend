@@ -24,6 +24,7 @@ export const Icon = {
   LastTime,
   ArriveTime,
   ClickToTop,
+  LocationActive,
   Leaflet: {
     Location: new LeafletIcon({
       iconUrl: Location,

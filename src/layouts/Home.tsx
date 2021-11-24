@@ -2,7 +2,7 @@ import { FormEvent, ChangeEvent } from "react";
 import { has } from "ramda";
 import { useNavigate } from "react-router-dom";
 
-import { Input, Button } from "@/components";
+import { Input, Button, Modal } from "@/components";
 import { API, Query, useDispatch, useSelector } from "@/logic";
 import { pickRandomIn, URLSearchParams } from "@/utils";
 import logo from "@/assets/images/logo.png";
@@ -108,6 +108,7 @@ export function Home() {
           <button>搜尋</button>
         </Button>
       </form>
+      <Modal />
     </div>
   );
 }
