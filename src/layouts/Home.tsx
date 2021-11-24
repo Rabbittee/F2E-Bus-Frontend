@@ -44,7 +44,11 @@ export function Home() {
         return data;
       })
       .then((data) => {
-        if (data.routes.length === 1) {
+        if (data.routes.length) {
+          if (data.routes.length > 1) {
+            return;
+          }
+
           const [route] = data.routes;
 
           return navigate({
