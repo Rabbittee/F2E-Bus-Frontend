@@ -8,7 +8,7 @@ export function NotFound() {
   const query = SearchParams.useQuery();
 
   return (
-    <div className="px-7 flex flex-col gap-4 mx-auto max-w-xl text-dark-green">
+    <div className="px-7 flex flex-col gap-4 mx-auto max-w-xl text-dark-green md:h-[90vh] md:justify-center">
       <div className="flex flex-col items-center gap-8">
         <img className="xl:hidden" src={notFoundLogo} alt="LOGO" />
         <img className="xl:block hidden" src={notFoundLogoWb} alt="LOGO" />
