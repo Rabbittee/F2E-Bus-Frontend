@@ -14,7 +14,7 @@ import {
 } from "@/components";
 import { API, Params, SearchParams, useHash } from "@/logic";
 import { Home } from "./Home";
-import { latLng, latLngBounds } from "leaflet";
+import { latLng, latLngBounds, Icon as LeafletIcon } from "leaflet";
 import { Polygon } from "react-leaflet";
 import { useNavigate } from "react-router-dom";
 import { URLSearchParams } from "@/utils";
