@@ -11,6 +11,7 @@
     "@reduxjs/toolkit": "^1.6.2",
     "clsx": "^1.1.1",
     "date-fns": "^2.25.0",
+    "framer-motion": "^5.3.2",
     "history": "^5.1.0",
     "latlon-geohash": "^2.0.0",
     "leaflet": "^1.7.1",
