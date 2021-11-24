@@ -1,7 +1,6 @@
 import { HasValue } from "@/models";
 import clsx from "clsx";
 import { CSSProperties, ReactNode } from "react";
-import { Icon } from "..";
 
 function CSS(config: any): CSSProperties {
   return config;
@@ -64,9 +63,10 @@ export function SwitchToggle<T extends HasValue>({
       <div
         className={clsx(
           classes?.thumb || "w-6 h-6",
-          "rounded-full bg-white p-1",
+          "rounded-full bg-white ",
           "absolute transform pointer-events-none",
-          "transition-transform ease-out-cubic"
+          "transition-transform ease-out-cubic",
+          value === "remain" ? "p-1" : "px-1 py-0.5"
         )}
         style={CSS({
           "--tw-translate-x": `${(index / (options.length - 1)) * 100}%`,
