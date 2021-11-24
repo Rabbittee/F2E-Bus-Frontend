@@ -100,7 +100,11 @@ function StartEnd({ title, schedule }: Props) {
       if (Array.isArray(group)) {
         end = max(
           group
-            .map(({ arrival_time }) => parse(arrival_time, "HH:mm", new Date()))
+            .map((item) =>
+              item.type === "flexible"
+                ? parse(item.end_time, "HH:mm", new Date())
+                : parse(item.arrival_time, "HH:mm", new Date())
+            )
             .concat(end)
         );
       }
@@ -116,7 +120,11 @@ function StartEnd({ title, schedule }: Props) {
       if (Array.isArray(group)) {
         start = min(
           group
-            .map(({ arrival_time }) => parse(arrival_time, "HH:mm", new Date()))
+            .map((item) =>
+              item.type === "flexible"
+                ? parse(item.start_time, "HH:mm", new Date())
+                : parse(item.arrival_time, "HH:mm", new Date())
+            )
             .concat(start)
         );
       }
