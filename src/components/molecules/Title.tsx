@@ -2,6 +2,7 @@ import clsx from "clsx";
 
 import { Icon, SwitchToggle } from "@/components";
 import { Estimate, Has } from "@/models";
+import { isContext } from "vm";
 
 type Option = Has<"value", keyof Estimate> & Has<"label", string>;
 type TitleProps = {
@@ -37,7 +38,7 @@ export function Title({
           options={options}
           value={value}
           onChange={onChange}
-          thumb={<Icon.LastTime />}
+          thumb={value === "remain" ? <Icon.LastTime /> : <Icon.ArriveTime />}
         />
       </div>
     </div>
