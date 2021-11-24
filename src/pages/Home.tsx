@@ -10,7 +10,13 @@ type Props = Query & { address?: string };
 function RecommendSearch({ name, url, address }: Props) {
   return (
     <Link to={{ pathname: url, search: URLSearchParams({ query: name }) }}>
-      <Item.WithIcon icon={<Icon.Search />}>
+      <Item.WithIcon
+        icon={
+          <div>
+            <Icon.Search className="w-6 md:w-8" />
+          </div>
+        }
+      >
         <div className="flex flex-col">
           <strong className="text-lg">{name}</strong>
 
