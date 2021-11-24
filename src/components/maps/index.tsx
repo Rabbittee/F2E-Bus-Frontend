@@ -1,1 +1,4 @@
-export * from "./stops";
+import * as Tooltip from "./Tooltip";
+import * as Station from "./Station";
+
+export const Maps = { ...Station, ...Tooltip };

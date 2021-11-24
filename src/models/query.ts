@@ -54,6 +54,7 @@ export interface Stop extends HasID, HasName {
 }
 
 export interface Station extends Stop {
+  tdxID: string;
   address: string;
   routes: Route[];
 }

@@ -54,9 +54,11 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 
 .leaflet-tooltip {
-  @apply bg-dark-green border-dark-green text-white font-bold py-0.5 px-2 space-x-1;
+  appearance: none;
+  box-shadow: none;
+  @apply bg-transparent border-transparent opacity-100;
 }
 
 .leaflet-tooltip-top::before {
-  @apply border-t-dark-green;
+  @apply border-transparent;
 }
