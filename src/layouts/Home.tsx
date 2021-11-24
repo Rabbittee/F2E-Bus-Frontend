@@ -94,7 +94,9 @@ export function Home() {
           onChange={onChange}
         />
 
-        <Button disabled={!query}>搜尋</Button>
+        <Button disabled={!query}>
+          <button>搜尋</button>
+        </Button>
       </form>
     </div>
   );
