@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { ReactNode } from "react";
 import { Tooltip as _Tooltip } from "react-leaflet";
 
-type Props = {
+export type Props = {
   children?: ReactNode;
   offset?: number;
   classes?: {
