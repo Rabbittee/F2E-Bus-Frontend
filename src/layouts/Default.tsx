@@ -42,9 +42,8 @@ export function Default() {
     { skip: !query || !matchPath("/locations") }
   );
 
-  const isNearby = locations?.stations.some(({ name }) => name === query);
   const toLocation = (station: Station) => ({
-    pathname: isNearby ? `/stations/${String(station.id)}` : undefined,
+    pathname: `/stations/${String(station.id)}`,
     search: URLSearchParams({ query: station.name }),
   });
 
@@ -157,7 +156,9 @@ export function Default() {
             <Stations
               stops={locations?.stations}
               icon={Icon.Leaflet.Location}
-              onClick={(station) => navigate(toLocation(station as Station))}
+              onClick={(station) =>
+                navigate(toLocation(station as Station), { replace: true })
+              }
             />
           </Map>
         )}
@@ -177,7 +178,13 @@ export function Default() {
               icon={Icon.Leaflet.LocationActive}
             />
 
-            <Stations stops={nearby} icon={Icon.Leaflet.Location} />
+            <Stations
+              stops={nearby}
+              icon={Icon.Leaflet.Location}
+              onClick={(station) =>
+                navigate(toLocation(station as Station), { replace: true })
+              }
+            />
           </Map>
         )}
 
