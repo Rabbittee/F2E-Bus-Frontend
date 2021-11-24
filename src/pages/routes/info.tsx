@@ -185,7 +185,7 @@ export default function Info() {
         {({ id, title, children }) => (
           <Item.WithTitle
             id={id}
-            classes={{ title: "bg-blue" }}
+            classes={{ title: "bg-blue", content: "text-dark-green" }}
             title={<strong className="text-2xl">{title}</strong>}
           >
             {children}

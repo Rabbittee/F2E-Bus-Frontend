@@ -44,7 +44,7 @@ function WithTitle({ id, title, classes, children }: WithTitleProps) {
         {title}
       </header>
 
-      <div className={clsx("p-3", classes?.content)}>{children}</div>
+      <div className={clsx("p-3 bg-white", classes?.content)}>{children}</div>
     </div>
   );
 }

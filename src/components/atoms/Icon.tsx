@@ -7,6 +7,7 @@ import { ReactComponent as Map } from "@/assets/svgs/map-icon.svg";
 import { ReactComponent as Info } from "@/assets/svgs/info-icon.svg";
 import { ReactComponent as LastTime } from "@/assets/svgs/lasttime-icon.svg";
 import { ReactComponent as ArriveTime } from "@/assets/svgs/arrivetime-icon.svg";
+import { ReactComponent as UpperArrow } from "@/assets/svgs/upper-icon.svg";
 
 import Location from "@/assets/svgs/location.svg";
 import LocationActive from "@/assets/svgs/location-active.svg";
@@ -22,6 +23,7 @@ export const Icon = {
   Info,
   LastTime,
   ArriveTime,
+  UpperArrow,
   Leaflet: {
     Location: new LeafletIcon({
       iconUrl: Location,

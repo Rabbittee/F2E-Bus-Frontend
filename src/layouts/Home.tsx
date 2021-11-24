@@ -73,10 +73,14 @@ export function Home() {
   }
 
   return (
-    <div className="px-7 flex flex-col gap-4">
+    <div className="px-7 flex flex-col gap-8">
       <div className="flex flex-col items-center gap-8 pt-4">
         <img className="md:max-w-xl xl:hidden" src={logo} alt="LOGO" />
-        <img className="md:max-w-xl xl:block hidden" src={logoWb} alt="LOGO" />
+        <img
+          className="md:max-w-xl w-[560px] xl:block hidden"
+          src={logoWb}
+          alt="LOGO"
+        />
       </div>
 
       <form

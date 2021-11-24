@@ -10,6 +10,7 @@ import {
   Stations,
   Icon,
   PageTabs,
+  UpperButton,
 } from "@/components";
 import { API, Params, SearchParams, useHash } from "@/logic";
 import { Home } from "./Home";
@@ -90,10 +91,11 @@ export function Default() {
         matchPath("/") ? "lg:items-center" : "lg:flex-row"
       )}
     >
-      {matchPath("/routes/:id/*") ||
-      matchPath("/stations/:id/*") ||
-      matchPath("/locations") ? (
-        <Background.Map />
+      {matchPath("/locations", "/stations/:id", "/routes/:id/*") ? (
+        <>
+          <Background.Map />
+          <UpperButton />
+        </>
       ) : (
         <Background.Search />
       )}
@@ -101,8 +103,13 @@ export function Default() {
       <header
         className={clsx(
           "flex flex-col gap-6",
-          matchPath("/locations", "/stations/:id", "/routes/:id/*") &&
-            "lg:w-2/3 lg:max-w-[72vw]"
+          matchPath(
+            "/locations",
+            "/stations/:id",
+            "/routes/:id",
+            "/routes/:id/info"
+          ) && "lg:w-2/3 lg:max-w-[72vw]",
+          matchPath("/routes/:id/map") && "lg:w-full"
         )}
       >
         {cond<string, ReactNode>([
@@ -201,10 +208,10 @@ export function Default() {
         {matchPath("/routes/:id/*") && (
           <Map
             className={clsx(
-              "w-full h-[32vh] px-2 my-2",
+              "w-full h-[32vh] px-2 my-2 lg:static",
               "sm:h-[64vh]",
               "lg:h-[84vh]",
-              matchPath("/routes/:id/map") || "sr-only lg:not-sr-only"
+              matchPath("/routes/:id/map") || "sr-only"
             )}
             {...(focus ? { center: focus, zoom: 18 } : { bounds })}
           >
@@ -225,7 +232,8 @@ export function Default() {
         className={clsx(
           matchPath("/locations", "/stations/:id", "/routes/:id/*")
             ? "lg:w-1/3"
-            : "w-full"
+            : "w-full",
+          matchPath("/routes/:id/map") && "md:hidden block"
         )}
       >
         <Outlet />
