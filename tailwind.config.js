@@ -46,7 +46,8 @@ module.exports = {
     },
     backgroundImage: {
       "search-md": "url('/assets/background.png')",
-      "search-wd": "url('/assets/bg-Search-wb.svg')",
+      "search-wd": "url('/assets/web_search_bg.svg')",
+      "other-wd": "url('/assets/web_other_bg.svg')",
     },
   },
   plugins: [require("@whiterussianstudio/tailwind-easing")],
