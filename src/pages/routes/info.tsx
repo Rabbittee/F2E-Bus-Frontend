@@ -48,26 +48,32 @@ function Departure({ title, schedule }: Props) {
 
   if (type === "regular") {
     return (
-      <table className="table-auto">
-        <caption className="text-left font-bold">{title}</caption>
+      <div>
+        <strong className="text-left">{title}</strong>
 
-        {Object.entries(data).map(([day, items], row) => (
-          <tr key={day}>
-            {items.map(({ value }, index) => (
-              <td
-                key={index}
-                className={clsx(
-                  "px-1 py-0 text-dark-green",
-                  "first:rounded-l-3xl last:rounded-r-3xl",
-                  row % 2 && "bg-light-blue"
-                )}
-              >
-                {value}
-              </td>
-            ))}
-          </tr>
-        ))}
-      </table>
+        <div className="overflow-auto">
+          <table className="table-auto">
+            <tbody>
+              {Object.entries(data).map(([day, items], row) => (
+                <tr key={day}>
+                  {items.map(({ value }, index) => (
+                    <td
+                      key={index}
+                      className={clsx(
+                        "px-1 py-0 text-dark-green",
+                        "first:rounded-l-3xl last:rounded-r-3xl",
+                        row % 2 && "bg-light-blue"
+                      )}
+                    >
+                      {value}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     );
   }
 

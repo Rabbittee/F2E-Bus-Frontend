@@ -37,7 +37,7 @@ function WithTitle({
     <div className="flex flex-col rounded-xl overflow-hidden shadow" id={id}>
       <header className={clsx("text-white p-3", color)}>{title}</header>
 
-      <div className="m-3 text-dark-green overflow-auto">{children}</div>
+      <div className="p-3 text-dark-green">{children}</div>
     </div>
   );
 }
