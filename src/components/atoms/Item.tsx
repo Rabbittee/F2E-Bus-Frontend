@@ -8,10 +8,16 @@ import {
 
 type WithIconProps = PropsWithChildren<{
   icon?: ReactNode;
+  className?: string;
 }>;
-function WithIcon({ icon, children }: WithIconProps) {
+function WithIcon({ icon, children, className }: WithIconProps) {
   return (
-    <div className="border-b border-blue p-2 flex gap-2 items-center">
+    <div
+      className={clsx(
+        "border-b border-blue p-2 flex gap-2 items-center",
+        className
+      )}
+    >
       {isValidElement(icon) && cloneElement(icon, { className: "flex-[1]" })}
 
       {isValidElement(children) &&

@@ -1,24 +1,43 @@
 import { Link } from "react-router-dom";
 import clsx from "clsx";
+import { motion, useAnimation } from "framer-motion";
 
 import { Icon, List, Item } from "@/components";
 import { useRecommendQuery } from "@/logic";
 import { URLSearchParams } from "@/utils";
 import { Query } from "@/models";
+import { useEffect } from "react";
 
 type Props = Query & { address?: string };
 function RecommendSearch({ name, url, address }: Props) {
+  const controls = useAnimation();
+
+  const play = () =>
+    controls.start({ opacity: [1, 0.5, 1], transition: { duration: 0.35 } });
+
+  useEffect(() => {
+    const form = document.querySelector("form");
+
+    if (!form) return;
+
+    form.addEventListener("submit", play);
+
+    return () => form.removeEventListener("submit", play);
+  }, [play]);
+
   return (
     <Link to={{ pathname: url, search: URLSearchParams({ query: name }) }}>
-      <Item.WithIcon icon={<Icon.Search />}>
-        <div className="flex flex-col">
-          <strong className="text-lg">{name}</strong>
+      <motion.div animate={controls}>
+        <Item.WithIcon icon={<Icon.Search />}>
+          <div className="flex flex-col">
+            <strong className="text-lg">{name}</strong>
 
-          {address && (
-            <small className="text-sm text-gray-400">{address}</small>
-          )}
-        </div>
-      </Item.WithIcon>
+            {address && (
+              <small className="text-sm text-gray-400">{address}</small>
+            )}
+          </div>
+        </Item.WithIcon>
+      </motion.div>
     </Link>
   );
 }
