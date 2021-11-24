@@ -28,7 +28,7 @@ export default function Route() {
         items={[
           {
             id: Direction.Departure,
-            name: `往${departure}`,
+            name: `往${destination}`,
             to: {
               search: URLSearchParams({
                 direction: Direction.Departure,
@@ -39,7 +39,7 @@ export default function Route() {
           },
           {
             id: Direction.Destination,
-            name: `往${destination}`,
+            name: `往${departure}`,
             to: {
               search: URLSearchParams({
                 direction: Direction.Destination,

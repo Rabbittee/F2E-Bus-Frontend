@@ -15,7 +15,7 @@ import {
 import { API, Params, SearchParams, useHash } from "@/logic";
 import { Home } from "./Home";
 import { latLng, latLngBounds } from "leaflet";
-import { Polygon } from "react-leaflet";
+import { Polyline } from "react-leaflet";
 import { useNavigate } from "react-router-dom";
 import { URLSearchParams } from "@/utils";
 import { Station } from "@/models";
@@ -247,7 +247,7 @@ export function Default() {
                 stop={stop}
                 icon={Icon.Leaflet.Location}
                 tooltip={({ max, current }) =>
-                  max - current < 4 && (
+                  max - current < 5 && (
                     <Maps.Tooltip.DarkGreen>
                       <span>{index + 1}</span>
 
@@ -261,7 +261,13 @@ export function Default() {
               />
             ))}
 
-            {points && <Polygon positions={points} />}
+            {points && (
+              <Polyline
+                positions={points}
+                color="currentColor"
+                className="text-blue"
+              />
+            )}
           </Map>
         )}
       </header>
