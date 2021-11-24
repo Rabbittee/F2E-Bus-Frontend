@@ -1,9 +1,9 @@
 import { cond, pipe } from "ramda";
 import { ReactNode, useState } from "react";
-import { addSeconds, formatDistanceToNowStrict, format } from "date-fns";
-import zhTW from "date-fns/locale/zh-TW";
+import { addSeconds, format } from "date-fns";
 import { Link, useLocation } from "react-router-dom";
 
+import { formatDistanceToNow } from "@/utils";
 import { Title, List, Item } from "@/components";
 import { Direction, Trip, TripStatus, Estimate, Stop } from "@/models";
 import { API } from "@/logic";
@@ -54,9 +54,7 @@ export function ListOfStops({ id, stops, direction, className }: Props) {
   const formatEstimate = pipe(
     (estimate: number) => addSeconds(new Date(), estimate),
     {
-      remain: (arrival: Date) =>
-        formatDistanceToNowStrict(arrival, { locale: zhTW }),
-
+      remain: formatDistanceToNow,
       arrival: (arrival: Date) => format(arrival, "HH:mm"),
     }[display]
   );

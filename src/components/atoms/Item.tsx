@@ -25,19 +25,26 @@ function WithIcon({ icon, children }: WithIconProps) {
 type WithTitleProps = PropsWithChildren<{
   id?: string;
   title?: ReactNode;
-  color?: "bg-orange" | "bg-blue";
+  classes?: {
+    wrapper?: string;
+    title?: string;
+    content?: string;
+  };
 }>;
-function WithTitle({
-  id,
-  title,
-  color = "bg-orange",
-  children,
-}: WithTitleProps) {
+function WithTitle({ id, title, classes, children }: WithTitleProps) {
   return (
-    <div className="flex flex-col rounded-xl overflow-hidden shadow" id={id}>
-      <header className={clsx("text-white p-3", color)}>{title}</header>
+    <div
+      className={clsx(
+        "flex flex-col rounded-xl overflow-hidden shadow",
+        classes?.wrapper
+      )}
+      id={id}
+    >
+      <header className={clsx("text-white p-3", classes?.title)}>
+        {title}
+      </header>
 
-      <div className="p-3 text-dark-green">{children}</div>
+      <div className={clsx("p-3", classes?.content)}>{children}</div>
     </div>
   );
 }
