@@ -9,7 +9,10 @@ import { Query } from "@/models";
 import { useEffect } from "react";
 
 type Props = Query & { address?: string };
-function RecommendSearch({ name, url, address }: Props) {
+
+export function Home() {
+  const data = useRecommendQuery();
+
   const controls = useAnimation();
 
   const play = () =>
@@ -26,26 +29,6 @@ function RecommendSearch({ name, url, address }: Props) {
   }, [play]);
 
   return (
-    <Link to={{ pathname: url, search: URLSearchParams({ query: name }) }}>
-      <motion.div animate={controls}>
-        <Item.WithIcon icon={<Icon.Search />}>
-          <div className="flex flex-col">
-            <strong className="text-lg">{name}</strong>
-
-            {address && (
-              <small className="text-sm text-gray-400">{address}</small>
-            )}
-          </div>
-        </Item.WithIcon>
-      </motion.div>
-    </Link>
-  );
-}
-
-export function Home() {
-  const data = useRecommendQuery();
-
-  return (
     <section
       className={clsx(
         "px-8 py-2 w-full md:max-w-xl md:px-0 md:mx-auto",
@@ -60,7 +43,23 @@ export function Home() {
           title={<small className="text-sm text-orange">我附近的巴士站</small>}
           items={data?.stations}
         >
-          {RecommendSearch}
+          {({ name, url, address }: Props) => (
+            <Link
+              to={{ pathname: url, search: URLSearchParams({ query: name }) }}
+            >
+              <motion.div animate={controls}>
+                <Item.WithIcon icon={<Icon.Search />}>
+                  <div className="flex flex-col">
+                    <strong className="text-lg">{name}</strong>
+
+                    {address && (
+                      <small className="text-sm text-gray-400">{address}</small>
+                    )}
+                  </div>
+                </Item.WithIcon>
+              </motion.div>
+            </Link>
+          )}
         </List>
 
         <List
@@ -69,7 +68,23 @@ export function Home() {
           }
           items={data?.routes}
         >
-          {RecommendSearch}
+          {({ name, url, address }: Props) => (
+            <Link
+              to={{ pathname: url, search: URLSearchParams({ query: name }) }}
+            >
+              <motion.div animate={controls}>
+                <Item.WithIcon icon={<Icon.Search />}>
+                  <div className="flex flex-col">
+                    <strong className="text-lg">{name}</strong>
+
+                    {address && (
+                      <small className="text-sm text-gray-400">{address}</small>
+                    )}
+                  </div>
+                </Item.WithIcon>
+              </motion.div>
+            </Link>
+          )}
         </List>
       </div>
     </section>

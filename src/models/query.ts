@@ -59,14 +59,23 @@ export interface Station extends Stop {
   routes: Route[];
 }
 
-interface Res {
-  day: Day;
-  max_headway: number;
-  min_headway: number;
-  start_time: string;
-  end_time: string;
+namespace TimeTable {
+  export interface Regular {
+    type: "regular";
+    day: Day;
+    arrival_time: string;
+  }
+
+  export interface Flexible {
+    type: "flexible";
+    day: Day;
+    max_headway: number;
+    min_headway: number;
+    start_time: string;
+    end_time: string;
+  }
 }
 
 export type Schedule = {
-  [key in Day]?: Res;
+  [key in Day]?: TimeTable.Regular[] | TimeTable.Flexible;
 };
