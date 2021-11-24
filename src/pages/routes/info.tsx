@@ -4,7 +4,8 @@ import { omit } from "ramda";
 import { SubRoutes, List, Item } from "@/components";
 import { API, Params } from "@/logic";
 import { formatCity, formatDay, Schedule, Day } from "@/models";
-import clsx from "clsx";
+import { format, max, min, parse, startOfToday } from "date-fns";
+import { endOfToday } from "date-fns/esm";
 
 type Props = {
   title?: string;
@@ -49,30 +50,23 @@ function Departure({ title, schedule }: Props) {
   if (type === "regular") {
     return (
       <div>
-        <strong className="text-left">{title}</strong>
+        <strong>{title}</strong>
 
-        <div className="overflow-auto">
-          <table className="table-auto">
-            <tbody>
-              {Object.entries(data).map(([day, items], row) => (
-                <tr key={day}>
-                  {items.map(({ value }, index) => (
-                    <td
-                      key={index}
-                      className={clsx(
-                        "px-1 py-0 text-dark-green",
-                        "first:rounded-l-3xl last:rounded-r-3xl",
-                        row % 2 && "bg-light-blue"
-                      )}
-                    >
-                      {value}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <ul className="flex flex-col gap-2">
+          {Object.entries(data).map(([day, items]) => (
+            <li key={day}>
+              <strong>{formatDay(day as Day)}</strong>
+
+              <ul className="grid grid-cols-5 gap-1 text-sm">
+                {items.map(({ value }) => (
+                  <li key={value} className="flex flex-col text-dark-green">
+                    {value}
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ))}
+        </ul>
       </div>
     );
   }
@@ -95,6 +89,61 @@ function Departure({ title, schedule }: Props) {
         </li>
       ))}
     </ul>
+  );
+}
+
+function StartEnd({ title, schedule }: Props) {
+  const getEndOfSchedule = (schedule: Schedule) => {
+    let end = startOfToday();
+
+    for (const group of Object.values(schedule)) {
+      if (Array.isArray(group)) {
+        end = max(
+          group
+            .map(({ arrival_time }) => parse(arrival_time, "HH:mm", new Date()))
+            .concat(end)
+        );
+      }
+    }
+
+    return format(end, "HH:mm");
+  };
+
+  const getStartOfSchedule = (schedule: Schedule) => {
+    let start = endOfToday();
+
+    for (const group of Object.values(schedule)) {
+      if (Array.isArray(group)) {
+        start = min(
+          group
+            .map(({ arrival_time }) => parse(arrival_time, "HH:mm", new Date()))
+            .concat(start)
+        );
+      }
+    }
+
+    return format(start, "HH:mm");
+  };
+
+  return (
+    <div>
+      <strong>{title}</strong>
+
+      <p>
+        <span>
+          {getStartOfSchedule(
+            omit(
+              ["monday", "tuesday", "wednesday", "thursday", "friday"],
+              schedule
+            )
+          )}
+        </span>
+
+        <span>~</span>
+
+        <span>{getEndOfSchedule(omit(["saturday", "sunday"], schedule))}</span>
+      </p>
+    </div>
   );
 }
 
@@ -140,24 +189,32 @@ export default function Info() {
     {
       id: "weekday-departure",
       title: "平日發車資訊",
-      children: (
-        <Departure
-          title="尖鋒時間"
-          schedule={omit(["saturday", "sunday"], schedule)}
-        />
+      children: schedule && (
+        <div className="space-y-4">
+          <StartEnd title="頭末班車" schedule={schedule} />
+
+          <Departure
+            title="班距資訊"
+            schedule={omit(["saturday", "sunday"], schedule)}
+          />
+        </div>
       ),
     },
     {
       id: "weekend-departure",
       title: "假日發車資訊",
-      children: (
-        <Departure
-          title="離峰時間"
-          schedule={omit(
-            ["monday", "tuesday", "wednesday", "thursday", "friday"],
-            schedule
-          )}
-        />
+      children: schedule && (
+        <div className="space-y-4">
+          <StartEnd title="頭末班車" schedule={schedule} />
+
+          <Departure
+            title="班距資訊"
+            schedule={omit(
+              ["monday", "tuesday", "wednesday", "thursday", "friday"],
+              schedule
+            )}
+          />
+        </div>
       ),
     },
   ];
