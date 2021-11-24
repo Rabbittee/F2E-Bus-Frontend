@@ -36,7 +36,7 @@ function Departure({ schedule }: Props) {
 
           <ul className="flex flex-col gap-1 text-sm">
             {items.map(({ title, value }) => (
-              <li key={title} className="flex flex-col">
+              <li key={title} className="flex flex-col text-dark-green">
                 <strong>{title}</strong>
 
                 <span>{value}</span>

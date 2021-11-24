@@ -12,7 +12,10 @@ export function Stations() {
   return (
     <List
       classes={{
-        wrapper: clsx("px-8 py-2 text-lg text-white space-y-4", "md:p-0"),
+        wrapper: clsx(
+          "px-8 py-2 text-lg text-white space-y-4 overflow-auto h-full",
+          "md:p-0"
+        ),
         list: "pb-8",
       }}
       title={<strong className="text-2xl text-orange">{data?.name}</strong>}
