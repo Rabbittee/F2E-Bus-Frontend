@@ -30,9 +30,31 @@ module.exports = {
             transform: "translateY(0%)",
           },
         },
+        fadeIn: {
+          "0%": {
+            opacity: 0,
+            transform: "translateY(-100px)",
+          },
+          "100%": {
+            opacity: 1,
+            transform: "translateY(0)",
+          },
+        },
+        fadeOut: {
+          "0%": {
+            opacity: 1,
+            transform: "translateY(0)",
+          },
+          "100%": {
+            opacity: 0,
+            transform: "translateY(-100px)",
+          },
+        },
       },
       animation: {
         upper: "upper 1s ease-in",
+        fadeIn: "fadeIn 0.4s ease-out",
+        fadeOut: "fadeOut 0.4s ease-out",
       },
       zIndex: {
         "-1": "-1",
