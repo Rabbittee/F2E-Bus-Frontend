@@ -4,28 +4,71 @@ import { omit } from "ramda";
 import { SubRoutes, List, Item } from "@/components";
 import { API, Params } from "@/logic";
 import { formatCity, formatDay, Schedule, Day } from "@/models";
+import clsx from "clsx";
 
 type Props = {
+  title?: string;
   schedule: Schedule;
 };
-function Departure({ schedule }: Props) {
+function Departure({ title, schedule }: Props) {
   type Group = {
-    [key in keyof Schedule]?: { title: string; value: string }[];
+    [key in keyof Schedule]?: { title?: string; value: string }[];
   };
+
+  let type: "flexible" | "regular" | undefined;
   const data: Group = {};
 
   for (const [day, group] of Object.entries(schedule)) {
     //
     for (const value of Object.values(group)) {
-      const { max_headway, min_headway, start_time, end_time } = value;
+      type = value.type;
 
-      const items = data[day as Day] || [];
+      if (value.type === "regular") {
+        const { arrival_time } = value;
 
-      data[day as Day] = items.concat({
-        title: `${start_time} ~ ${end_time}`,
-        value: `${min_headway}分至${max_headway}分`,
-      });
+        const items = data[day as Day] || [];
+
+        data[day as Day] = items.concat({
+          value: arrival_time.replace(":", ""),
+        });
+      }
+
+      if (value.type === "flexible") {
+        const { max_headway, min_headway, start_time, end_time } = value;
+
+        const items = data[day as Day] || [];
+
+        data[day as Day] = items.concat({
+          title: `${start_time} ~ ${end_time}`,
+          value: `${min_headway}分至${max_headway}分`,
+        });
+      }
     }
+  }
+
+  if (type === "regular") {
+    return (
+      <table className="table-auto">
+        <caption className="text-left font-bold">{title}</caption>
+
+        {Object.entries(data).map(([day, items], row) => (
+          <tr key={day}>
+            {items.map(({ value }, index) => (
+              <td
+                key={index}
+                className={clsx(
+                  "px-1 py-0 text-dark-green",
+                  "first:rounded-l-3xl last:rounded-r-3xl",
+                  row % 2 && "bg-light-blue"
+                )}
+              >
+                {value}
+              </td>
+            ))}
+          </tr>
+        ))}
+      </table>
+    );
   }
 
   return (
@@ -91,13 +134,19 @@ export default function Info() {
     {
       id: "weekday-departure",
       title: "平日發車資訊",
-      children: <Departure schedule={omit(["saturday", "sunday"], schedule)} />,
+      children: (
+        <Departure
+          title="尖鋒時間"
+          schedule={omit(["saturday", "sunday"], schedule)}
+        />
+      ),
     },
     {
       id: "weekend-departure",
       title: "假日發車資訊",
       children: (
         <Departure
+          title="離峰時間"
           schedule={omit(
             ["monday", "tuesday", "wednesday", "thursday", "friday"],
             schedule
@@ -112,7 +161,7 @@ export default function Info() {
   return (
     <div className="pt-4 pb-8 flex flex-col gap-2 h-full">
       <SubRoutes
-        className="ml-8"
+        className="ml-8 md:ml-0"
         items={information.map(({ id, title, defaultActive }) => ({
           id,
           name: title,
@@ -124,7 +173,7 @@ export default function Info() {
       />
 
       <List
-        classes={{ wrapper: "px-8 h-full", list: "md:pb-8" }}
+        classes={{ wrapper: "px-8 md:px-0 h-full", list: "md:pb-8" }}
         items={information}
       >
         {({ id, title, children }) => (
