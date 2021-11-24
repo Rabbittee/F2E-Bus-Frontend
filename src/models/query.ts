@@ -50,11 +50,11 @@ export interface Estimate {
 }
 
 export interface Stop extends HasID, HasName {
-  tdxID: string;
   position: Geo.Position;
 }
 
 export interface Station extends Stop {
+  tdxID: string;
   address: string;
   routes: Route[];
 }
