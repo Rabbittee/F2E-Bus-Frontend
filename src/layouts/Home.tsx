@@ -104,7 +104,7 @@ export function Home() {
           onChange={onChange}
         />
 
-        <Button disabled={!query}>
+        <Button variant="dark-green-contained" disabled={!query}>
           <button>搜尋</button>
         </Button>
       </form>

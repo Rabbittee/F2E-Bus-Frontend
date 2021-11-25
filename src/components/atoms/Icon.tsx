@@ -9,8 +9,14 @@ import { ReactComponent as LastTime } from "@/assets/svgs/lasttime-icon.svg";
 import { ReactComponent as ArriveTime } from "@/assets/svgs/arrivetime-icon.svg";
 import { ReactComponent as ClickToTop } from "@/assets/svgs/click-to-top-icon.svg";
 
-import Location from "@/assets/svgs/location.svg";
-import LocationActive from "@/assets/svgs/location-active.svg";
+import LocationURL, {
+  ReactComponent as Location,
+} from "@/assets/svgs/location.svg";
+
+import LocationActiveURL, {
+  ReactComponent as LocationActive,
+} from "@/assets/svgs/location-active.svg";
+
 import { Icon as LeafletIcon } from "leaflet";
 
 export const Icon = {
@@ -24,15 +30,16 @@ export const Icon = {
   LastTime,
   ArriveTime,
   ClickToTop,
+  Location,
   LocationActive,
   Leaflet: {
     Location: new LeafletIcon({
-      iconUrl: Location,
+      iconUrl: LocationURL,
       iconSize: [40, 40],
       iconAnchor: [20, 35],
     }),
     LocationActive: new LeafletIcon({
-      iconUrl: LocationActive,
+      iconUrl: LocationActiveURL,
       iconSize: [60, 60],
       iconAnchor: [31, 55],
     }),

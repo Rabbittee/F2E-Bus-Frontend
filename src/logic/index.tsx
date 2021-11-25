@@ -1,5 +1,5 @@
 import { PropsWithChildren } from "react";
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import {
   Provider,
@@ -7,19 +7,49 @@ import {
   useSelector as useSelectorWith,
 } from "react-redux";
 
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import { PersistGate } from "redux-persist/integration/react";
+
 import { API } from "./api/api";
-import { query, geo } from "./slices";
 import { GeoProvider } from "./providers";
+import { query, geo, user, ExpireUser } from "./slices";
+
+const persistConfig = {
+  key: "root",
+  storage,
+  whitelist: ["user"],
+  transforms: [ExpireUser()],
+};
 
 const store = configureStore({
-  reducer: {
-    [geo.name]: geo.reducer,
-    [query.name]: query.reducer,
-    [API.reducerPath]: API.reducer,
-  },
+  reducer: persistReducer(
+    persistConfig,
+    combineReducers({
+      [geo.name]: geo.reducer,
+      [query.name]: query.reducer,
+      [user.name]: user.reducer,
+      [API.reducerPath]: API.reducer,
+    })
+  ),
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(API.middleware),
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }).concat(API.middleware),
 });
+
+const persistor = persistStore(store);
 
 setupListeners(store.dispatch);
 
@@ -37,7 +67,9 @@ export function useSelector<T>(selector: (state: State) => T) {
 export function StoreProvider({ children }: PropsWithChildren<{}>) {
   return (
     <Provider store={store}>
-      <GeoProvider>{children}</GeoProvider>
+      <PersistGate loading={null} persistor={persistor}>
+        <GeoProvider>{children}</GeoProvider>
+      </PersistGate>
     </Provider>
   );
 }
