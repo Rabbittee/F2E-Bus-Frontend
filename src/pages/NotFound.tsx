@@ -35,7 +35,7 @@ export function NotFound() {
         )}
       </div>
 
-      <Button>
+      <Button variant="dark-green-contained">
         <Link to="/">回首頁</Link>
       </Button>
     </div>

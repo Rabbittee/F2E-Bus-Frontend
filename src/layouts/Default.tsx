@@ -1,7 +1,9 @@
 import clsx from "clsx";
-import { ReactNode, useEffect } from "react";
-import { matchPath, Outlet, useLocation } from "react-router-dom";
+import { FormEvent, ReactNode, useEffect, useState } from "react";
+import { matchPath, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { cond, T, uniqBy } from "ramda";
+import { latLng, latLngBounds } from "leaflet";
+import { Polyline } from "react-leaflet";
 
 import {
   Background,
@@ -9,16 +11,90 @@ import {
   Map,
   Maps,
   Icon,
+  Button,
   PageTabs,
   ClickToTopButton,
+  Modal,
+  Glassmorphism,
 } from "@/components";
-import { API, Params, SearchParams, useHash } from "@/logic";
-import { Home } from "./Home";
-import { latLng, latLngBounds } from "leaflet";
-import { Polyline } from "react-leaflet";
-import { useNavigate } from "react-router-dom";
+import {
+  API,
+  Geo,
+  Params,
+  SearchParams,
+  useDispatch,
+  useHash,
+  User,
+  useSelector,
+} from "@/logic";
 import { URLSearchParams } from "@/utils";
 import { Station } from "@/models";
+import { Home } from "./Home";
+
+function ModalGeolocation() {
+  const [open, setOpen] = useState(!useSelector(User.selectHasAskedGeo));
+  const dispatch = useDispatch();
+
+  function onConfirm(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    dispatch(Geo.fetch())
+      .then(() => dispatch(User.enableGeo(true)))
+      .catch(console.error)
+      .finally(onClose);
+  }
+
+  const onCancel = () =>
+    Promise.resolve()
+      .then(() => dispatch(User.enableGeo(false)))
+      .then(() => onClose());
+
+  const onClose = () => setOpen(false);
+
+  if (!open) return <></>;
+
+  return (
+    <Modal
+      onClick={onClose}
+      background={
+        <Glassmorphism
+          className="brightness-50"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        />
+      }
+      initial={{ scale: 0 }}
+      animate={{ scale: 1 }}
+      transition={{ delay: 0.3 }}
+    >
+      <form onSubmit={onConfirm} onReset={onCancel} className="space-y-4">
+        <div className="flex flex-col items-center">
+          <Icon.LocationActive className="w-9" />
+
+          <strong className="text-dark-green text-lg">
+            是否允許網站存取您目前的位置?
+          </strong>
+
+          <span className="text-gray-400">為了更好的協助您...</span>
+        </div>
+
+        <footer className="flex justify-between gap-4 text-blue">
+          <Button variant="blue-outlined">
+            <button type="reset" className="flex-1">
+              拒絕
+            </button>
+          </Button>
+
+          <Button variant="blue-contained">
+            <button type="submit" className="flex-1">
+              接受
+            </button>
+          </Button>
+        </footer>
+      </form>
+    </Modal>
+  );
+}
 
 const match =
   (...patterns: string[]) =>
@@ -88,200 +164,210 @@ export function Default() {
   useEffect(() => focus && scroll({ top: 0 }), [focus]);
 
   return (
-    <main
-      className={clsx(
-        "flex flex-col gap-2 container mx-auto py-8 lg:max-h-[98vh]",
-        matchPath("/") ? "lg:items-center" : "lg:flex-row"
-      )}
-    >
-      {matchPath("/locations", "/stations/:id", "/routes/:id/*") ? (
-        <>
-          <Background.Map />
-          <ClickToTopButton />
-        </>
-      ) : (
-        <Background.Search />
-      )}
-
-      <header
+    <>
+      <main
         className={clsx(
-          "flex flex-col gap-6",
-          matchPath(
-            "/locations",
-            "/stations/:id",
-            "/routes/:id",
-            "/routes/:id/info"
-          ) && "lg:w-2/3 lg:max-w-[72vw]",
-          matchPath("/routes/:id/map") && "lg:w-full"
+          "flex flex-col gap-2 container mx-auto py-8 lg:max-h-[98vh]",
+          matchPath("/") ? "lg:items-center" : "lg:flex-row"
         )}
       >
-        {cond<string, ReactNode>([
-          [match("/"), () => <Home />],
-          [
-            match("/locations"),
-            () => <HasBack className="text-dark-green" title={query} />,
-          ],
-          [
-            match("/stations/:id"),
-            () => <HasBack className="text-dark-green" title={station?.name} />,
-          ],
-          [
-            match("/routes/:id/*"),
-            () => <HasBack className="text-orange" title={route?.name} />,
-          ],
-          [T, () => <></>],
-        ])(location.pathname)}
-
-        {matchPath("routes/:id/*") && (
-          <PageTabs
-            items={[
-              {
-                id: "1",
-                name: "公車路線",
-                icon: <Icon.Route className="w-9" />,
-                to: { pathname: `/routes/${id}` },
-                active: matchPath("/routes/:id"),
-              },
-              {
-                id: "2",
-                name: "公車地圖",
-                icon: <Icon.Map className="w-10" />,
-                to: { pathname: `/routes/${id}/map` },
-                active: matchPath("/routes/:id/map"),
-              },
-              {
-                id: "3",
-                name: "公車資訊",
-                icon: <Icon.Info className="w-8" />,
-                to: { pathname: `/routes/${id}/info` },
-                active: matchPath("/routes/:id/info"),
-              },
-            ]}
-          />
+        {matchPath("/locations", "/stations/:id", "/routes/:id/*") ? (
+          <>
+            <Background.Map />
+            <ClickToTopButton />
+          </>
+        ) : (
+          <Background.Search />
         )}
 
-        {matchPath("/locations") && (
-          <Map
-            className={clsx(
-              "w-full h-[32vh] px-2 my-2",
-              "sm:h-[64vh]",
-              "lg:h-[84vh]"
-            )}
-            bounds={
-              locations &&
-              latLngBounds(locations.stations.map(({ position }) => position))
-            }
-            zoom={18}
-          >
-            {locations?.stations.map((stop, index) => (
-              <Maps.Station
-                key={String(stop.id)}
-                stop={stop}
-                icon={Icon.Leaflet.Location}
-                tooltip={({ max, current }) => (
-                  <Maps.Tooltip.DarkGreen>
-                    <span>{index + 1}</span>
+        <header
+          className={clsx(
+            "flex flex-col gap-6",
+            matchPath(
+              "/locations",
+              "/stations/:id",
+              "/routes/:id",
+              "/routes/:id/info"
+            ) && "lg:w-2/3 lg:max-w-[72vw]",
+            matchPath("/routes/:id/map") && "lg:w-full"
+          )}
+        >
+          {cond<string, ReactNode>([
+            [match("/"), () => <Home />],
+            [
+              match("/locations"),
+              () => <HasBack className="text-dark-green" title={query} />,
+            ],
+            [
+              match("/stations/:id"),
+              () => (
+                <HasBack className="text-dark-green" title={station?.name} />
+              ),
+            ],
+            [
+              match("/routes/:id/*"),
+              () => <HasBack className="text-orange" title={route?.name} />,
+            ],
+            [T, () => <></>],
+          ])(location.pathname)}
 
-                    {max - current < 2 && <span>{stop.name}</span>}
-                  </Maps.Tooltip.DarkGreen>
-                )}
-                onClick={(station) =>
-                  navigate(toLocation(station as Station), { replace: true })
-                }
-              />
-            ))}
-          </Map>
-        )}
+          {matchPath("routes/:id/*") && (
+            <PageTabs
+              items={[
+                {
+                  id: "1",
+                  name: "公車路線",
+                  icon: <Icon.Route className="w-9" />,
+                  to: { pathname: `/routes/${id}` },
+                  active: matchPath("/routes/:id"),
+                },
+                {
+                  id: "2",
+                  name: "公車地圖",
+                  icon: <Icon.Map className="w-10" />,
+                  to: { pathname: `/routes/${id}/map` },
+                  active: matchPath("/routes/:id/map"),
+                },
+                {
+                  id: "3",
+                  name: "公車資訊",
+                  icon: <Icon.Info className="w-8" />,
+                  to: { pathname: `/routes/${id}/info` },
+                  active: matchPath("/routes/:id/info"),
+                },
+              ]}
+            />
+          )}
 
-        {matchPath("/stations/:id") && (
-          <Map
-            className={clsx(
-              "w-full h-[32vh] px-2 my-2",
-              "sm:h-[64vh]",
-              "lg:h-[84vh]"
-            )}
-            center={station?.position}
-            zoom={18}
-          >
-            {nearby?.map((stop, index) => (
-              <Maps.Station
-                key={String(stop.id)}
-                stop={stop}
-                tooltip={({ max, current }) =>
-                  max - current < 3 && (
-                    <Maps.Tooltip.DarkGreen>{index + 1}</Maps.Tooltip.DarkGreen>
-                  )
-                }
-                icon={Icon.Leaflet.Location}
-                onClick={(station) =>
-                  navigate(toLocation(station as Station), { replace: true })
-                }
-              />
-            ))}
-
-            {station && (
-              <Maps.Station
-                stop={station}
-                icon={Icon.Leaflet.LocationActive}
-                tooltip={
-                  <Maps.Tooltip.Orange>{station.name}</Maps.Tooltip.Orange>
-                }
-              />
-            )}
-          </Map>
-        )}
-
-        {matchPath("/routes/:id/*") && (
-          <Map
-            className={clsx(
-              "w-full h-[32vh] px-2 my-2 lg:static",
-              "sm:h-[64vh]",
-              "lg:h-[84vh]",
-              matchPath("/routes/:id/map") || "sr-only"
-            )}
-            {...(focus ? { center: focus, zoom: 18 } : { bounds })}
-          >
-            {stops?.map((stop, index) => (
-              <Maps.Station
-                key={String(stop.id)}
-                stop={stop}
-                icon={Icon.Leaflet.Location}
-                tooltip={({ max, current }) =>
-                  max - current < 5 && (
+          {matchPath("/locations") && (
+            <Map
+              className={clsx(
+                "w-full h-[32vh] px-2 my-2",
+                "sm:h-[64vh]",
+                "lg:h-[84vh]"
+              )}
+              bounds={
+                locations &&
+                latLngBounds(locations.stations.map(({ position }) => position))
+              }
+              zoom={18}
+            >
+              {locations?.stations.map((stop, index) => (
+                <Maps.Station
+                  key={String(stop.id)}
+                  stop={stop}
+                  icon={Icon.Leaflet.Location}
+                  tooltip={({ max, current }) => (
                     <Maps.Tooltip.DarkGreen>
                       <span>{index + 1}</span>
 
                       {max - current < 2 && <span>{stop.name}</span>}
                     </Maps.Tooltip.DarkGreen>
-                  )
-                }
-                onClick={(station) =>
-                  document.getElementById(String(station.id))?.scrollIntoView()
-                }
-              />
-            ))}
+                  )}
+                  onClick={(station) =>
+                    navigate(toLocation(station as Station), { replace: true })
+                  }
+                />
+              ))}
+            </Map>
+          )}
 
-            {points && (
-              <Polyline
-                positions={points}
-                color="currentColor"
-                className="text-blue"
-              />
-            )}
-          </Map>
-        )}
-      </header>
+          {matchPath("/stations/:id") && (
+            <Map
+              className={clsx(
+                "w-full h-[32vh] px-2 my-2",
+                "sm:h-[64vh]",
+                "lg:h-[84vh]"
+              )}
+              center={station?.position}
+              zoom={18}
+            >
+              {nearby?.map((stop, index) => (
+                <Maps.Station
+                  key={String(stop.id)}
+                  stop={stop}
+                  tooltip={({ max, current }) =>
+                    max - current < 3 && (
+                      <Maps.Tooltip.DarkGreen>
+                        {index + 1}
+                      </Maps.Tooltip.DarkGreen>
+                    )
+                  }
+                  icon={Icon.Leaflet.Location}
+                  onClick={(station) =>
+                    navigate(toLocation(station as Station), { replace: true })
+                  }
+                />
+              ))}
 
-      <div
-        className={clsx(
-          matchPath("/locations", "/stations/:id", "/routes/:id/*")
-            ? "lg:w-1/3"
-            : "w-full",
-          matchPath("/routes/:id/map") && "md:hidden block"
-        )}
-      >
-        <Outlet />
-      </div>
-    </main>
+              {station && (
+                <Maps.Station
+                  stop={station}
+                  icon={Icon.Leaflet.LocationActive}
+                  tooltip={
+                    <Maps.Tooltip.Orange>{station.name}</Maps.Tooltip.Orange>
+                  }
+                />
+              )}
+            </Map>
+          )}
+
+          {matchPath("/routes/:id/*") && (
+            <Map
+              className={clsx(
+                "w-full h-[32vh] px-2 my-2 lg:static",
+                "sm:h-[64vh]",
+                "lg:h-[84vh]",
+                matchPath("/routes/:id/map") || "sr-only"
+              )}
+              {...(focus ? { center: focus, zoom: 18 } : { bounds })}
+            >
+              {stops?.map((stop, index) => (
+                <Maps.Station
+                  key={String(stop.id)}
+                  stop={stop}
+                  icon={Icon.Leaflet.Location}
+                  tooltip={({ max, current }) =>
+                    max - current < 5 && (
+                      <Maps.Tooltip.DarkGreen>
+                        <span>{index + 1}</span>
+
+                        {max - current < 2 && <span>{stop.name}</span>}
+                      </Maps.Tooltip.DarkGreen>
+                    )
+                  }
+                  onClick={(station) =>
+                    document
+                      .getElementById(String(station.id))
+                      ?.scrollIntoView()
+                  }
+                />
+              ))}
+
+              {points && (
+                <Polyline
+                  positions={points}
+                  color="currentColor"
+                  className="text-blue"
+                />
+              )}
+            </Map>
+          )}
+        </header>
+
+        <div
+          className={clsx(
+            matchPath("/locations", "/stations/:id", "/routes/:id/*")
+              ? "lg:w-1/3"
+              : "w-full",
+            matchPath("/routes/:id/map") && "md:hidden block"
+          )}
+        >
+          <Outlet />
+        </div>
+      </main>
+
+      <ModalGeolocation />
+    </>
   );
 }
