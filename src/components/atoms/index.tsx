@@ -8,3 +8,4 @@ export * from "./Badge";
 export * from "./ClickToTop";
 export * from "./FilterEffect";
 export * from "./Layer";
+export * from "./Toast";
