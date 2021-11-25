@@ -6,3 +6,4 @@ export * from "./Item";
 export * from "./Button";
 export * from "./Badge";
 export * from "./ClickToTop";
+export * from "./Toast";
