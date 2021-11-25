@@ -1,4 +1,5 @@
-import { map, is, cond, T, identity } from "ramda";
+import { isObject } from ".";
+import { isArray } from "./is";
 
 function mapping<I extends {}, R extends {}>(obj: I): R {
   const result: [string, any][] = [];
@@ -10,10 +11,10 @@ function mapping<I extends {}, R extends {}>(obj: I): R {
   return Object.fromEntries(result) as R;
 }
 
-export function lowercaseKeys<R extends {}>(data: any): R {
-  return cond([
-    [is(Array), map(lowercaseKeys)],
-    [is(Object), mapping],
-    [T, identity],
-  ])(data);
+export function lowercaseKeys(data: any): any {
+  if (isArray(data)) return data.map(lowercaseKeys);
+
+  if (isObject(data)) return mapping(data);
+
+  return data;
 }

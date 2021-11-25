@@ -24,11 +24,11 @@ type ExecuteProps = Partial<{
 
 const IsSearchQueryEmpty =
   //
-  propSatisfies<string, ExecuteProps>(isEmpty, "query");
+  propSatisfies(isEmpty, "query");
 
 const IsGeolocationEmpty =
   //
-  propSatisfies<Model.Geo.Position, ExecuteProps>(isNil, "location");
+  propSatisfies(isNil, "location");
 
 const Situation = {
   "User typing search query": complement(IsSearchQueryEmpty),
