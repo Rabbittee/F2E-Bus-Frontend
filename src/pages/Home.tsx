@@ -48,7 +48,13 @@ export function Home() {
               to={{ pathname: url, search: URLSearchParams({ query: name }) }}
             >
               <motion.div animate={controls}>
-                <Item.WithIcon icon={<Icon.Search />}>
+                <Item.WithIcon
+                  icon={
+                    <div>
+                      <Icon.Search className="w-6 lg:w-8" />
+                    </div>
+                  }
+                >
                   <div className="flex flex-col">
                     <strong className="text-lg">{name}</strong>
 
@@ -73,7 +79,13 @@ export function Home() {
               to={{ pathname: url, search: URLSearchParams({ query: name }) }}
             >
               <motion.div animate={controls}>
-                <Item.WithIcon icon={<Icon.Search />}>
+                <Item.WithIcon
+                  icon={
+                    <div>
+                      <Icon.Search className="w-6 lg:w-8" />
+                    </div>
+                  }
+                >
                   <div className="flex flex-col">
                     <strong className="text-lg">{name}</strong>
 
