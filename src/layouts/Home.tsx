@@ -51,6 +51,8 @@ export function Home() {
         ) {
           const route = data.routes.find((route) => route.name === query);
 
+          route && dispatch(Query.record(route));
+
           return navigate({
             pathname: `routes/${String(route?.id)}`,
             search: URLSearchParams({ query }),
@@ -65,12 +67,16 @@ export function Home() {
             (station) => station.name === query
           );
 
+          station && dispatch(Query.record(station));
+
           return navigate({
             pathname: `stations/${String(station?.id)}`,
           });
         }
 
         if (data.stations.length > 1) {
+          dispatch(Query.record(query));
+
           return navigate({
             pathname: `locations`,
             search: URLSearchParams({ query }),

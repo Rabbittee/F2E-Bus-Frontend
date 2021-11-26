@@ -3,25 +3,18 @@ import { useEffect, useState } from "react";
 import clsx from "clsx";
 
 export function ClickToTopButton() {
-  const [isVisable, setIsVisable] = useState<Boolean>(false);
+  const [isVisable, setIsVisable] = useState(false);
 
-  const toggleVisibility = () => {
-    scrollY > 300 ? setIsVisable(true) : setIsVisable(false);
-  };
+  const toggleVisibility = () => setIsVisable(window.scrollY > 300);
 
-  const scrollToTop = () => {
-    scroll({
-      top: 0,
-    });
-  };
+  const scrollToTop = () => scroll({ top: 0 });
 
   useEffect(() => {
     window.addEventListener("scroll", toggleVisibility);
 
-    return () => {
-      window.addEventListener("scroll", toggleVisibility);
-    };
-  }, []);
+    return () => window.removeEventListener("scroll", toggleVisibility);
+  }, [toggleVisibility]);
+
   return (
     <div
       className={clsx(

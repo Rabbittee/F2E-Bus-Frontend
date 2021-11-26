@@ -2,9 +2,9 @@ import { PropsWithChildren } from "react";
 import { Loading } from "@/components";
 import { useThrottle } from "@/utils";
 import { System, useSelector } from "..";
-import { cond, startsWith, T } from "ramda";
+import { matchPath } from "react-router-dom";
 
-const ThrottleTime = 2000;
+const ThrottleTime = 3000;
 
 export function SystemProvider({ children }: PropsWithChildren<{}>) {
   const loading = useThrottle(useSelector(System.selectLoading), ThrottleTime);
@@ -13,19 +13,16 @@ export function SystemProvider({ children }: PropsWithChildren<{}>) {
     ThrottleTime
   );
 
+  const isHomePage = matchPath("/", window.location.pathname);
+  const isSearchLoading = isHomePage && currentAction?.startsWith("api");
+  const isGeoLoading = currentAction?.startsWith("geo");
+
   return (
     <>
       {children}
 
-      {loading && (
-        <Loading>
-          {cond<string, string | undefined>([
-            [startsWith("geo"), () => "正在定位中"],
-            [startsWith("api"), () => "正在查詢中"],
-            [T, () => undefined],
-          ])(currentAction || "")}
-        </Loading>
-      )}
+      {loading && isGeoLoading && <Loading>正在定位中</Loading>}
+      {loading && isSearchLoading && <Loading>正在查詢中</Loading>}
     </>
   );
 }

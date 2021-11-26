@@ -1,8 +1,8 @@
 import { Geo } from "./geo";
 import { Direction, Day, City } from "./const";
-import { HasID, HasName, HasURL } from ".";
+import { HasID, HasName } from ".";
 
-export type Query = HasID & HasName & HasURL;
+export type Query = HasID & HasName & { url?: string; address?: string };
 
 export interface SubRoute extends HasID, HasName {
   direction: Direction;

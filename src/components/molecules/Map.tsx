@@ -58,7 +58,7 @@ export function Map({
   return (
     <div id={id} className={className}>
       <MapContainer
-        className="h-full w-full rounded-3xl overflow-hidden"
+        className="h-full w-full rounded-3xl overflow-hidden z-0"
         whenCreated={setMap}
       >
         <Tile.MapBox />
