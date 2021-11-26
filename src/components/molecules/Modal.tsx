@@ -12,7 +12,7 @@ export function Modal({ children, background, onClick, ...props }: Props) {
   return (
     <Layer background={background} onClick={onClick}>
       <motion.div
-        className="flex flex-col p-4 bg-white rounded-md shadow"
+        className="flex flex-col p-4 bg-white rounded-2xl shadow"
         {...props}
       >
         {children}
