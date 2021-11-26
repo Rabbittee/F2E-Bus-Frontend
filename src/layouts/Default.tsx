@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { FormEvent, ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect } from "react";
 import { matchPath, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { cond, T, uniqBy } from "ramda";
 import { latLng, latLngBounds } from "leaflet";
@@ -11,90 +11,14 @@ import {
   Map,
   Maps,
   Icon,
-  Button,
   PageTabs,
   ClickToTopButton,
-  Modal,
-  Glassmorphism,
+  Geolocation,
 } from "@/components";
-import {
-  API,
-  Geo,
-  Params,
-  SearchParams,
-  useDispatch,
-  useHash,
-  User,
-  useSelector,
-} from "@/logic";
+import { API, Params, SearchParams, useHash } from "@/logic";
 import { URLSearchParams } from "@/utils";
 import { Station } from "@/models";
 import { Home } from "./Home";
-
-function ModalGeolocation() {
-  const [open, setOpen] = useState(!useSelector(User.selectHasAskedGeo));
-  const dispatch = useDispatch();
-
-  function onConfirm(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
-    dispatch(Geo.fetch())
-      .then(() => dispatch(User.enableGeo(true)))
-      .catch(console.error)
-      .finally(onClose);
-  }
-
-  const onCancel = () =>
-    Promise.resolve()
-      .then(() => dispatch(User.enableGeo(false)))
-      .then(() => onClose());
-
-  const onClose = () => setOpen(false);
-
-  if (!open) return <></>;
-
-  return (
-    <Modal
-      onClick={onClose}
-      background={
-        <Glassmorphism
-          className="brightness-50"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-        />
-      }
-      initial={{ scale: 0 }}
-      animate={{ scale: 1 }}
-      transition={{ delay: 0.3 }}
-    >
-      <form onSubmit={onConfirm} onReset={onCancel} className="space-y-4">
-        <div className="flex flex-col items-center">
-          <Icon.LocationActive className="w-9" />
-
-          <strong className="text-dark-green text-lg">
-            是否允許網站存取您目前的位置?
-          </strong>
-
-          <span className="text-gray-400">為了更好的協助您...</span>
-        </div>
-
-        <footer className="flex justify-between gap-4 text-blue">
-          <Button variant="blue-outlined">
-            <button type="reset" className="flex-1">
-              拒絕
-            </button>
-          </Button>
-
-          <Button variant="blue-contained">
-            <button type="submit" className="flex-1">
-              接受
-            </button>
-          </Button>
-        </footer>
-      </form>
-    </Modal>
-  );
-}
 
 const match =
   (...patterns: string[]) =>
@@ -367,7 +291,7 @@ export function Default() {
         </div>
       </main>
 
-      <ModalGeolocation />
+      <Geolocation />
     </>
   );
 }
