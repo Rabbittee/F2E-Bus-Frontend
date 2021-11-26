@@ -38,8 +38,12 @@ export function Geolocation() {
       animate={{ scale: 1 }}
       transition={{ delay: 0.3 }}
     >
-      <form onSubmit={onConfirm} onReset={onCancel} className="space-y-4">
-        <div className="flex flex-col items-center">
+      <form
+        onSubmit={onConfirm}
+        onReset={onCancel}
+        className="space-y-4 md:space-y-6"
+      >
+        <div className="flex flex-col items-center md:gap-2">
           <Icon.LocationActive className="w-9" />
 
           <strong className="text-dark-green text-lg">

@@ -32,7 +32,7 @@ export function Layer({
 
       <div className="w-full h-full absolute top-0 left-0" onClick={onClick} />
 
-      <div className="relative">{children}</div>
+      <div className="relative max-w-xl md:w-full">{children}</div>
     </div>
   );
 }
