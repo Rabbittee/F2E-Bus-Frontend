@@ -21,8 +21,8 @@ import storage from "redux-persist/lib/storage";
 import { PersistGate } from "redux-persist/integration/react";
 
 import { API } from "./api/api";
-import { GeoProvider } from "./providers";
-import { query, geo, user, ExpireUser } from "./slices";
+import { GeoProvider, SystemProvider } from "./providers";
+import { query, geo, user, system, ExpireUser } from "./slices";
 
 const persistConfig = {
   key: "root",
@@ -38,6 +38,7 @@ const store = configureStore({
       [geo.name]: geo.reducer,
       [query.name]: query.reducer,
       [user.name]: user.reducer,
+      [system.name]: system.reducer,
       [API.reducerPath]: API.reducer,
     })
   ),
@@ -68,7 +69,9 @@ export function StoreProvider({ children }: PropsWithChildren<{}>) {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <GeoProvider>{children}</GeoProvider>
+        <SystemProvider>
+          <GeoProvider>{children}</GeoProvider>
+        </SystemProvider>
       </PersistGate>
     </Provider>
   );

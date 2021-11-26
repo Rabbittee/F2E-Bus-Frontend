@@ -49,6 +49,7 @@ export function Loading({ textDelay = 0, children = "loading" }: LoadingProps) {
       <strong className="text-dark-green text-2xl text-center flex justify-center relative">
         {children.split("").map((char, i) => (
           <motion.div
+            key={i}
             animate={{ scale: [0, 1.1, 1] }}
             transition={{
               type: "tween",
@@ -64,6 +65,7 @@ export function Loading({ textDelay = 0, children = "loading" }: LoadingProps) {
         <div className="absolute -right-2">
           {"...".split("").map((char, i) => (
             <motion.span
+              key={i}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{
