@@ -32,8 +32,6 @@ export function Home() {
       })
     )
       .then(({ data }) => {
-        console.log(data);
-
         if (!data) {
           return Promise.reject(new Error("API GetRecommendQuery return null"));
         }
