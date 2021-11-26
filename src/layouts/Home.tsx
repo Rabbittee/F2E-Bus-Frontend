@@ -32,6 +32,8 @@ export function Home() {
       })
     )
       .then(({ data }) => {
+        console.log(data);
+
         if (!data) {
           return Promise.reject(new Error("API GetRecommendQuery return null"));
         }
@@ -45,24 +47,40 @@ export function Home() {
         return data;
       })
       .then((data) => {
-        if (data.routes.length) {
-          if (data.routes.length > 1) {
-            return;
-          }
-
-          const [route] = data.routes;
+        if (
+          data.routes.length === 1 ||
+          data.routes.some((route) => route.name === query)
+        ) {
+          const route = data.routes.find((route) => route.name === query);
 
           return navigate({
-            pathname: `routes/${String(route.id)}`,
+            pathname: `routes/${String(route?.id)}`,
             search: URLSearchParams({ query }),
           });
         }
 
-        if (data.stations.length) {
+        if (
+          data.stations.length === 1 ||
+          data.stations.some((station) => station.name === query)
+        ) {
+          const station = data.stations.find(
+            (station) => station.name === query
+          );
+
+          return navigate({
+            pathname: `stations/${String(station?.id)}`,
+          });
+        }
+
+        if (data.stations.length > 1) {
           return navigate({
             pathname: `locations`,
             search: URLSearchParams({ query }),
           });
+        }
+
+        if (data.routes.length > 1) {
+          return;
         }
 
         return navigate({
