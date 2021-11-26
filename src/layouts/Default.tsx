@@ -14,9 +14,9 @@ import {
   PageTabs,
   ClickToTopButton,
   Geolocation,
-  ToastProvider
+  ToastProvider,
 } from "@/components";
-import { API, Params, SearchParams, useHash, } from "@/logic";
+import { API, Params, SearchParams, useHash } from "@/logic";
 import { URLSearchParams } from "@/utils";
 import { Station } from "@/models";
 import { Home } from "./Home";
