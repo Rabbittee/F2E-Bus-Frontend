@@ -62,7 +62,7 @@ export function Loading({ textDelay = 0, children = "loading" }: LoadingProps) {
           </motion.div>
         ))}
 
-        <div className="absolute -right-2">
+        <div>
           {"...".split("").map((char, i) => (
             <motion.span
               key={i}

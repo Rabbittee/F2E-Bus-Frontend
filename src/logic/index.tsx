@@ -22,13 +22,13 @@ import { PersistGate } from "redux-persist/integration/react";
 
 import { API } from "./api/api";
 import { GeoProvider, SystemProvider } from "./providers";
-import { query, geo, user, system, ExpireUser } from "./slices";
+import { query, geo, user, system, ExpireUser, ExpireQuery } from "./slices";
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["user"],
-  transforms: [ExpireUser()],
+  whitelist: ["user", "query"],
+  transforms: [ExpireUser(), ExpireQuery()],
 };
 
 const store = configureStore({
