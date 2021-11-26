@@ -68,13 +68,11 @@ const fetchGeo = createAsyncThunk<Position, void, { rejectValue: string }>(
 
 interface GeoState {
   position: Position | undefined;
-  loading: boolean;
   error: string | undefined;
 }
 
 const initialState: GeoState = {
   position: undefined,
-  loading: false,
   error: undefined,
 };
 
@@ -83,13 +81,8 @@ export const geo = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(fetchGeo.pending, (state) => {
-      state.loading = true;
-    });
-
     builder.addCase(fetchGeo.fulfilled, (state, action) => {
       Object.assign(state, {
-        loading: false,
         position: action.payload,
         error: undefined,
       });
@@ -97,7 +90,6 @@ export const geo = createSlice({
 
     builder.addCase(fetchGeo.rejected, (state, action) => {
       Object.assign(state, {
-        loading: false,
         error: action.payload,
       });
     });

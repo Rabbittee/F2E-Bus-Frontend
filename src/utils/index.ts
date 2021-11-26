@@ -7,3 +7,4 @@ export * from "./pickRandomIn";
 export * from "./time";
 export * from "./url";
 export * from "./lerp";
+export * from "./thottle";
