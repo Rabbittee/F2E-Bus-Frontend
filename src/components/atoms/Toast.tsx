@@ -21,14 +21,14 @@ export function Toast({ type }: ToastProps) {
         <div
           className={clsx(
             "relative",
-            "flex items-center gap-4 py-2 px-4 rounded  border-2",
-            "w-full md:w-auto",
+            "flex items-center gap-4 py-2 px-4 rounded-lg bg-orange",
+            "w-22 md:w-auto",
             "transition-all duration-100 animate-moveDown",
             type === "success" && "bg-white border-green text-green"
           )}
         >
           <span className="w-8"> {type === "success" && <Icon.Success />}</span>
-          <p>URL is copied!!</p>
+          <p>無法定位使用者位置... </p>
         </div>,
         noticeElement
       )
@@ -62,9 +62,9 @@ export function ToastProvider({ children }: ToastProviderProps) {
 
       setMessages((queue) => [...queue, { id, message }]);
 
-      setTimeout(() => {
-        setMessages((queue) => queue.filter((pair) => pair.id !== id));
-      }, 2000);
+      // setTimeout(() => {
+      //   setMessages((queue) => queue.filter((pair) => pair.id !== id));
+      // }, 2000);
     },
     [setMessages]
   );

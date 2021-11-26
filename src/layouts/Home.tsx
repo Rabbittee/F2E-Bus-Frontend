@@ -2,13 +2,14 @@ import { FormEvent, ChangeEvent } from "react";
 import { has } from "ramda";
 import { useNavigate } from "react-router-dom";
 
-import { Input, Button } from "@/components";
+import { Input, Button, useToast } from "@/components";
 import { API, Query, useDispatch, useSelector } from "@/logic";
 import { pickRandomIn, URLSearchParams } from "@/utils";
 import logo from "@/assets/images/logo.png";
 import logoWb from "@/assets/svgs/home-logo.svg";
 import TITLE from "@/assets/title.json";
 import { ToastProvider } from "@/components";
+import { v4 as uuid } from "uuid";
 
 const title = pickRandomIn(TITLE);
 
@@ -16,6 +17,7 @@ export function Home() {
   const query = useSelector(Query.selectQuery);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const setToast = useToast();
 
   function onChange(event: ChangeEvent<HTMLInputElement>) {
     dispatch(Query.update(event.target.value));
@@ -24,6 +26,7 @@ export function Home() {
   function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
+    setToast([{ id: uuid(), message: "Copy To Clipboard" }]);
     dispatch(
       API.endpoints.getRecommendQuery.initiate({
         query,
@@ -98,6 +101,8 @@ export function Home() {
   function onReset() {
     dispatch(Query.update(""));
   }
+
+  setToast([{ id: uuid(), message: "Copy To Clipboard" }]);
 
   return (
     <ToastProvider>
