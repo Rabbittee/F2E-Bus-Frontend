@@ -42,11 +42,13 @@ export function Loading({ textDelay = 0, children = "loading" }: LoadingProps) {
           animate={{ x: [0, -2], opacity: [0, 1] }}
           transition={{ repeat: Infinity }}
         >
-          <Icon.Air className="w-8" />
+          <div>
+            <Icon.Air className="w-8" />
+          </div>
         </motion.div>
       </div>
 
-      <strong className="text-dark-green text-2xl text-center flex justify-center ">
+      <strong className="text-dark-green text-2xl text-center flex justify-center">
         {children.split("").map((char, i) => (
           <motion.div
             key={i}
