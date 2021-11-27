@@ -3,7 +3,7 @@ import { ReactNode, useState } from "react";
 import { addSeconds, format } from "date-fns";
 import { Link, useLocation } from "react-router-dom";
 
-import { formatDistanceToNow } from "@/utils";
+import { formatDistanceToNow, URLSearchParams } from "@/utils";
 import { Title, List, Item } from "@/components";
 import { Direction, Trip, TripStatus, Estimate, Stop } from "@/models";
 import { API } from "@/logic";
@@ -85,7 +85,13 @@ export function ListOfStops({ id, stops, direction, className }: Props) {
           [
             Case["Unscheduled"],
             () => (
-              <Link to={{ hash: String(id), pathname: `${pathname}/map` }}>
+              <Link
+                to={{
+                  hash: String(id),
+                  pathname: `${pathname}/map`,
+                  search: URLSearchParams({ direction }),
+                }}
+              >
                 <Item.Stop
                   type="disable"
                   name={name}
@@ -98,7 +104,13 @@ export function ListOfStops({ id, stops, direction, className }: Props) {
           [
             Case["Skipped"],
             () => (
-              <Link to={{ hash: String(id), pathname: `${pathname}/map` }}>
+              <Link
+                to={{
+                  hash: String(id),
+                  pathname: `${pathname}/map`,
+                  search: URLSearchParams({ direction }),
+                }}
+              >
                 <Item.Stop
                   type="disable"
                   name={name}
@@ -111,7 +123,13 @@ export function ListOfStops({ id, stops, direction, className }: Props) {
           [
             Case["Terminate"],
             () => (
-              <Link to={{ hash: String(id), pathname: `${pathname}/map` }}>
+              <Link
+                to={{
+                  hash: String(id),
+                  pathname: `${pathname}/map`,
+                  search: URLSearchParams({ direction }),
+                }}
+              >
                 <Item.Stop
                   type="disable"
                   name={name}
@@ -124,7 +142,13 @@ export function ListOfStops({ id, stops, direction, className }: Props) {
           [
             Case["Not Depart"],
             () => (
-              <Link to={{ hash: String(id), pathname: `${pathname}/map` }}>
+              <Link
+                to={{
+                  hash: String(id),
+                  pathname: `${pathname}/map`,
+                  search: URLSearchParams({ direction }),
+                }}
+              >
                 <Item.Stop
                   type="disable"
                   name={name}
@@ -137,7 +161,13 @@ export function ListOfStops({ id, stops, direction, className }: Props) {
           [
             Case["Coming"],
             () => (
-              <Link to={{ hash: String(id), pathname: `${pathname}/map` }}>
+              <Link
+                to={{
+                  hash: String(id),
+                  pathname: `${pathname}/map`,
+                  search: URLSearchParams({ direction }),
+                }}
+              >
                 <Item.Stop
                   type="arrive"
                   name={name}
@@ -150,7 +180,13 @@ export function ListOfStops({ id, stops, direction, className }: Props) {
           [
             Case["Arrive"],
             () => (
-              <Link to={{ hash: String(id), pathname: `${pathname}/map` }}>
+              <Link
+                to={{
+                  hash: String(id),
+                  pathname: `${pathname}/map`,
+                  search: URLSearchParams({ direction }),
+                }}
+              >
                 <Item.Stop
                   type="arrive"
                   name={name}
@@ -163,7 +199,13 @@ export function ListOfStops({ id, stops, direction, className }: Props) {
           [
             Case["En Route"],
             () => (
-              <Link to={{ hash: String(id), pathname: `${pathname}/map` }}>
+              <Link
+                to={{
+                  hash: String(id),
+                  pathname: `${pathname}/map`,
+                  search: URLSearchParams({ direction }),
+                }}
+              >
                 <Item.Stop
                   type="default"
                   name={name}
