@@ -3,7 +3,7 @@ import { ReactNode, useEffect } from "react";
 import { matchPath, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { cond, T, uniqBy } from "ramda";
 import { latLng, latLngBounds } from "leaflet";
-import { Polyline, GeoJSON } from "react-leaflet";
+import { GeoJSON } from "react-leaflet";
 
 import {
   Background,

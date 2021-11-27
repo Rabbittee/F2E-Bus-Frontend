@@ -53,19 +53,7 @@ function getCurrentPositionByGeolocation(geo?: Geolocation): Promise<Position> {
 const fetchGeo = createAsyncThunk<Position, void, { rejectValue: Error }>(
   "geo/fetch",
   (_, { rejectWithValue }) =>
-    getCurrentPositionByGeolocation(getGeolocation())
-      //
-      .catch((error) => {
-        switch (error?.code) {
-          case Status.NOT_SUPPORTED:
-          case Status.PERMISSION_DENIED:
-          case Status.POSITION_UNAVAILABLE:
-          case Status.TIMEOUT:
-            return getCurrentPositionByIP().catch(rejectWithValue);
-        }
-
-        return rejectWithValue(error);
-      })
+    getCurrentPositionByGeolocation(getGeolocation()).catch(rejectWithValue)
 );
 
 const watchGeo = createAsyncThunk(
