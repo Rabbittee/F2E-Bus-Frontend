@@ -16,23 +16,23 @@ export function Toast({ type, message, onClose }: ToastProps) {
         className={clsx(
           "flex gap-2",
           "rounded-xl py-2 px-4",
-          "text-white",
-          type === "warning" && "bg-orange",
+          "text-white opacity-90",
+          type === "warning" && "bg-orange m-",
           type === "error" && "bg-red-500",
           type === "info" && "bg-orange",
           type === "success" && "bg-orange",
           "shadow-md"
         )}
         initial={{ y: "200%" }}
-        animate={{ y: "0%" }}
+        animate={{ y: "-200%" }}
         transition={{
           type: "spring",
           stiffness: 260,
           damping: 20,
         }}
       >
-        {type === "error" && <Icon.Alert className="w-6" />}
-        {type === "warning" && <Icon.Alert className="w-6" />}
+        {type === "error" && <Icon.Alert className="w-6 h-6" />}
+        {type === "warning" && <Icon.Alert className="w-6 h-6" />}
 
         <span>{message}</span>
 
