@@ -7,7 +7,9 @@ export function GeoProvider({ children }: PropsWithChildren<{}>) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    enable && dispatch(Geo.fetch());
+    enable && dispatch(Geo.fetch()).then(() => dispatch(Geo.watch));
+
+    return () => void dispatch(Geo.clear());
   }, []);
 
   return (

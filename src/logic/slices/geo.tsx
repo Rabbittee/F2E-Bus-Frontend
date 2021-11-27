@@ -64,19 +64,35 @@ const fetchGeo = createAsyncThunk<Position, void, { rejectValue: Error }>(
             return getCurrentPositionByIP().catch(rejectWithValue);
         }
 
-        console.error("unexpected error occured: ", error);
         return rejectWithValue(error);
       })
 );
 
+const watchGeo = createAsyncThunk(
+  "geo/watch",
+  (_, { dispatch, rejectWithValue }) => {
+    return getGeolocation()?.watchPosition(
+      () => dispatch(fetchGeo()),
+      rejectWithValue
+    );
+  }
+);
+
+const clearGeo = createAsyncThunk<void, void, { state: State }>(
+  "geo/clear",
+  (_, { getState }) => {
+    return getGeolocation()?.clearWatch(getState().state.geo.watchID);
+  }
+);
+
 interface GeoState {
   position: Position | undefined;
-  error: string | undefined;
+  watchID?: number;
 }
 
 const initialState: GeoState = {
   position: undefined,
-  error: undefined,
+  watchID: undefined,
 };
 
 export const geo = createSlice({
@@ -91,15 +107,19 @@ export const geo = createSlice({
       });
     });
 
-    builder.addCase(fetchGeo.rejected, (state, action) => {
-      Object.assign(state, {
-        error: action.payload,
-      });
+    builder.addCase(watchGeo.fulfilled, (state, action) => {
+      state.watchID = action.payload;
+    });
+
+    builder.addCase(clearGeo.fulfilled, (state) => {
+      Object.assign(state, initialState);
     });
   },
 });
 
 export const Geo = {
   fetch: fetchGeo,
+  watch: watchGeo,
+  clear: clearGeo,
   selectPosition: (state: State) => state.geo.position,
 };
