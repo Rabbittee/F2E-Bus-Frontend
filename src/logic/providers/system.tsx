@@ -32,7 +32,7 @@ export function SystemProvider({ children }: PropsWithChildren<{}>) {
         />
       )}
 
-      {loading && isGeoLoading && <Loading>正在定位中</Loading>}
+      {loading && <Loading>正在定位中</Loading>}
     </>
   );
 }
