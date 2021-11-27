@@ -1,5 +1,5 @@
 import { API } from "./api";
-import { Day, Schedule } from "@/models";
+import { Schedule } from "@/models";
 
 export default API.injectEndpoints({
   endpoints: (build) => ({

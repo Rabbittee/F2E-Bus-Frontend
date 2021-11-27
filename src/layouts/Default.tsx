@@ -3,7 +3,7 @@ import { ReactNode, useEffect } from "react";
 import { matchPath, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { cond, T, uniqBy } from "ramda";
 import { latLng, latLngBounds } from "leaflet";
-import { Polyline } from "react-leaflet";
+import { Polyline, GeoJSON } from "react-leaflet";
 
 import {
   Background,
@@ -81,6 +81,12 @@ export function Default() {
 
   const points = stops && stops.map(({ position }) => latLng(position));
   const bounds = points && latLngBounds(points);
+
+  const { data: linestrings } = API.useGetRouteLineStringQuery(
+    { id: id!, direction },
+    { skip: !id || !matchPath("/routes/:id/map") }
+  );
+  const geo = linestrings?.[0]?.geojson;
 
   const hash = useHash();
   const focus = stops && stops.find(({ id }) => id === hash)?.position;
@@ -260,11 +266,13 @@ export function Default() {
               />
             ))}
 
-            {points && (
-              <Polyline
-                positions={points}
-                color="currentColor"
-                className="text-blue"
+            {geo && (
+              <GeoJSON
+                data={geo}
+                style={{
+                  color: "currentColor",
+                  className: "text-blue",
+                }}
               />
             )}
           </Map>
