@@ -1,5 +1,11 @@
 import { State } from "@/logic";
-import { createSlice, AnyAction, AsyncThunk } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  AnyAction,
+  AsyncThunk,
+  PayloadAction,
+} from "@reduxjs/toolkit";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { anyPass } from "ramda";
 
 type GenericAsyncThunk = AsyncThunk<unknown, unknown, { rejectValue: string }>;
@@ -20,6 +26,33 @@ function isRejectedAction(action: AnyAction): action is RejectedAction {
   return action.type.endsWith("/rejected");
 }
 
+namespace RTK {
+  type GenericAsyncThunk = AsyncThunk<
+    unknown,
+    unknown,
+    { rejectValue: FetchBaseQueryError & { data: { type: string } } }
+  >;
+
+  export type PendingAction = ReturnType<GenericAsyncThunk["pending"]>;
+  export type RejectedAction = ReturnType<GenericAsyncThunk["rejected"]>;
+  export type FulfilledAction = ReturnType<GenericAsyncThunk["fulfilled"]>;
+  export type Action = PendingAction | RejectedAction | FulfilledAction;
+
+  export function isExecuteQueryAction(action: AnyAction): action is Action {
+    return action.type.match(/^(api\/executeQuery)/g);
+  }
+
+  export function isRejectedAction(
+    action: AnyAction
+  ): action is RejectedAction {
+    return action.type.endsWith("/rejected");
+  }
+}
+
+function isGeoFetchAction(action: AnyAction): action is AnyAction {
+  return action.type.match(/^(geo\/fetch)/g);
+}
+
 interface SystemState {
   currentAction?: string;
   loading: boolean;
@@ -36,13 +69,16 @@ export const system = createSlice({
   name: "system",
   initialState,
   reducers: {
-    loading(state, action) {
+    loading(state, action: PayloadAction<boolean>) {
       state.loading = action.payload;
+    },
+    error(state, action: PayloadAction<string | undefined>) {
+      state.error = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder.addMatcher(
-      (action) => action.type.match(/^(api\/executeQuery|geo\/fetch)/g),
+      anyPass([isGeoFetchAction, RTK.isExecuteQueryAction]),
       (state, action) => {
         state.loading = isPendingAction(action);
       }
@@ -59,6 +95,17 @@ export const system = createSlice({
     );
 
     builder.addMatcher(isRejectedAction, (state, action) => {
+      if (
+        RTK.isExecuteQueryAction(action) &&
+        RTK.isRejectedAction(action) &&
+        action.payload
+      ) {
+        console.error(`Error occured during [${action.type}]`, action.payload);
+
+        state.error = action.payload?.data?.type;
+        return;
+      }
+
       state.error = action.payload;
     });
   },
@@ -66,6 +113,11 @@ export const system = createSlice({
 
 export const System = {
   ...system.actions,
-  selectLoading: (state: State) => state.system.loading,
-  selectCurrentAction: (state: State) => state.system.currentAction,
+  selectLoading: (state: State) =>
+    state.system.loading as SystemState["loading"],
+
+  selectCurrentAction: (state: State) =>
+    state.system.currentAction as SystemState["currentAction"],
+
+  selectError: (state: State) => state.system.error as SystemState["error"],
 };

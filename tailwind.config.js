@@ -4,7 +4,7 @@ module.exports = {
     extend: {
       fontFamily: {
         ubuntu: ["Ubuntu", "sans-serif"],
-        notoSans: ["Noto Sans TC", "sans-serif"],
+        "noto-sans": ["Noto Sans TC", "sans-serif"],
       },
       colors: {
         orange: "#DC771A",
@@ -19,51 +19,8 @@ module.exports = {
           200: "#E5E7EB",
         },
       },
-      keyframes: {
-        upper: {
-          "0%": {
-            opacity: 0,
-            transform: "translateY(150%)",
-          },
-          "100%": {
-            opacity: 1,
-            transform: "translateY(0%)",
-          },
-        },
-        fadeIn: {
-          "0%": {
-            opacity: 0,
-            transform: "translateY(-100px)",
-          },
-          "100%": {
-            opacity: 1,
-            transform: "translateY(0)",
-          },
-        },
-        fadeOut: {
-          "0%": {
-            opacity: 1,
-            transform: "translateY(0)",
-          },
-          "100%": {
-            opacity: 0,
-            transform: "translateY(-100px)",
-          },
-        },
-      },
-      animation: {
-        upper: "upper 1s ease-in",
-        fadeIn: "fadeIn 0.4s ease-out",
-        fadeOut: "fadeOut 0.4s ease-out",
-      },
       zIndex: {
         "-1": "-1",
-      },
-      boxShadow: {
-        bgShadow: "0px -5px 15px 5px #FFFFFF",
-        tab: "1px -3px 1px 0px #B0B0B0",
-        tabInset: "inset 2px -2px 2px 0px #B0B0B0",
-        DEFAULT: "0px 0px 5px 0px #C9C9C9",
       },
     },
     backgroundImage: {

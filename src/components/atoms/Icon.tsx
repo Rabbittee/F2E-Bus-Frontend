@@ -11,6 +11,7 @@ import { ReactComponent as ClickToTop } from "@/assets/svgs/click-to-top-icon.sv
 import { ReactComponent as Success } from "@/assets/svgs/success-icon.svg";
 import { ReactComponent as Bus } from "@/assets/svgs/bus.svg";
 import { ReactComponent as Air } from "@/assets/svgs/air.svg";
+import { ReactComponent as Alert } from "@/assets/svgs/alert.svg";
 
 import LocationURL, {
   ReactComponent as Location,
@@ -38,6 +39,7 @@ export const Icon = {
   Success,
   Bus,
   Air,
+  Alert,
   Leaflet: {
     Location: new LeafletIcon({
       iconUrl: LocationURL,

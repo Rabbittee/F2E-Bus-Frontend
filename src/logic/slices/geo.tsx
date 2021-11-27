@@ -1,11 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import * as Model from "@/models";
 import { State } from "@/logic";
+import { second } from "@/utils";
 
 type Position = Model.Geo.Position;
 const Status = Model.Geo.Status;
 
-const GeoOptions: PositionOptions = {};
+const GeoOptions: PositionOptions = {
+  timeout: second(15),
+};
 
 function getGeolocation() {
   if ("geolocation" in navigator) {
@@ -47,7 +50,7 @@ function getCurrentPositionByGeolocation(geo?: Geolocation): Promise<Position> {
  *
  * @returns {Position} A promise that resolves to the current position.
  */
-const fetchGeo = createAsyncThunk<Position, void, { rejectValue: string }>(
+const fetchGeo = createAsyncThunk<Position, void, { rejectValue: Error }>(
   "geo/fetch",
   (_, { rejectWithValue }) =>
     getCurrentPositionByGeolocation(getGeolocation())

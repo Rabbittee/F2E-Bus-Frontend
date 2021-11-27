@@ -9,7 +9,7 @@ html,
 body,
 #root {
   scroll-behavior: smooth;
-  @apply font-notoSans;
+  @apply font-noto-sans;
 }
 
 .bg {
@@ -31,26 +31,6 @@ body,
 
 input[type="search"]::-webkit-search-cancel-button {
   appearance: none;
-}
-
-/* width */
-::-webkit-scrollbar {
-  @apply w-2;
-}
-
-@layer utilities {
-  /* Handle */
-  .dark-green-scroll::-webkit-scrollbar-thumb {
-    @apply bg-dark-green rounded-full;
-  }
-
-  .blue-scroll::-webkit-scrollbar-thumb {
-    @apply bg-blue rounded-full;
-  }
-
-  .orange-scroll::-webkit-scrollbar-thumb {
-    @apply bg-orange rounded-full;
-  }
 }
 
 .leaflet-tooltip {
