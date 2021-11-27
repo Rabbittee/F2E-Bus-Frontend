@@ -27,6 +27,7 @@ export function Layer({
         placement === "center" && "items-center",
         placement === "top" && "items-start",
         placement === "bottom" && "items-end",
+        onClick || "pointer-events-none",
         classes?.wrapper
       )}
     >
@@ -38,9 +39,20 @@ export function Layer({
           ),
         })}
 
-      <div className="w-full h-full absolute top-0 left-0" onClick={onClick} />
+      <div
+        className={clsx(
+          "w-full h-full absolute top-0 left-0",
+          onClick || "pointer-events-none"
+        )}
+        onClick={onClick}
+      />
 
-      <div className={clsx("relative md:max-w-xl md:w-full", classes?.content)}>
+      <div
+        className={clsx(
+          "relative md:max-w-xl md:w-full pointer-events-auto",
+          classes?.content
+        )}
+      >
         {children}
       </div>
     </div>
