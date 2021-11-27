@@ -15,6 +15,7 @@ import {
   propSatisfies,
   T,
 } from "ramda";
+import { formatCity } from "@/models";
 
 type ExecuteProps = Partial<{
   query: string;
@@ -73,10 +74,11 @@ export function useRecommendQuery(): RecommendQueries | undefined {
   const { routes, stations } = data;
 
   return {
-    routes: routes.map(({ id, name }) => ({
+    routes: routes.map(({ id, name, city }) => ({
       id,
       name,
       url: `routes/${String(id)}`,
+      address: formatCity(city),
     })),
 
     stations: stations.map(({ id, name, address }) => ({

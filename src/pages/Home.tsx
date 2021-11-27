@@ -104,10 +104,10 @@ export function Home() {
           }
           items={data?.routes}
         >
-          {({ id, name, url }: Props) => (
+          {({ id, name, url, address }: Props) => (
             <Link
               to={{ pathname: url, search: URLSearchParams({ query: name }) }}
-              onClick={() => dispatch(Query.record({ id, name, url }))}
+              onClick={() => dispatch(Query.record({ id, name, url, address }))}
             >
               <motion.div animate={controls}>
                 <Item.WithIcon
@@ -119,6 +119,10 @@ export function Home() {
                 >
                   <div className="flex flex-col">
                     <strong className="text-lg">{name}</strong>
+
+                    {address && (
+                      <small className="text-sm text-gray-400">{address}</small>
+                    )}
                   </div>
                 </Item.WithIcon>
               </motion.div>

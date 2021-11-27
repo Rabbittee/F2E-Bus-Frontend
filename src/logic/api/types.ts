@@ -1,4 +1,4 @@
-import { Query, Geo, Station, Direction } from "@/models";
+import { Route, Geo, Station, Direction } from "@/models";
 
 export namespace Req {
   export interface GetRecommendQuery {
@@ -17,7 +17,7 @@ export namespace Req {
 
 export namespace Res {
   export interface GetRecommendQuery {
-    routes: Query[];
+    routes: Route[];
     stations: Station[];
     bbox?: Geo.BoundingBox;
     center?: Geo.Position;
