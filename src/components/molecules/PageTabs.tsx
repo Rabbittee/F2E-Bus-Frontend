@@ -47,7 +47,7 @@ export function PageTabs({ items }: Props) {
         )}
       </Tabs>
 
-      <div className="bg-white shadow h-2 w-full absolute bottom-0" />
+      <div className="bg-white h-2 w-full shadow absolute bottom-0" />
     </div>
   );
 }

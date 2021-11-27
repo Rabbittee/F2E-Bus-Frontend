@@ -42,3 +42,7 @@ input[type="search"]::-webkit-search-cancel-button {
 .leaflet-tooltip-top::before {
   @apply border-transparent;
 }
+
+::-webkit-scrollbar {
+  display: none;
+}
