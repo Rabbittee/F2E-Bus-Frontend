@@ -26,7 +26,7 @@ const Tile = {
         zoomOffset={-1}
         keepBuffer={10}
         edgeBufferTiles={1}
-        id="mapbox/streets-v11"
+        id="mapbox/light-v10"
         accessToken={MAP_TOKEN}
       />
     );
@@ -69,6 +69,7 @@ export function Map({
       <MapContainer
         className="h-full w-full rounded-3xl overflow-hidden z-0"
         whenCreated={setMap}
+        attributionControl={false}
       >
         <Tile.MapBox />
 

@@ -3,7 +3,7 @@ import { ReactNode, useEffect } from "react";
 import { matchPath, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { cond, T, uniqBy } from "ramda";
 import { latLng, latLngBounds } from "leaflet";
-import { GeoJSON } from "react-leaflet";
+import { GeoJSON, Marker } from "react-leaflet";
 
 import {
   Background,
@@ -14,7 +14,7 @@ import {
   PageTabs,
   ClickToTopButton,
 } from "@/components";
-import { API, Params, SearchParams, useHash } from "@/logic";
+import { API, Geo, Params, SearchParams, useHash, useSelector } from "@/logic";
 import { URLSearchParams } from "@/utils";
 import { Station } from "@/models";
 import { Home } from "./Home";
@@ -27,6 +27,7 @@ const match =
 export function Default() {
   const location = useLocation();
   const navigate = useNavigate();
+  const currentGeo = useSelector(Geo.selectPosition);
 
   const query = SearchParams.useQuery();
 
@@ -84,7 +85,7 @@ export function Default() {
 
   const { data: linestrings } = API.useGetRouteLineStringQuery(
     { id: id!, direction },
-    { skip: !id || !matchPath("/routes/:id/map") }
+    { skip: !id || !matchPath("/routes/:id/*") }
   );
   const geo = linestrings?.[0]?.geojson;
 
@@ -265,6 +266,13 @@ export function Default() {
                 }
               />
             ))}
+
+            {currentGeo && (
+              <Marker
+                icon={Icon.Leaflet.CurrentLocation}
+                position={currentGeo}
+              />
+            )}
 
             {geo && (
               <GeoJSON
