@@ -13,6 +13,10 @@ import { ReactComponent as Bus } from "@/assets/svgs/bus.svg";
 import { ReactComponent as Air } from "@/assets/svgs/air.svg";
 import { ReactComponent as Alert } from "@/assets/svgs/alert.svg";
 
+import CurrentLocationURL, {
+  ReactComponent as CurrentLocation,
+} from "@/assets/svgs/current-location.svg";
+
 import LocationURL, {
   ReactComponent as Location,
 } from "@/assets/svgs/location.svg";
@@ -40,6 +44,7 @@ export const Icon = {
   Bus,
   Air,
   Alert,
+  CurrentLocation,
   Leaflet: {
     Location: new LeafletIcon({
       iconUrl: LocationURL,
@@ -50,6 +55,11 @@ export const Icon = {
       iconUrl: LocationActiveURL,
       iconSize: [60, 60],
       iconAnchor: [31, 55],
+    }),
+    CurrentLocation: new LeafletIcon({
+      iconUrl: CurrentLocationURL,
+      iconSize: [28, 28],
+      iconAnchor: [14, 14],
     }),
   },
 };
