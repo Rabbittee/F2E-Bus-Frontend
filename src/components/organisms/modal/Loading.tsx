@@ -46,7 +46,7 @@ export function Loading({ textDelay = 0, children = "loading" }: LoadingProps) {
         </motion.div>
       </div>
 
-      <strong className="text-dark-green text-2xl text-center flex justify-center relative">
+      <strong className="text-dark-green text-2xl text-center flex justify-center ">
         {children.split("").map((char, i) => (
           <motion.div
             key={i}
