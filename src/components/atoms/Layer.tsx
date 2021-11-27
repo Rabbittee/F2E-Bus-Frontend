@@ -49,7 +49,7 @@ export function Layer({
 
       <div
         className={clsx(
-          "relative md:max-w-xl md:w-full pointer-events-auto",
+          "relative md:max-w-xl pointer-events-auto",
           classes?.content
         )}
       >

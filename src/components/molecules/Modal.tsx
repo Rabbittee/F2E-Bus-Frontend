@@ -7,10 +7,21 @@ type Props = MotionProps & {
   children?: ReactNode;
   background?: ReactNode;
   onClick?: (event: MouseEvent<HTMLDivElement>) => void;
+  className?: string;
 };
-export function Modal({ children, background, onClick, ...props }: Props) {
+export function Modal({
+  className,
+  children,
+  background,
+  onClick,
+  ...props
+}: Props) {
   return (
-    <Layer background={background} onClick={onClick}>
+    <Layer
+      background={background}
+      onClick={onClick}
+      classes={{ content: className }}
+    >
       <motion.div
         className="flex flex-col p-4 bg-white rounded-2xl shadow"
         {...props}

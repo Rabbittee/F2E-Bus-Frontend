@@ -26,6 +26,7 @@ export function Geolocation() {
 
   return (
     <Modal
+      className="md:w-full"
       onClick={onClose}
       background={
         <Glassmorphism
