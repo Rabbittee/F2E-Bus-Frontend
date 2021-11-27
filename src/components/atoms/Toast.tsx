@@ -1,89 +1,45 @@
-import {
-  createContext,
-  useCallback,
-  useState,
-  useContext,
-  ReactNode,
-} from "react";
-import { createPortal } from "react-dom";
 import clsx from "clsx";
-import { v4 as uuid } from "uuid";
+import { Layer } from ".";
 import { Icon } from "./Icon";
+import { motion } from "framer-motion";
 
 type ToastProps = {
-  type: string;
+  type: "warning" | "error" | "info" | "success";
+  message?: string;
+  onClose?: () => void;
 };
 
-export function Toast({ type }: ToastProps) {
-  const noticeElement: HTMLElement | null = document.getElementById("notice");
-  return noticeElement
-    ? createPortal(
-        <div
-          className={clsx(
-            "relative",
-            "flex items-center gap-4 py-2 px-4 rounded  border-2",
-            "w-full md:w-auto",
-            "transition-all duration-100 animate-moveDown",
-            type === "success" && "bg-white border-green text-green"
-          )}
-        >
-          <span className="w-8"> {type === "success" && <Icon.Success />}</span>
-          <p>URL is copied!!</p>
-        </div>,
-        noticeElement
-      )
-    : null;
-}
-
-type Message = {
-  id: string;
-  message: string;
-};
-
-type SetMessageAction = (msg: Message[]) => void;
-
-const Context = createContext<SetMessageAction | undefined>(undefined);
-
-type ToastProviderProps = {
-  children: ReactNode;
-};
-
-export function ToastProvider({ children }: ToastProviderProps) {
-  const [messages, setMessages] = useState<
-    Array<{ id: string; message: string }>
-  >([]);
-
-  const setMessage = useCallback(
-    (message) => {
-      if (!message) return;
-
-      console.log(message);
-      const id = uuid();
-
-      setMessages((queue) => [...queue, { id, message }]);
-
-      setTimeout(() => {
-        setMessages((queue) => queue.filter((pair) => pair.id !== id));
-      }, 2000);
-    },
-    [setMessages]
-  );
-
+export function Toast({ type, message, onClose }: ToastProps) {
   return (
-    <Context.Provider value={setMessage}>
-      {children}
+    <Layer placement="bottom" classes={{ content: "w-screen m-8" }}>
+      <motion.div
+        className={clsx(
+          "flex gap-2",
+          "rounded-xl py-2 px-4",
+          "text-white",
+          type === "warning" && "bg-orange",
+          type === "error" && "bg-red-500",
+          type === "info" && "bg-orange",
+          type === "success" && "bg-orange",
+          "shadow-md"
+        )}
+        initial={{ y: "200%" }}
+        animate={{ y: "0%" }}
+        transition={{
+          type: "spring",
+          stiffness: 260,
+          damping: 20,
+        }}
+      >
+        {type === "error" && <Icon.Alert className="w-6" />}
+        {type === "warning" && <Icon.Alert className="w-6" />}
 
-      {messages.map(({ id }) => (
-        <Toast type="success" key={id} />
-      ))}
-    </Context.Provider>
+        <span>{message}</span>
+
+        <button onClick={onClose} className="ml-auto">
+          <Icon.Close className="w-4" />
+        </button>
+      </motion.div>
+    </Layer>
   );
-}
-
-export function useToast() {
-  const context = useContext(Context);
-
-  if (!context) throw new Error("useToast should be use within ToastProvider");
-
-  return context;
 }
