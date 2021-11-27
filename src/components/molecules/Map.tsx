@@ -3,6 +3,13 @@ import type * as Type from "leaflet";
 import { ReactNode, useState, useEffect } from "react";
 import { MAP_TOKEN } from "@/config";
 import { clamp } from "ramda";
+import "leaflet-edgebuffer";
+
+declare module "react-leaflet" {
+  interface TileLayerProps {
+    edgeBufferTiles: number;
+  }
+}
 
 const TILE_SIZE = 512;
 const MAX_ZOOM = 18;
@@ -17,6 +24,8 @@ const Tile = {
         tileSize={TILE_SIZE}
         maxZoom={MAX_ZOOM}
         zoomOffset={-1}
+        keepBuffer={10}
+        edgeBufferTiles={1}
         id="mapbox/streets-v11"
         accessToken={MAP_TOKEN}
       />

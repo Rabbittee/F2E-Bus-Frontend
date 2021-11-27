@@ -2366,6 +2366,11 @@ latlon-geohash@^2.0.0:
   resolved "https://registry.yarnpkg.com/latlon-geohash/-/latlon-geohash-2.0.0.tgz#2b0203ab30ef56a18600b0312b8c3a627cbd17d1"
   integrity sha512-OKBswTwrvTdtenV+9C9euBmvgGuqyjJNAzpQCarRz1m8/pYD2nz9fKkXmLs2S3jeXaLi3Ry76twQplKKUlgS/g==
 
+leaflet-edgebuffer@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/leaflet-edgebuffer/-/leaflet-edgebuffer-1.0.6.tgz#f2959b182bdf6ce4af41ab551d724728393d33bb"
+  integrity sha1-8pWbGCvfbOSvQatVHXJHKDk9M7s=
+
 leaflet@^1.7.1:
   version "1.7.1"
   resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.7.1.tgz#10d684916edfe1bf41d688a3b97127c0322a2a19"
