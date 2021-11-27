@@ -3,7 +3,7 @@ import { has } from "ramda";
 import { useNavigate } from "react-router-dom";
 
 import { Input, Button } from "@/components";
-import { API, Query, useDispatch, useSelector } from "@/logic";
+import { API, Query, System, useDispatch, useSelector } from "@/logic";
 import { pickRandomIn, URLSearchParams } from "@/utils";
 import logo from "@/assets/images/logo.png";
 import logoWb from "@/assets/svgs/home-logo.svg";
@@ -31,22 +31,9 @@ export function Home() {
       })
     )
       .then(({ data }) => {
-        if (!data) {
-          return Promise.reject(new Error("API GetRecommendQuery return null"));
-        }
-
-        if (!has("center", data) || !has("bbox", data)) {
-          return Promise.reject(
-            new Error("API GetRecommendQuery response unexpected")
-          );
-        }
-
-        return data;
-      })
-      .then((data) => {
         if (
-          data.routes.length === 1 ||
-          data.routes.some((route) => route.name === query)
+          data?.routes.length === 1 ||
+          data?.routes.some((route) => route.name === query)
         ) {
           const route = data.routes.find((route) => route.name === query);
 
@@ -59,8 +46,8 @@ export function Home() {
         }
 
         if (
-          data.stations.length === 1 ||
-          data.stations.some((station) => station.name === query)
+          data?.stations.length === 1 ||
+          data?.stations.some((station) => station.name === query)
         ) {
           const station = data.stations.find(
             (station) => station.name === query
@@ -73,7 +60,7 @@ export function Home() {
           });
         }
 
-        if (data.stations.length > 1) {
+        if (data?.stations?.length) {
           dispatch(Query.record(query));
 
           return navigate({
@@ -82,7 +69,7 @@ export function Home() {
           });
         }
 
-        if (data.routes.length > 1) {
+        if (data?.routes.length) {
           return;
         }
 
@@ -91,7 +78,7 @@ export function Home() {
           search: URLSearchParams({ query }),
         });
       })
-      .catch(console.error);
+      .catch((error) => dispatch(System.error(error.message)));
   }
 
   function onReset() {
