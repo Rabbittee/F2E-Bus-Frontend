@@ -247,7 +247,7 @@ export function Default() {
               "w-full h-[32vh] px-2 my-2 lg:static",
               "sm:h-[64vh]",
               "lg:h-[84vh]",
-              matchPath("/routes/:id/map") || "sr-only"
+              matchPath("/routes/:id/map") ? "overflow-hidden" : "sr-only"
             )}
             {...cond<
               { focus?: Model.Geo.Position; currentGeo?: Model.Geo.Position },
