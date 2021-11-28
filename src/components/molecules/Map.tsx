@@ -12,7 +12,7 @@ declare module "react-leaflet" {
 }
 
 const TILE_SIZE = 512;
-const MAX_ZOOM = 18;
+const MAX_ZOOM = 20;
 
 const Tile = {
   MapBox() {
