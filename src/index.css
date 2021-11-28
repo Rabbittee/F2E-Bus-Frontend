@@ -46,3 +46,22 @@ input[type="search"]::-webkit-search-cancel-button {
 ::-webkit-scrollbar {
   display: none;
 }
+
+.leaflet-div-icon {
+  @apply bg-transparent border-none relative;
+}
+.leaflet-div-icon::before,
+.leaflet-div-icon::after {
+  content: "";
+  @apply absolute top-0 left-0;
+  @apply -ml-2 -mt-2;
+  @apply block w-4 h-4;
+
+  background-image: url("./assets/svgs/current-location.svg");
+}
+.leaflet-div-icon::before {
+  @apply animate-ping;
+}
+.leaflet-div-icon::after {
+  @apply z-10;
+}

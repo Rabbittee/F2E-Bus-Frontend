@@ -16,7 +16,7 @@ import {
 } from "@/components";
 import { API, Geo, Params, SearchParams, useHash, useSelector } from "@/logic";
 import { URLSearchParams } from "@/utils";
-import { Station } from "@/models";
+import * as Model from "@/models";
 import { Home } from "./Home";
 
 const match =
@@ -43,7 +43,7 @@ export function Default() {
     { skip: !query || !matchPath("/locations") }
   );
 
-  const toLocation = (station: Station) => ({
+  const toLocation = (station: Model.Station) => ({
     pathname: `/stations/${String(station.id)}`,
     search: URLSearchParams({ query: station.name }),
   });
@@ -192,7 +192,9 @@ export function Default() {
                   </Maps.Tooltip.DarkGreen>
                 )}
                 onClick={(station) =>
-                  navigate(toLocation(station as Station), { replace: true })
+                  navigate(toLocation(station as Model.Station), {
+                    replace: true,
+                  })
                 }
               />
             ))}
@@ -220,7 +222,9 @@ export function Default() {
                 }
                 icon={Icon.Leaflet.Location}
                 onClick={(station) =>
-                  navigate(toLocation(station as Station), { replace: true })
+                  navigate(toLocation(station as Model.Station), {
+                    replace: true,
+                  })
                 }
               />
             ))}
@@ -245,7 +249,20 @@ export function Default() {
               "lg:h-[84vh]",
               matchPath("/routes/:id/map") || "sr-only"
             )}
-            {...(focus ? { center: focus, zoom: 18 } : { bounds })}
+            {...cond<
+              { focus?: Model.Geo.Position; currentGeo?: Model.Geo.Position },
+              { center?: Model.Geo.Position; zoom?: number }
+            >([
+              [
+                ({ focus }) => Boolean(focus),
+                ({ focus }) => ({ center: focus, zoom: 18 }),
+              ],
+              [
+                ({ currentGeo }) => Boolean(currentGeo),
+                ({ currentGeo }) => ({ center: currentGeo, zoom: 17 }),
+              ],
+              [T, () => ({})],
+            ])({ focus, currentGeo })}
           >
             {stops?.map((stop, index) => (
               <Maps.Station
