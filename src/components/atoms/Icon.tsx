@@ -25,7 +25,7 @@ import LocationActiveURL, {
   ReactComponent as LocationActive,
 } from "@/assets/svgs/location-active.svg";
 
-import { Icon as LeafletIcon } from "leaflet";
+import { Icon as LeafletIcon, DivIcon } from "leaflet";
 
 export const Icon = {
   Search,
@@ -56,10 +56,9 @@ export const Icon = {
       iconSize: [60, 60],
       iconAnchor: [31, 55],
     }),
-    CurrentLocation: new LeafletIcon({
-      iconUrl: CurrentLocationURL,
-      iconSize: [28, 28],
-      iconAnchor: [14, 14],
+    CurrentLocation: new DivIcon({
+      iconSize: [0, 0],
+      iconAnchor: [0, 0],
     }),
   },
 };
