@@ -5,7 +5,7 @@ import clsx from "clsx";
 export function ClickToTopButton() {
   const [isVisable, setIsVisable] = useState(false);
 
-  const toggleVisibility = () => setIsVisable(window.scrollY > 300);
+  const toggleVisibility = () => setIsVisable(window.scrollY > 200);
 
   const scrollToTop = () => scroll({ top: 0 });
 
